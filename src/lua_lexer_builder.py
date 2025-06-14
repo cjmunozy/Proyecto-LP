@@ -38,12 +38,14 @@ tokens = (
     'RPAREN',
 
     # Diego Araujo
-
+    'EQUALS', 'NEQUALS', 'LOWER', 'GREATER', 'LOWEREQUALS', 'GREATEREQUALS',
+    'CONCAT', 'LEN',
+    'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
+    'SEMICOLON', 'COMMA', 'DOT',
 
     # Randy Rivera
 
-
-) + list(reserved.values())
+) + tuple(reserved.values())
 
 # Regular expression rules for simple tokens
 # Cristhian Muñoz
@@ -86,11 +88,31 @@ def t_identifier(t):
     return t
 
 # Diego Araujo
+# Comparator Operators Lua
+t_EQUALS        = r'=='
+t_NEQUALS       = r'~='
+t_LOWEREQUALS   = r'<='
+t_GREATEREQUALS = r'>='
+t_LOWER         = r'<'
+t_GREATER       = r'>'
+
+# Operador de concatenación y longitud
+t_CONCAT    = r'\.\.'
+t_LEN       = r'\#'
+
+# Structurals Delimiters
+t_LBRACE    = r'\{'
+t_RBRACE    = r'\}'
+t_LBRACKET  = r'\['
+t_RBRACKET  = r'\]'
+t_SEMICOLON = r';'
+t_COMMA     = r','
+t_DOT       = r'\.'
+
 
 
 # Randy Rivera
 
 
-
-# Build the lexer
-lexer = lex.lex()
+def build_lexer():
+    return lex.lex()
