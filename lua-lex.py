@@ -24,7 +24,6 @@ reserved = {
     'true': 'TRUE',
     'until': 'UNTIL',
     'while': 'WHILE',
-   
 }
 
 # List of token names.   This is always required
@@ -43,6 +42,7 @@ tokens = (
 
     # Randy Rivera
 
+
 ) + list(reserved.values())
 
 # Regular expression rules for simple tokens
@@ -53,7 +53,14 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+# Diego Araujo
 
+
+# Randy Rivera
+
+
+
+# Cristhian Muñoz
 # A regular expression rule with some action code
 def t_NUMBER(t):
     r'\d+'
@@ -73,10 +80,16 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
+def t_identifier(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
+    return t
+
 # Diego Araujo
 
 
 # Randy Rivera
+
 
 
 # Build the lexer
