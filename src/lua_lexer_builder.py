@@ -140,6 +140,9 @@ def t_comment(t):
     r'--.*'
     pass  # No action needed for comments
 
+def t_multiline_comment(t):
+    r'(--\[\[\n)(.*\n)*(\]\])'
+    pass  # No action needed for multiline comments
 
 # Diego Araujo
 # Comparator Operators Lua
