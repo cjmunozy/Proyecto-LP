@@ -1,4 +1,10 @@
 import ply.lex as lex
+import sys
+import os
+import datetime
+
+valid = []
+errors = []
 
 # List of reserved words - Cristhian Muñoz
 reserved = {
@@ -36,6 +42,7 @@ tokens = (
     'DIVIDE',
     'LPAREN',
     'RPAREN',
+    'IDENTIFIER',
 
     # Diego Araujo
     'EQUALS', 'NEQUALS', 'LOWER', 'GREATER', 'LOWEREQUALS', 'GREATEREQUALS',
@@ -74,18 +81,34 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
+# Compute column.
+#     input is the input text string
+#     token is a token instance
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
+
 # A string containing ignored characters (spaces and tabs)
 t_ignore  = ' \t'
 
 # Error handling rule
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    errors.append(
+        f"[Error Léxico] Línea {t.lineno}, "
+        f"Columna {find_column(t.lexer.lexdata, t)}: "
+        f"Carácter no reconocido '{t.value[0]}'"
+    )
     t.lexer.skip(1)
 
 def t_identifier(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
     return t
+
+def t_comment(t):
+    r'--.*'
+    pass  # No action needed for comments
+
 
 # Diego Araujo
 # Comparator Operators Lua
@@ -114,5 +137,49 @@ t_DOT       = r'\.'
 # Randy Rivera
 
 
+
 def build_lexer():
     return lex.lex()
+
+def leer_archivo(archivo):
+    with open(archivo, 'r', encoding='utf-8') as f:
+        contenido = f.read()
+    return contenido
+
+def crear_log_filename(username):
+    now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
+    return f"lexico-{username}-{now}.txt"
+
+def guardar_log(tokens, errores, usuario):
+    nombre_log = crear_log_filename(usuario)
+    ruta_log = f"./logs/{nombre_log}"
+    # Escribe tokens y errores en el log
+    with open(ruta_log, 'w', encoding='utf-8') as log:
+        log.write("TOKENS RECONOCIDOS:\n")
+        for token in tokens:
+            log.write(f"{token}\n")
+        log.write("\nERRORES:\n")
+        for error in errores:
+            log.write(f"{error}\n")
+    print(f"Log guardado en: {ruta_log}")
+
+
+lexer = build_lexer()
+
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+contenido = leer_archivo(archivo)
+usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+lexer.input(contenido)
+
+for tok in lexer:
+    valid.append(
+        (
+            f"Token: {tok.type:<12} "
+            f"Valor: {repr(tok.value):<20} "
+            f"Línea: {tok.lineno:<4} "
+            f"Columna: {find_column(contenido, tok):<4} "
+        )
+    )
+
+guardar_log(valid, errors, usuario)
+
