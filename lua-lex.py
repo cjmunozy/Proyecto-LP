@@ -1,5 +1,32 @@
 import ply.lex as lex
 
+# List of reserved words - Cristhian Muñoz
+reserved = {
+    'and': 'AND',
+    'break': 'BREAK',
+    'do': 'DO',
+    'else': 'ELSE',
+    'elseif': 'ELSEIF',
+    'end': 'END',
+    'false': 'FALSE',
+    'for': 'FOR',
+    'function': 'FUNCTION',
+    'goto': 'GOTO',
+    'if': 'IF',
+    'in': 'IN',
+    'local': 'LOCAL',
+    'nil': 'NIL',
+    'not': 'NOT',
+    'or': 'OR',
+    'repeat': 'REPEAT',
+    'return': 'RETURN',
+    'then': 'THEN',
+    'true': 'TRUE',
+    'until': 'UNTIL',
+    'while': 'WHILE',
+   
+}
+
 # List of token names.   This is always required
 tokens = (
     # Cristhian Muñoz
@@ -16,7 +43,7 @@ tokens = (
 
     # Randy Rivera
 
-)
+) + list(reserved.values())
 
 # Regular expression rules for simple tokens
 # Cristhian Muñoz
