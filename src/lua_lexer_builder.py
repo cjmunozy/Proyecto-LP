@@ -51,7 +51,10 @@ tokens = (
     'SEMICOLON', 'COMMA', 'DOT',
 
     # Randy Rivera
-    'IDENTIFIER'
+    'IDENTIFIER',  'POWER', 'MOD',
+    'ASSIGN', 'PLUSASSIGN', 'MINUSASSIGN', 'TIMESASSIGN', 
+    'DIVIDEASSIGN', 'MODASSIGN', 'POWERASSIGN',
+    'COLON', 'DOUBLECOLON',
 
 ) + tuple(reserved.values())
 
@@ -68,6 +71,23 @@ t_RPAREN = r'\)'
 
 # Randy Rivera
 # Expresión regular para números (enteros, flotantes y notación científica)
+# Operadores aritméticos adicionales (algunos ya están definidos por Cristhian)
+t_POWER = r'\^'  # Operador de potencia
+t_MOD = r'%'     # Operador módulo
+
+# Operadores de asignación
+t_ASSIGN = r'='   # Asignación simple
+t_PLUSASSIGN = r'\+='
+t_MINUSASSIGN = r'-='
+t_TIMESASSIGN = r'\*='
+t_DIVIDEASSIGN = r'/='
+t_MODASSIGN = r'%='
+t_POWERASSIGN = r'\^='
+
+# Delimitadores y separadores adicionales
+t_COLON = r':'    # Dos puntos
+t_DOUBLECOLON = r'::'  # Dos puntos dobles (usado en Lua para etiquetas)
+
 def t_NUMBER(t):
     r'\d+(\.\d+)?([eE][+-]?\d+)?'
     # Verificar si es flotante
