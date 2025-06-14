@@ -51,7 +51,7 @@ tokens = (
     'SEMICOLON', 'COMMA', 'DOT',
 
     # Randy Rivera
-    'IDENTIFIER',  'POWER', 'MOD',
+    'POWER', 'MOD',
     'ASSIGN', 'PLUSASSIGN', 'MINUSASSIGN', 'TIMESASSIGN', 
     'DIVIDEASSIGN', 'MODASSIGN', 'POWERASSIGN',
     'COLON', 'DOUBLECOLON',
@@ -99,14 +99,6 @@ def t_NUMBER(t):
 
 
 # Cristhian Muñoz
-# A regular expression rule with some action code
-
-# def t_NUMBER(t):
-#    r'\d+'
-#    t.value = int(t.value)    
-#    return t
-
-
 # Define a rule so we can track line numbers
 def t_newline(t):
     r'\n+'
@@ -131,18 +123,18 @@ def t_error(t):
     )
     t.lexer.skip(1)
 
-def t_identifier(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
-    return t
+def t_multiline_comment(t):
+    r'--\[\[(.|\n)*?\]\]'
+    pass  # No action needed for multiline comments
 
 def t_comment(t):
     r'--.*'
     pass  # No action needed for comments
 
-def t_multiline_comment(t):
-    r'(--\[\[\n)(.*\n)*(\]\])'
-    pass  # No action needed for multiline comments
+def t_identifier(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
+    return t
 
 # Diego Araujo
 # Comparator Operators Lua
@@ -168,10 +160,7 @@ t_DOT       = r'\.'
 
 
 
-# Randy Rivera
-
-
-
+# Cristian Muñoz
 def build_lexer():
     return lex.lex()
 
