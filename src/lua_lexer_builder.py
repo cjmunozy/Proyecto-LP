@@ -44,6 +44,7 @@ tokens = (
     'SEMICOLON', 'COMMA', 'DOT',
 
     # Randy Rivera
+    'IDENTIFIER'
 
 ) + tuple(reserved.values())
 
@@ -59,15 +60,25 @@ t_RPAREN = r'\)'
 
 
 # Randy Rivera
-
+# Expresión regular para números (enteros, flotantes y notación científica)
+def t_NUMBER(t):
+    r'\d+(\.\d+)?([eE][+-]?\d+)?'
+    # Verificar si es flotante
+    if '.' in t.value or 'e' in t.value.lower():
+        t.value = float(t.value)
+    else:
+        t.value = int(t.value)
+    return t
 
 
 # Cristhian Muñoz
 # A regular expression rule with some action code
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)    
-    return t
+
+# def t_NUMBER(t):
+#    r'\d+'
+#    t.value = int(t.value)    
+#    return t
+
 
 # Define a rule so we can track line numbers
 def t_newline(t):
