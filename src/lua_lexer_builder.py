@@ -93,7 +93,7 @@ t_DOT       = r'\.'
 def t_STRING(t):
     r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
     # Eliminar las comillas del valor
-    t.value = t.value[1:-1]
+    t.value = t.value
     return t
 
 
