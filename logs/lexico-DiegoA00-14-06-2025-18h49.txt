@@ -1,0 +1,193 @@
+TOKENS RECONOCIDOS:
+Token: IDENTIFIER   Valor: 'algorithm'          Línea: 4    Columna: 5    
+Token: IDENTIFIER   Valor: 'written'            Línea: 4    Columna: 15   
+Token: IN           Valor: 'in'                 Línea: 4    Columna: 23   
+Token: IDENTIFIER   Valor: 'Lua'                Línea: 4    Columna: 26   
+Token: RBRACKET     Valor: ']'                  Línea: 5    Columna: 1    
+Token: RBRACKET     Valor: ']'                  Línea: 5    Columna: 2    
+Token: LOCAL        Valor: 'local'              Línea: 8    Columna: 1    
+Token: IDENTIFIER   Valor: 'x'                  Línea: 8    Columna: 7    
+Token: NUMBER       Valor: 10                   Línea: 8    Columna: 11   
+Token: LOCAL        Valor: 'local'              Línea: 9    Columna: 1    
+Token: IDENTIFIER   Valor: 'y'                  Línea: 9    Columna: 7    
+Token: NUMBER       Valor: 3.14                 Línea: 9    Columna: 11   
+Token: LOCAL        Valor: 'local'              Línea: 10   Columna: 1    
+Token: IDENTIFIER   Valor: 'z'                  Línea: 10   Columna: 7    
+Token: NUMBER       Valor: 25000000000.0        Línea: 10   Columna: 11   
+Token: LOCAL        Valor: 'local'              Línea: 11   Columna: 1    
+Token: IDENTIFIER   Valor: 'nombre'             Línea: 11   Columna: 7    
+Token: IDENTIFIER   Valor: 'Juan'               Línea: 11   Columna: 17   
+Token: LOCAL        Valor: 'local'              Línea: 12   Columna: 1    
+Token: IDENTIFIER   Valor: 'activo'             Línea: 12   Columna: 7    
+Token: TRUE         Valor: 'true'               Línea: 12   Columna: 16   
+Token: LOCAL        Valor: 'local'              Línea: 13   Columna: 1    
+Token: IDENTIFIER   Valor: 'datos'              Línea: 13   Columna: 7    
+Token: LBRACE       Valor: '{'                  Línea: 13   Columna: 15   
+Token: NUMBER       Valor: 1                    Línea: 13   Columna: 16   
+Token: COMMA        Valor: ','                  Línea: 13   Columna: 17   
+Token: NUMBER       Valor: 2                    Línea: 13   Columna: 19   
+Token: COMMA        Valor: ','                  Línea: 13   Columna: 20   
+Token: NUMBER       Valor: 3                    Línea: 13   Columna: 22   
+Token: RBRACE       Valor: '}'                  Línea: 13   Columna: 23   
+Token: LOCAL        Valor: 'local'              Línea: 14   Columna: 1    
+Token: IDENTIFIER   Valor: 'config'             Línea: 14   Columna: 7    
+Token: LBRACE       Valor: '{'                  Línea: 14   Columna: 16   
+Token: IDENTIFIER   Valor: 'modo'               Línea: 14   Columna: 17   
+Token: IDENTIFIER   Valor: 'auto'               Línea: 14   Columna: 25   
+Token: COMMA        Valor: ','                  Línea: 14   Columna: 30   
+Token: IDENTIFIER   Valor: 'estado'             Línea: 14   Columna: 32   
+Token: FALSE        Valor: 'false'              Línea: 14   Columna: 41   
+Token: RBRACE       Valor: '}'                  Línea: 14   Columna: 46   
+Token: IDENTIFIER   Valor: 'x'                  Línea: 17   Columna: 1    
+Token: IDENTIFIER   Valor: 'x'                  Línea: 17   Columna: 5    
+Token: PLUS         Valor: '+'                  Línea: 17   Columna: 7    
+Token: IDENTIFIER   Valor: 'y'                  Línea: 17   Columna: 9    
+Token: TIMES        Valor: '*'                  Línea: 17   Columna: 11   
+Token: IDENTIFIER   Valor: 'z'                  Línea: 17   Columna: 13   
+Token: IDENTIFIER   Valor: 'y'                  Línea: 18   Columna: 1    
+Token: IDENTIFIER   Valor: 'y'                  Línea: 18   Columna: 5    
+Token: PLUS         Valor: '+'                  Línea: 18   Columna: 7    
+Token: NUMBER       Valor: 1                    Línea: 18   Columna: 9    
+Token: IDENTIFIER   Valor: 'z'                  Línea: 19   Columna: 1    
+Token: IDENTIFIER   Valor: 'z'                  Línea: 19   Columna: 5    
+Token: MINUS        Valor: '-'                  Línea: 19   Columna: 7    
+Token: NUMBER       Valor: 5                    Línea: 19   Columna: 9    
+Token: IDENTIFIER   Valor: 'activo'             Línea: 20   Columna: 1    
+Token: NOT          Valor: 'not'                Línea: 20   Columna: 10   
+Token: IDENTIFIER   Valor: 'activo'             Línea: 20   Columna: 14   
+Token: IF           Valor: 'if'                 Línea: 22   Columna: 1    
+Token: IDENTIFIER   Valor: 'x'                  Línea: 22   Columna: 4    
+Token: GREATER      Valor: '>'                  Línea: 22   Columna: 6    
+Token: NUMBER       Valor: 1000                 Línea: 22   Columna: 8    
+Token: THEN         Valor: 'then'               Línea: 22   Columna: 13   
+Token: IDENTIFIER   Valor: 'print'              Línea: 23   Columna: 5    
+Token: LPAREN       Valor: '('                  Línea: 23   Columna: 10   
+Token: IDENTIFIER   Valor: 'Valor'              Línea: 23   Columna: 12   
+Token: IDENTIFIER   Valor: 'grande'             Línea: 23   Columna: 18   
+Token: RPAREN       Valor: ')'                  Línea: 23   Columna: 25   
+Token: ELSEIF       Valor: 'elseif'             Línea: 24   Columna: 1    
+Token: IDENTIFIER   Valor: 'x'                  Línea: 24   Columna: 8    
+Token: EQUALS       Valor: '=='                 Línea: 24   Columna: 10   
+Token: NUMBER       Valor: 0                    Línea: 24   Columna: 13   
+Token: THEN         Valor: 'then'               Línea: 24   Columna: 15   
+Token: IDENTIFIER   Valor: 'print'              Línea: 25   Columna: 5    
+Token: LPAREN       Valor: '('                  Línea: 25   Columna: 10   
+Token: IDENTIFIER   Valor: 'Cero'               Línea: 25   Columna: 12   
+Token: RPAREN       Valor: ')'                  Línea: 25   Columna: 17   
+Token: ELSE         Valor: 'else'               Línea: 26   Columna: 1    
+Token: IDENTIFIER   Valor: 'print'              Línea: 27   Columna: 5    
+Token: LPAREN       Valor: '('                  Línea: 27   Columna: 10   
+Token: IDENTIFIER   Valor: 'Valor'              Línea: 27   Columna: 12   
+Token: IDENTIFIER   Valor: 'peque'              Línea: 27   Columna: 18   
+Token: IDENTIFIER   Valor: 'o'                  Línea: 27   Columna: 24   
+Token: RPAREN       Valor: ')'                  Línea: 27   Columna: 26   
+Token: END          Valor: 'end'                Línea: 28   Columna: 1    
+Token: LOCAL        Valor: 'local'              Línea: 31   Columna: 1    
+Token: IDENTIFIER   Valor: 'contador'           Línea: 31   Columna: 7    
+Token: NUMBER       Valor: 0                    Línea: 31   Columna: 18   
+Token: WHILE        Valor: 'while'              Línea: 32   Columna: 1    
+Token: IDENTIFIER   Valor: 'contador'           Línea: 32   Columna: 7    
+Token: LOWER        Valor: '<'                  Línea: 32   Columna: 16   
+Token: NUMBER       Valor: 10                   Línea: 32   Columna: 18   
+Token: DO           Valor: 'do'                 Línea: 32   Columna: 21   
+Token: IDENTIFIER   Valor: 'contador'           Línea: 33   Columna: 5    
+Token: IDENTIFIER   Valor: 'contador'           Línea: 33   Columna: 16   
+Token: PLUS         Valor: '+'                  Línea: 33   Columna: 25   
+Token: NUMBER       Valor: 1                    Línea: 33   Columna: 27   
+Token: END          Valor: 'end'                Línea: 34   Columna: 1    
+Token: FUNCTION     Valor: 'function'           Línea: 37   Columna: 1    
+Token: IDENTIFIER   Valor: 'saludar'            Línea: 37   Columna: 10   
+Token: LPAREN       Valor: '('                  Línea: 37   Columna: 17   
+Token: IDENTIFIER   Valor: 'nombre'             Línea: 37   Columna: 18   
+Token: RPAREN       Valor: ')'                  Línea: 37   Columna: 24   
+Token: IDENTIFIER   Valor: 'print'              Línea: 38   Columna: 5    
+Token: LPAREN       Valor: '('                  Línea: 38   Columna: 10   
+Token: IDENTIFIER   Valor: 'Hola'               Línea: 38   Columna: 12   
+Token: COMMA        Valor: ','                  Línea: 38   Columna: 16   
+Token: CONCAT       Valor: '..'                 Línea: 38   Columna: 20   
+Token: IDENTIFIER   Valor: 'nombre'             Línea: 38   Columna: 23   
+Token: RPAREN       Valor: ')'                  Línea: 38   Columna: 29   
+Token: RETURN       Valor: 'return'             Línea: 39   Columna: 5    
+Token: TRUE         Valor: 'true'               Línea: 39   Columna: 12   
+Token: END          Valor: 'end'                Línea: 40   Columna: 1    
+Token: IDENTIFIER   Valor: 'saludar'            Línea: 42   Columna: 1    
+Token: LPAREN       Valor: '('                  Línea: 42   Columna: 8    
+Token: IDENTIFIER   Valor: 'Ana'                Línea: 42   Columna: 10   
+Token: RPAREN       Valor: ')'                  Línea: 42   Columna: 14   
+Token: LOCAL        Valor: 'local'              Línea: 45   Columna: 1    
+Token: IDENTIFIER   Valor: 'persona'            Línea: 45   Columna: 7    
+Token: LBRACE       Valor: '{'                  Línea: 45   Columna: 17   
+Token: IDENTIFIER   Valor: 'nombre'             Línea: 46   Columna: 5    
+Token: IDENTIFIER   Valor: 'Luis'               Línea: 46   Columna: 15   
+Token: COMMA        Valor: ','                  Línea: 46   Columna: 20   
+Token: IDENTIFIER   Valor: 'edad'               Línea: 47   Columna: 5    
+Token: NUMBER       Valor: 25                   Línea: 47   Columna: 12   
+Token: COMMA        Valor: ','                  Línea: 47   Columna: 14   
+Token: IDENTIFIER   Valor: 'habilidades'        Línea: 48   Columna: 5    
+Token: LBRACE       Valor: '{'                  Línea: 48   Columna: 19   
+Token: IDENTIFIER   Valor: 'Python'             Línea: 48   Columna: 21   
+Token: COMMA        Valor: ','                  Línea: 48   Columna: 28   
+Token: IDENTIFIER   Valor: 'Lua'                Línea: 48   Columna: 31   
+Token: COMMA        Valor: ','                  Línea: 48   Columna: 35   
+Token: IDENTIFIER   Valor: 'JavaScript'         Línea: 48   Columna: 38   
+Token: RBRACE       Valor: '}'                  Línea: 48   Columna: 49   
+Token: RBRACE       Valor: '}'                  Línea: 49   Columna: 1    
+Token: IDENTIFIER   Valor: 'print'              Línea: 51   Columna: 1    
+Token: LPAREN       Valor: '('                  Línea: 51   Columna: 6    
+Token: IDENTIFIER   Valor: 'persona'            Línea: 51   Columna: 7    
+Token: DOT          Valor: '.'                  Línea: 51   Columna: 14   
+Token: IDENTIFIER   Valor: 'nombre'             Línea: 51   Columna: 15   
+Token: RPAREN       Valor: ')'                  Línea: 51   Columna: 21   
+Token: IDENTIFIER   Valor: 'print'              Línea: 52   Columna: 1    
+Token: LPAREN       Valor: '('                  Línea: 52   Columna: 6    
+Token: IDENTIFIER   Valor: 'persona'            Línea: 52   Columna: 7    
+Token: DOT          Valor: '.'                  Línea: 52   Columna: 14   
+Token: IDENTIFIER   Valor: 'habilidades'        Línea: 52   Columna: 15   
+Token: LBRACKET     Valor: '['                  Línea: 52   Columna: 26   
+Token: NUMBER       Valor: 1                    Línea: 52   Columna: 27   
+Token: RBRACKET     Valor: ']'                  Línea: 52   Columna: 28   
+Token: RPAREN       Valor: ')'                  Línea: 52   Columna: 29   
+
+ERRORES:
+[Error Léxico] Línea 8, Columna 9: Carácter no reconocido '='
+[Error Léxico] Línea 9, Columna 9: Carácter no reconocido '='
+[Error Léxico] Línea 10, Columna 9: Carácter no reconocido '='
+[Error Léxico] Línea 11, Columna 14: Carácter no reconocido '='
+[Error Léxico] Línea 11, Columna 16: Carácter no reconocido '"'
+[Error Léxico] Línea 11, Columna 21: Carácter no reconocido '"'
+[Error Léxico] Línea 12, Columna 14: Carácter no reconocido '='
+[Error Léxico] Línea 13, Columna 13: Carácter no reconocido '='
+[Error Léxico] Línea 14, Columna 14: Carácter no reconocido '='
+[Error Léxico] Línea 14, Columna 22: Carácter no reconocido '='
+[Error Léxico] Línea 14, Columna 24: Carácter no reconocido '"'
+[Error Léxico] Línea 14, Columna 29: Carácter no reconocido '"'
+[Error Léxico] Línea 14, Columna 39: Carácter no reconocido '='
+[Error Léxico] Línea 17, Columna 3: Carácter no reconocido '='
+[Error Léxico] Línea 18, Columna 3: Carácter no reconocido '='
+[Error Léxico] Línea 19, Columna 3: Carácter no reconocido '='
+[Error Léxico] Línea 20, Columna 8: Carácter no reconocido '='
+[Error Léxico] Línea 23, Columna 11: Carácter no reconocido '"'
+[Error Léxico] Línea 23, Columna 24: Carácter no reconocido '"'
+[Error Léxico] Línea 25, Columna 11: Carácter no reconocido '"'
+[Error Léxico] Línea 25, Columna 16: Carácter no reconocido '"'
+[Error Léxico] Línea 27, Columna 11: Carácter no reconocido '"'
+[Error Léxico] Línea 27, Columna 23: Carácter no reconocido 'ñ'
+[Error Léxico] Línea 27, Columna 25: Carácter no reconocido '"'
+[Error Léxico] Línea 31, Columna 16: Carácter no reconocido '='
+[Error Léxico] Línea 33, Columna 14: Carácter no reconocido '='
+[Error Léxico] Línea 38, Columna 11: Carácter no reconocido '"'
+[Error Léxico] Línea 38, Columna 18: Carácter no reconocido '"'
+[Error Léxico] Línea 42, Columna 9: Carácter no reconocido '"'
+[Error Léxico] Línea 42, Columna 13: Carácter no reconocido '"'
+[Error Léxico] Línea 45, Columna 15: Carácter no reconocido '='
+[Error Léxico] Línea 46, Columna 12: Carácter no reconocido '='
+[Error Léxico] Línea 46, Columna 14: Carácter no reconocido '"'
+[Error Léxico] Línea 46, Columna 19: Carácter no reconocido '"'
+[Error Léxico] Línea 47, Columna 10: Carácter no reconocido '='
+[Error Léxico] Línea 48, Columna 17: Carácter no reconocido '='
+[Error Léxico] Línea 48, Columna 20: Carácter no reconocido '"'
+[Error Léxico] Línea 48, Columna 27: Carácter no reconocido '"'
+[Error Léxico] Línea 48, Columna 30: Carácter no reconocido '"'
+[Error Léxico] Línea 48, Columna 34: Carácter no reconocido '"'
+[Error Léxico] Línea 48, Columna 37: Carácter no reconocido '"'
+[Error Léxico] Línea 48, Columna 48: Carácter no reconocido '"'
