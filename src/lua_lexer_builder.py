@@ -61,7 +61,28 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+
 # Diego Araujo
+# Comparator Operators Lua
+t_EQUALS        = r'=='
+t_NEQUALS       = r'~='
+t_LOWEREQUALS   = r'<='
+t_GREATEREQUALS = r'>='
+t_LOWER         = r'<'
+t_GREATER       = r'>'
+
+# Operador de concatenación y longitud
+t_CONCAT    = r'\.\.'
+t_LEN       = r'\#'
+
+# Structurals Delimiters
+t_LBRACE    = r'\{'
+t_RBRACE    = r'\}'
+t_LBRACKET  = r'\['
+t_RBRACKET  = r'\]'
+t_SEMICOLON = r';'
+t_COMMA     = r','
+t_DOT       = r'\.'
 
 
 # Randy Rivera
@@ -122,27 +143,6 @@ def t_multiline_comment(t):
     r'(--\[\[\n)(.*\n)*(\]\])'
     pass  # No action needed for multiline comments
 
-# Diego Araujo
-# Comparator Operators Lua
-t_EQUALS        = r'=='
-t_NEQUALS       = r'~='
-t_LOWEREQUALS   = r'<='
-t_GREATEREQUALS = r'>='
-t_LOWER         = r'<'
-t_GREATER       = r'>'
-
-# Operador de concatenación y longitud
-t_CONCAT    = r'\.\.'
-t_LEN       = r'\#'
-
-# Structurals Delimiters
-t_LBRACE    = r'\{'
-t_RBRACE    = r'\}'
-t_LBRACKET  = r'\['
-t_RBRACKET  = r'\]'
-t_SEMICOLON = r';'
-t_COMMA     = r','
-t_DOT       = r'\.'
 
 
 
@@ -178,9 +178,9 @@ def guardar_log(tokens, errores, usuario):
 
 lexer = build_lexer()
 
-archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algorithm1.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
 lexer.input(contenido)
 
 for tok in lexer:
