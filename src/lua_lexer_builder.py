@@ -49,6 +49,7 @@ tokens = (
     'CONCAT', 'LEN',
     'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
     'SEMICOLON', 'COMMA', 'DOT',
+    'STRING',
 
     # Randy Rivera
     'POWER', 'MOD',
@@ -88,6 +89,12 @@ t_RBRACKET  = r'\]'
 t_SEMICOLON = r';'
 t_COMMA     = r','
 t_DOT       = r'\.'
+
+def t_STRING(t):
+    r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
+    # Eliminar las comillas del valor
+    t.value = t.value[1:-1]
+    return t
 
 
 # Randy Rivera
