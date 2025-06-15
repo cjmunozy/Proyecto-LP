@@ -1,0 +1,52 @@
+TOKENS RECONOCIDOS:
+Token: LOCAL        Valor: 'local'              Línea: 8    Columna: 1    
+Token: FUNCTION     Valor: 'function'           Línea: 8    Columna: 7    
+Token: IDENTIFIER   Valor: 'factorial'          Línea: 8    Columna: 16   
+Token: LPAREN       Valor: '('                  Línea: 8    Columna: 25   
+Token: IDENTIFIER   Valor: 'n'                  Línea: 8    Columna: 26   
+Token: RPAREN       Valor: ')'                  Línea: 8    Columna: 27   
+Token: IF           Valor: 'if'                 Línea: 9    Columna: 3    
+Token: IDENTIFIER   Valor: 'n'                  Línea: 9    Columna: 6    
+Token: EQUALS       Valor: '=='                 Línea: 9    Columna: 8    
+Token: NUMBER       Valor: 0                    Línea: 9    Columna: 11   
+Token: THEN         Valor: 'then'               Línea: 9    Columna: 13   
+Token: RETURN       Valor: 'return'             Línea: 10   Columna: 5    
+Token: NUMBER       Valor: 1                    Línea: 10   Columna: 12   
+Token: ELSE         Valor: 'else'               Línea: 11   Columna: 3    
+Token: RETURN       Valor: 'return'             Línea: 12   Columna: 5    
+Token: IDENTIFIER   Valor: 'n'                  Línea: 12   Columna: 12   
+Token: TIMES        Valor: '*'                  Línea: 12   Columna: 14   
+Token: IDENTIFIER   Valor: 'factorial'          Línea: 12   Columna: 16   
+Token: LPAREN       Valor: '('                  Línea: 12   Columna: 25   
+Token: IDENTIFIER   Valor: 'n'                  Línea: 12   Columna: 26   
+Token: MINUS        Valor: '-'                  Línea: 12   Columna: 28   
+Token: NUMBER       Valor: 1                    Línea: 12   Columna: 30   
+Token: RPAREN       Valor: ')'                  Línea: 12   Columna: 31   
+Token: END          Valor: 'end'                Línea: 13   Columna: 3    
+Token: END          Valor: 'end'                Línea: 14   Columna: 1    
+Token: LOCAL        Valor: 'local'              Línea: 17   Columna: 1    
+Token: IDENTIFIER   Valor: 'resultado'          Línea: 17   Columna: 7    
+Token: ASSIGN       Valor: '='                  Línea: 17   Columna: 17   
+Token: IDENTIFIER   Valor: 'factorial'          Línea: 17   Columna: 19   
+Token: LPAREN       Valor: '('                  Línea: 17   Columna: 28   
+Token: NUMBER       Valor: 5                    Línea: 17   Columna: 29   
+Token: RPAREN       Valor: ')'                  Línea: 17   Columna: 30   
+Token: IDENTIFIER   Valor: 'print'              Línea: 18   Columna: 1    
+Token: LPAREN       Valor: '('                  Línea: 18   Columna: 6    
+Token: STRING       Valor: 'Resultado:'         Línea: 18   Columna: 7    
+Token: COMMA        Valor: ','                  Línea: 18   Columna: 19   
+Token: IDENTIFIER   Valor: 'resultado'          Línea: 18   Columna: 21   
+Token: RPAREN       Valor: ')'                  Línea: 18   Columna: 30   
+Token: LOCAL        Valor: 'local'              Línea: 21   Columna: 1    
+Token: IDENTIFIER   Valor: 'error'              Línea: 21   Columna: 8    
+Token: ASSIGN       Valor: '='                  Línea: 21   Columna: 14   
+Token: NUMBER       Valor: 5                    Línea: 21   Columna: 16   
+Token: LOCAL        Valor: 'local'              Línea: 22   Columna: 1    
+Token: IDENTIFIER   Valor: 'otro'               Línea: 22   Columna: 7    
+Token: ASSIGN       Valor: '='                  Línea: 22   Columna: 12   
+Token: LEN          Valor: '#'                  Línea: 22   Columna: 14   
+Token: NUMBER       Valor: 5                    Línea: 22   Columna: 16   
+
+ERRORES:
+[Error Léxico] Línea 21, Columna 7: Carácter no reconocido '@'
+[Error Léxico] Línea 22, Columna 15: Carácter no reconocido '$'

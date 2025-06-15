@@ -153,6 +153,7 @@ def t_error(t):
 
 def t_multiline_comment(t):
     r'--\[\[(.|\n)*?\]\]'
+    t.lexer.lineno += t.value.count('\n')  # Count newlines
     pass  # No action needed for multiline comments
 
 def t_comment(t):
@@ -196,9 +197,9 @@ def guardar_log(tokens, errores, usuario):
 
 lexer = build_lexer()
 
-archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
 lexer.input(contenido)
 
 for tok in lexer:
