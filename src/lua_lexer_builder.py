@@ -196,7 +196,7 @@ def guardar_log(tokens, errores, usuario):
 
 lexer = build_lexer()
 
-archivo = "tests/algorithm1.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
 usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
 lexer.input(contenido)
