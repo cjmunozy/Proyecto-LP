@@ -18,5 +18,5 @@ local resultado = factorial(5)
 print("Resultado:", resultado)
 
 -- Código con errores léxicos (intencionales)
-local @error = 5     -- Error léxico: símbolo inválido '@'
+local @error = 5.2     -- Error léxico: símbolo inválido '@'
 local otro = #$5     -- Error léxico: símbolo inválido '$'

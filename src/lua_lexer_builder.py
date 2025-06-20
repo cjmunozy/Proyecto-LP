@@ -1,6 +1,4 @@
 import ply.lex as lex
-import sys
-import os
 import datetime
 
 valid = []
@@ -35,7 +33,8 @@ reserved = {
 # List of token names.   This is always required
 tokens = (
     # Cristhian Muñoz
-    'NUMBER',
+    'FLOAT',
+    'INTEGER',
     'PLUS',
     'MINUS',
     'TIMES',
@@ -116,15 +115,15 @@ t_POWERASSIGN = r'\^='
 t_COLON = r':'    # Dos puntos
 t_DOUBLECOLON = r'::'  # Dos puntos dobles (usado en Lua para etiquetas)
 
-def t_NUMBER(t):
-    r'\d+(\.\d+)?([eE][+-]?\d+)?'
-    # Verificar si es flotante
-    if '.' in t.value or 'e' in t.value.lower():
-        t.value = float(t.value)
-    else:
-        t.value = int(t.value)
+def t_FLOAT(t):
+    r'\d+\.\d?'
+    t.value = float(t.value)
     return t
 
+def t_INTEGER(t):
+    r'\d+'
+    t.value = int(t.value)
+    return t
 
 # Cristhian Muñoz
 # Define a rule so we can track line numbers
@@ -165,9 +164,7 @@ def t_identifier(t):
     t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
     return t
 
-
-
-
+# Ejecución del lexer
 # Cristian Muñoz
 def build_lexer():
     return lex.lex()
@@ -212,5 +209,9 @@ for tok in lexer:
         )
     )
 
-guardar_log(valid, errors, usuario)
+# guardar_log(valid, errors, usuario)
 
+for tok in valid:
+    print(tok)
+for error in errors:
+    print(error)
