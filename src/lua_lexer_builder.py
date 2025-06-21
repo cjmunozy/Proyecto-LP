@@ -211,8 +211,3 @@ for tok in lexer:
     )
 
 # guardar_log(valid, errors, usuario)
-
-for tok in valid:
-    print(tok)
-for error in errors:
-    print(error)
