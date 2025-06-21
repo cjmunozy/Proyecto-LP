@@ -1,0 +1,7 @@
+Error sintáctico en la línea 4, columna 1: Token inesperado 'local'
+Error sintáctico en la línea 12, columna 5: Token inesperado 'elseif'
+Error sintáctico en la línea 14, columna 5: Token inesperado 'else'
+Error sintáctico en la línea 16, columna 5: Token inesperado 'end'
+Error sintáctico en la línea 24, columna 1: Token inesperado 'local'
+Error sintáctico en la línea 46, columna 25: Token inesperado '..'
+Error sintáctico en la línea 52, columna 22: Token inesperado '..'

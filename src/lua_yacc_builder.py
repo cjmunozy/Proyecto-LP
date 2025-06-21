@@ -1,5 +1,8 @@
-from lua_lexer_builder import tokens
+from lua_lexer_builder import tokens, leer_archivo
 from ply import yacc
+import datetime
+
+errors = []
 
 # Cristhian Muñoz
 def p_start(p):
@@ -33,6 +36,10 @@ def p_term_times(p):
 def p_term_div(p):
     'term : term DIVIDE factor'
     p[0] = p[1] / p[3]
+
+def p_factor_power(p):
+    'factor : factor POWER factor'
+    p[0] = p[1] ** p[3]
 
 def p_term_factor(p):
     'term : factor'
@@ -81,7 +88,7 @@ def find_column(input, token):
 def p_error(p):
     if p:
         # Información sobre la posición y línea
-        print(
+        errors.append(
             f"Error sintáctico en la línea {find_line(p.lexer.lexdata, p)}, "
             f"columna {find_column(p.lexer.lexdata, p)}: "
             f"Token inesperado '{p.value}'"
@@ -89,15 +96,25 @@ def p_error(p):
     else:
         print("Error sintáctico en el final de la entrada")
 
+# 
+def crear_log_filename(username):
+    now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
+    return f"sintactico-{username}-{now}.txt"
+
+def guardar_log(username):
+    nombre_log = crear_log_filename(username)
+    ruta_log = f"./logs/{nombre_log}"
+    # Escribe tokens y errores en el log
+    with open(ruta_log, 'w', encoding='utf-8') as log:
+        for error in errors:
+            log.write(f"{error}\n")
+    print(f"Log guardado en: {ruta_log}")
+
 # Build the parser
 parser = yacc.yacc()
 
-while True:
-    try:
-        s = input('lua > ')
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = parser.parse(s)
-    print(result)
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+contenido = leer_archivo(archivo)
+usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+result = parser.parse(contenido)
+guardar_log(usuario)

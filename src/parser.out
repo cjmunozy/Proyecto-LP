@@ -39,7 +39,6 @@ Unused terminals:
     NOT
     OR
     PLUSASSIGN
-    POWER
     POWERASSIGN
     RBRACE
     RBRACKET
@@ -63,13 +62,14 @@ Rule 5     expression -> expression MINUS term
 Rule 6     expression -> term
 Rule 7     term -> term TIMES factor
 Rule 8     term -> term DIVIDE factor
-Rule 9     term -> factor
-Rule 10    factor -> INTEGER
-Rule 11    factor -> FLOAT
-Rule 12    factor -> LPAREN expression RPAREN
-Rule 13    print -> PRINT factor
-Rule 14    print -> PRINT LPAREN STRING RPAREN
-Rule 15    input -> INPUT LPAREN RPAREN
+Rule 9     factor -> factor POWER factor
+Rule 10    term -> factor
+Rule 11    factor -> INTEGER
+Rule 12    factor -> FLOAT
+Rule 13    factor -> LPAREN expression RPAREN
+Rule 14    print -> PRINT factor
+Rule 15    print -> PRINT LPAREN STRING RPAREN
+Rule 16    input -> INPUT LPAREN RPAREN
 
 Terminals, with rules where they appear
 
@@ -89,7 +89,7 @@ ELSEIF               :
 END                  : 
 EQUALS               : 
 FALSE                : 
-FLOAT                : 11
+FLOAT                : 12
 FOR                  : 
 FUNCTION             : 
 GOTO                 : 
@@ -98,15 +98,15 @@ GREATEREQUALS        :
 IDENTIFIER           : 
 IF                   : 
 IN                   : 
-INPUT                : 15
-INTEGER              : 10
+INPUT                : 16
+INTEGER              : 11
 LBRACE               : 
 LBRACKET             : 
 LEN                  : 
 LOCAL                : 
 LOWER                : 
 LOWEREQUALS          : 
-LPAREN               : 12 14 15
+LPAREN               : 13 15 16
 MINUS                : 5
 MINUSASSIGN          : 
 MOD                  : 
@@ -117,16 +117,16 @@ NOT                  :
 OR                   : 
 PLUS                 : 4
 PLUSASSIGN           : 
-POWER                : 
+POWER                : 9
 POWERASSIGN          : 
-PRINT                : 13 14
+PRINT                : 14 15
 RBRACE               : 
 RBRACKET             : 
 REPEAT               : 
 RETURN               : 
-RPAREN               : 12 14 15
+RPAREN               : 13 15 16
 SEMICOLON            : 
-STRING               : 14
+STRING               : 15
 THEN                 : 
 TIMES                : 7
 TIMESASSIGN          : 
@@ -137,8 +137,8 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 1 4 5 12
-factor               : 7 8 9 13
+expression           : 1 4 5 13
+factor               : 7 8 9 9 10 14
 input                : 2
 print                : 3
 start                : 0
@@ -155,15 +155,16 @@ state 0
     (4) expression -> . expression PLUS term
     (5) expression -> . expression MINUS term
     (6) expression -> . term
-    (15) input -> . INPUT LPAREN RPAREN
-    (13) print -> . PRINT factor
-    (14) print -> . PRINT LPAREN STRING RPAREN
+    (16) input -> . INPUT LPAREN RPAREN
+    (14) print -> . PRINT factor
+    (15) print -> . PRINT LPAREN STRING RPAREN
     (7) term -> . term TIMES factor
     (8) term -> . term DIVIDE factor
-    (9) term -> . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (10) term -> . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     INPUT           shift and go to state 6
     PRINT           shift and go to state 8
@@ -225,23 +226,24 @@ state 5
 
 state 6
 
-    (15) input -> INPUT . LPAREN RPAREN
+    (16) input -> INPUT . LPAREN RPAREN
 
     LPAREN          shift and go to state 16
 
 
 state 7
 
-    (12) factor -> LPAREN . expression RPAREN
+    (13) factor -> LPAREN . expression RPAREN
     (4) expression -> . expression PLUS term
     (5) expression -> . expression MINUS term
     (6) expression -> . term
     (7) term -> . term TIMES factor
     (8) term -> . term DIVIDE factor
-    (9) term -> . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (10) term -> . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     INTEGER         shift and go to state 10
     FLOAT           shift and go to state 11
@@ -253,11 +255,12 @@ state 7
 
 state 8
 
-    (13) print -> PRINT . factor
-    (14) print -> PRINT . LPAREN STRING RPAREN
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (14) print -> PRINT . factor
+    (15) print -> PRINT . LPAREN STRING RPAREN
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     LPAREN          shift and go to state 19
     INTEGER         shift and go to state 10
@@ -267,38 +270,42 @@ state 8
 
 state 9
 
-    (9) term -> factor .
+    (10) term -> factor .
+    (9) factor -> factor . POWER factor
 
-    TIMES           reduce using rule 9 (term -> factor .)
-    DIVIDE          reduce using rule 9 (term -> factor .)
-    PLUS            reduce using rule 9 (term -> factor .)
-    MINUS           reduce using rule 9 (term -> factor .)
-    $end            reduce using rule 9 (term -> factor .)
-    RPAREN          reduce using rule 9 (term -> factor .)
+    TIMES           reduce using rule 10 (term -> factor .)
+    DIVIDE          reduce using rule 10 (term -> factor .)
+    PLUS            reduce using rule 10 (term -> factor .)
+    MINUS           reduce using rule 10 (term -> factor .)
+    $end            reduce using rule 10 (term -> factor .)
+    RPAREN          reduce using rule 10 (term -> factor .)
+    POWER           shift and go to state 20
 
 
 state 10
 
-    (10) factor -> INTEGER .
+    (11) factor -> INTEGER .
 
-    TIMES           reduce using rule 10 (factor -> INTEGER .)
-    DIVIDE          reduce using rule 10 (factor -> INTEGER .)
-    PLUS            reduce using rule 10 (factor -> INTEGER .)
-    MINUS           reduce using rule 10 (factor -> INTEGER .)
-    $end            reduce using rule 10 (factor -> INTEGER .)
-    RPAREN          reduce using rule 10 (factor -> INTEGER .)
+    POWER           reduce using rule 11 (factor -> INTEGER .)
+    TIMES           reduce using rule 11 (factor -> INTEGER .)
+    DIVIDE          reduce using rule 11 (factor -> INTEGER .)
+    PLUS            reduce using rule 11 (factor -> INTEGER .)
+    MINUS           reduce using rule 11 (factor -> INTEGER .)
+    $end            reduce using rule 11 (factor -> INTEGER .)
+    RPAREN          reduce using rule 11 (factor -> INTEGER .)
 
 
 state 11
 
-    (11) factor -> FLOAT .
+    (12) factor -> FLOAT .
 
-    TIMES           reduce using rule 11 (factor -> FLOAT .)
-    DIVIDE          reduce using rule 11 (factor -> FLOAT .)
-    PLUS            reduce using rule 11 (factor -> FLOAT .)
-    MINUS           reduce using rule 11 (factor -> FLOAT .)
-    $end            reduce using rule 11 (factor -> FLOAT .)
-    RPAREN          reduce using rule 11 (factor -> FLOAT .)
+    POWER           reduce using rule 12 (factor -> FLOAT .)
+    TIMES           reduce using rule 12 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 12 (factor -> FLOAT .)
+    PLUS            reduce using rule 12 (factor -> FLOAT .)
+    MINUS           reduce using rule 12 (factor -> FLOAT .)
+    $end            reduce using rule 12 (factor -> FLOAT .)
+    RPAREN          reduce using rule 12 (factor -> FLOAT .)
 
 
 state 12
@@ -306,27 +313,11 @@ state 12
     (4) expression -> expression PLUS . term
     (7) term -> . term TIMES factor
     (8) term -> . term DIVIDE factor
-    (9) term -> . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
-
-    INTEGER         shift and go to state 10
-    FLOAT           shift and go to state 11
-    LPAREN          shift and go to state 7
-
-    term                           shift and go to state 20
-    factor                         shift and go to state 9
-
-state 13
-
-    (5) expression -> expression MINUS . term
-    (7) term -> . term TIMES factor
-    (8) term -> . term DIVIDE factor
-    (9) term -> . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (10) term -> . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     INTEGER         shift and go to state 10
     FLOAT           shift and go to state 11
@@ -335,25 +326,31 @@ state 13
     term                           shift and go to state 21
     factor                         shift and go to state 9
 
-state 14
+state 13
 
-    (7) term -> term TIMES . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (5) expression -> expression MINUS . term
+    (7) term -> . term TIMES factor
+    (8) term -> . term DIVIDE factor
+    (10) term -> . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     INTEGER         shift and go to state 10
     FLOAT           shift and go to state 11
     LPAREN          shift and go to state 7
 
-    factor                         shift and go to state 22
+    term                           shift and go to state 22
+    factor                         shift and go to state 9
 
-state 15
+state 14
 
-    (8) term -> term DIVIDE . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (7) term -> term TIMES . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
     INTEGER         shift and go to state 10
     FLOAT           shift and go to state 11
@@ -361,46 +358,63 @@ state 15
 
     factor                         shift and go to state 23
 
+state 15
+
+    (8) term -> term DIVIDE . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 10
+    FLOAT           shift and go to state 11
+    LPAREN          shift and go to state 7
+
+    factor                         shift and go to state 24
+
 state 16
 
-    (15) input -> INPUT LPAREN . RPAREN
+    (16) input -> INPUT LPAREN . RPAREN
 
-    RPAREN          shift and go to state 24
+    RPAREN          shift and go to state 25
 
 
 state 17
 
-    (12) factor -> LPAREN expression . RPAREN
+    (13) factor -> LPAREN expression . RPAREN
     (4) expression -> expression . PLUS term
     (5) expression -> expression . MINUS term
 
-    RPAREN          shift and go to state 25
+    RPAREN          shift and go to state 26
     PLUS            shift and go to state 12
     MINUS           shift and go to state 13
 
 
 state 18
 
-    (13) print -> PRINT factor .
+    (14) print -> PRINT factor .
+    (9) factor -> factor . POWER factor
 
-    $end            reduce using rule 13 (print -> PRINT factor .)
+    $end            reduce using rule 14 (print -> PRINT factor .)
+    POWER           shift and go to state 20
 
 
 state 19
 
-    (14) print -> PRINT LPAREN . STRING RPAREN
-    (12) factor -> LPAREN . expression RPAREN
+    (15) print -> PRINT LPAREN . STRING RPAREN
+    (13) factor -> LPAREN . expression RPAREN
     (4) expression -> . expression PLUS term
     (5) expression -> . expression MINUS term
     (6) expression -> . term
     (7) term -> . term TIMES factor
     (8) term -> . term DIVIDE factor
-    (9) term -> . factor
-    (10) factor -> . INTEGER
-    (11) factor -> . FLOAT
-    (12) factor -> . LPAREN expression RPAREN
+    (10) term -> . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
 
-    STRING          shift and go to state 26
+    STRING          shift and go to state 27
     INTEGER         shift and go to state 10
     FLOAT           shift and go to state 11
     LPAREN          shift and go to state 7
@@ -410,6 +424,20 @@ state 19
     factor                         shift and go to state 9
 
 state 20
+
+    (9) factor -> factor POWER . factor
+    (9) factor -> . factor POWER factor
+    (11) factor -> . INTEGER
+    (12) factor -> . FLOAT
+    (13) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 10
+    FLOAT           shift and go to state 11
+    LPAREN          shift and go to state 7
+
+    factor                         shift and go to state 28
+
+state 21
 
     (4) expression -> expression PLUS term .
     (7) term -> term . TIMES factor
@@ -423,7 +451,7 @@ state 20
     DIVIDE          shift and go to state 15
 
 
-state 21
+state 22
 
     (5) expression -> expression MINUS term .
     (7) term -> term . TIMES factor
@@ -437,9 +465,10 @@ state 21
     DIVIDE          shift and go to state 15
 
 
-state 22
+state 23
 
     (7) term -> term TIMES factor .
+    (9) factor -> factor . POWER factor
 
     TIMES           reduce using rule 7 (term -> term TIMES factor .)
     DIVIDE          reduce using rule 7 (term -> term TIMES factor .)
@@ -447,11 +476,13 @@ state 22
     MINUS           reduce using rule 7 (term -> term TIMES factor .)
     $end            reduce using rule 7 (term -> term TIMES factor .)
     RPAREN          reduce using rule 7 (term -> term TIMES factor .)
+    POWER           shift and go to state 20
 
 
-state 23
+state 24
 
     (8) term -> term DIVIDE factor .
+    (9) factor -> factor . POWER factor
 
     TIMES           reduce using rule 8 (term -> term DIVIDE factor .)
     DIVIDE          reduce using rule 8 (term -> term DIVIDE factor .)
@@ -459,37 +490,60 @@ state 23
     MINUS           reduce using rule 8 (term -> term DIVIDE factor .)
     $end            reduce using rule 8 (term -> term DIVIDE factor .)
     RPAREN          reduce using rule 8 (term -> term DIVIDE factor .)
-
-
-state 24
-
-    (15) input -> INPUT LPAREN RPAREN .
-
-    $end            reduce using rule 15 (input -> INPUT LPAREN RPAREN .)
+    POWER           shift and go to state 20
 
 
 state 25
 
-    (12) factor -> LPAREN expression RPAREN .
+    (16) input -> INPUT LPAREN RPAREN .
 
-    TIMES           reduce using rule 12 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 12 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 12 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 12 (factor -> LPAREN expression RPAREN .)
-    $end            reduce using rule 12 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 12 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 16 (input -> INPUT LPAREN RPAREN .)
 
 
 state 26
 
-    (14) print -> PRINT LPAREN STRING . RPAREN
+    (13) factor -> LPAREN expression RPAREN .
 
-    RPAREN          shift and go to state 27
+    POWER           reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 13 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 13 (factor -> LPAREN expression RPAREN .)
 
 
 state 27
 
-    (14) print -> PRINT LPAREN STRING RPAREN .
+    (15) print -> PRINT LPAREN STRING . RPAREN
 
-    $end            reduce using rule 14 (print -> PRINT LPAREN STRING RPAREN .)
+    RPAREN          shift and go to state 29
 
+
+state 28
+
+    (9) factor -> factor POWER factor .
+    (9) factor -> factor . POWER factor
+
+  ! shift/reduce conflict for POWER resolved as shift
+    TIMES           reduce using rule 9 (factor -> factor POWER factor .)
+    DIVIDE          reduce using rule 9 (factor -> factor POWER factor .)
+    PLUS            reduce using rule 9 (factor -> factor POWER factor .)
+    MINUS           reduce using rule 9 (factor -> factor POWER factor .)
+    $end            reduce using rule 9 (factor -> factor POWER factor .)
+    RPAREN          reduce using rule 9 (factor -> factor POWER factor .)
+    POWER           shift and go to state 20
+
+  ! POWER           [ reduce using rule 9 (factor -> factor POWER factor .) ]
+
+
+state 29
+
+    (15) print -> PRINT LPAREN STRING RPAREN .
+
+    $end            reduce using rule 15 (print -> PRINT LPAREN STRING RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for POWER in state 28 resolved as shift
