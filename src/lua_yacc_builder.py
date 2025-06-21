@@ -6,6 +6,10 @@ def p_start(p):
     'start : expression'
     p[0] = p[1]
 
+def p_start_input(p):
+    'start : input'
+    p[0] = p[1]
+
 def p_start_print(p):
     'start : print'
     p[0] = p[1]
@@ -53,6 +57,10 @@ def p_print(p):
 def p_print_string(p):
     'print : PRINT LPAREN STRING RPAREN'
     p[0] = p[3]
+
+def p_input(p):
+    'input : INPUT LPAREN RPAREN'
+    p[0] = input("Input: ")
 
 # Diego Araujo
 

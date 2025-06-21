@@ -18,6 +18,7 @@ reserved = {
     'goto': 'GOTO',
     'if': 'IF',
     'in': 'IN',
+    'input': 'INPUT',
     'local': 'LOCAL',
     'nil': 'NIL',
     'not': 'NOT',

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND ASSIGN BREAK COLON COMMA CONCAT DIVIDE DIVIDEASSIGN DO DOT DOUBLECOLON ELSE ELSEIF END EQUALS FALSE FLOAT FOR FUNCTION GOTO GREATER GREATEREQUALS IDENTIFIER IF IN INTEGER LBRACE LBRACKET LEN LOCAL LOWER LOWEREQUALS LPAREN MINUS MINUSASSIGN MOD MODASSIGN NEQUALS NIL NOT OR PLUS PLUSASSIGN POWER POWERASSIGN PRINT RBRACE RBRACKET REPEAT RETURN RPAREN SEMICOLON STRING THEN TIMES TIMESASSIGN TRUE UNTIL WHILEstart : expressionstart : printexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : INTEGERfactor : FLOATfactor : LPAREN expression RPARENprint : PRINT factorprint : PRINT LPAREN STRING RPAREN'
+_lr_signature = 'AND ASSIGN BREAK COLON COMMA CONCAT DIVIDE DIVIDEASSIGN DO DOT DOUBLECOLON ELSE ELSEIF END EQUALS FALSE FLOAT FOR FUNCTION GOTO GREATER GREATEREQUALS IDENTIFIER IF IN INPUT INTEGER LBRACE LBRACKET LEN LOCAL LOWER LOWEREQUALS LPAREN MINUS MINUSASSIGN MOD MODASSIGN NEQUALS NIL NOT OR PLUS PLUSASSIGN POWER POWERASSIGN PRINT RBRACE RBRACKET REPEAT RETURN RPAREN SEMICOLON STRING THEN TIMES TIMESASSIGN TRUE UNTIL WHILEstart : expressionstart : inputstart : printexpression : expression PLUS termexpression : expression MINUS termexpression : termterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : INTEGERfactor : FLOATfactor : LPAREN expression RPARENprint : PRINT factorprint : PRINT LPAREN STRING RPARENinput : INPUT LPAREN RPAREN'
     
-_lr_action_items = {'PRINT':([0,],[5,]),'INTEGER':([0,5,7,10,11,12,13,15,],[8,8,8,8,8,8,8,8,]),'FLOAT':([0,5,7,10,11,12,13,15,],[9,9,9,9,9,9,9,9,]),'LPAREN':([0,5,7,10,11,12,13,15,],[7,15,7,7,7,7,7,7,]),'$end':([1,2,3,4,6,8,9,14,17,18,19,20,22,23,],[0,-1,-2,-5,-8,-9,-10,-12,-3,-4,-6,-7,-11,-13,]),'PLUS':([2,4,6,8,9,16,17,18,19,20,22,],[10,-5,-8,-9,-10,10,-3,-4,-6,-7,-11,]),'MINUS':([2,4,6,8,9,16,17,18,19,20,22,],[11,-5,-8,-9,-10,11,-3,-4,-6,-7,-11,]),'RPAREN':([4,6,8,9,16,17,18,19,20,21,22,],[-5,-8,-9,-10,22,-3,-4,-6,-7,23,-11,]),'TIMES':([4,6,8,9,17,18,19,20,22,],[12,-8,-9,-10,12,12,-6,-7,-11,]),'DIVIDE':([4,6,8,9,17,18,19,20,22,],[13,-8,-9,-10,13,13,-6,-7,-11,]),'STRING':([15,],[21,]),}
+_lr_action_items = {'INPUT':([0,],[6,]),'PRINT':([0,],[8,]),'INTEGER':([0,7,8,12,13,14,15,19,],[10,10,10,10,10,10,10,10,]),'FLOAT':([0,7,8,12,13,14,15,19,],[11,11,11,11,11,11,11,11,]),'LPAREN':([0,6,7,8,12,13,14,15,19,],[7,16,7,19,7,7,7,7,7,]),'$end':([1,2,3,4,5,9,10,11,18,20,21,22,23,24,25,27,],[0,-1,-2,-3,-6,-9,-10,-11,-13,-4,-5,-7,-8,-15,-12,-14,]),'PLUS':([2,5,9,10,11,17,20,21,22,23,25,],[12,-6,-9,-10,-11,12,-4,-5,-7,-8,-12,]),'MINUS':([2,5,9,10,11,17,20,21,22,23,25,],[13,-6,-9,-10,-11,13,-4,-5,-7,-8,-12,]),'RPAREN':([5,9,10,11,16,17,20,21,22,23,25,26,],[-6,-9,-10,-11,24,25,-4,-5,-7,-8,-12,27,]),'TIMES':([5,9,10,11,20,21,22,23,25,],[14,-9,-10,-11,14,14,-7,-8,-12,]),'DIVIDE':([5,9,10,11,20,21,22,23,25,],[15,-9,-10,-11,15,15,-7,-8,-12,]),'STRING':([19,],[26,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'start':([0,],[1,]),'expression':([0,7,15,],[2,16,16,]),'print':([0,],[3,]),'term':([0,7,10,11,15,],[4,4,17,18,4,]),'factor':([0,5,7,10,11,12,13,15,],[6,14,6,6,6,19,20,6,]),}
+_lr_goto_items = {'start':([0,],[1,]),'expression':([0,7,19,],[2,17,17,]),'input':([0,],[3,]),'print':([0,],[4,]),'term':([0,7,12,13,19,],[5,5,20,21,5,]),'factor':([0,7,8,12,13,14,15,19,],[9,9,18,9,9,22,23,9,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -28,16 +28,18 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
   ('start -> expression','start',1,'p_start','lua_yacc_builder.py',6),
-  ('start -> print','start',1,'p_start_print','lua_yacc_builder.py',10),
-  ('expression -> expression PLUS term','expression',3,'p_expression_plus','lua_yacc_builder.py',14),
-  ('expression -> expression MINUS term','expression',3,'p_expression_minus','lua_yacc_builder.py',18),
-  ('expression -> term','expression',1,'p_expression_term','lua_yacc_builder.py',22),
-  ('term -> term TIMES factor','term',3,'p_term_times','lua_yacc_builder.py',26),
-  ('term -> term DIVIDE factor','term',3,'p_term_div','lua_yacc_builder.py',30),
-  ('term -> factor','term',1,'p_term_factor','lua_yacc_builder.py',34),
-  ('factor -> INTEGER','factor',1,'p_factor_num','lua_yacc_builder.py',38),
-  ('factor -> FLOAT','factor',1,'p_factor_float','lua_yacc_builder.py',42),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','lua_yacc_builder.py',46),
-  ('print -> PRINT factor','print',2,'p_print','lua_yacc_builder.py',50),
-  ('print -> PRINT LPAREN STRING RPAREN','print',4,'p_print_string','lua_yacc_builder.py',54),
+  ('start -> input','start',1,'p_start_input','lua_yacc_builder.py',10),
+  ('start -> print','start',1,'p_start_print','lua_yacc_builder.py',14),
+  ('expression -> expression PLUS term','expression',3,'p_expression_plus','lua_yacc_builder.py',18),
+  ('expression -> expression MINUS term','expression',3,'p_expression_minus','lua_yacc_builder.py',22),
+  ('expression -> term','expression',1,'p_expression_term','lua_yacc_builder.py',26),
+  ('term -> term TIMES factor','term',3,'p_term_times','lua_yacc_builder.py',30),
+  ('term -> term DIVIDE factor','term',3,'p_term_div','lua_yacc_builder.py',34),
+  ('term -> factor','term',1,'p_term_factor','lua_yacc_builder.py',38),
+  ('factor -> INTEGER','factor',1,'p_factor_num','lua_yacc_builder.py',42),
+  ('factor -> FLOAT','factor',1,'p_factor_float','lua_yacc_builder.py',46),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','lua_yacc_builder.py',50),
+  ('print -> PRINT factor','print',2,'p_print','lua_yacc_builder.py',54),
+  ('print -> PRINT LPAREN STRING RPAREN','print',4,'p_print_string','lua_yacc_builder.py',58),
+  ('input -> INPUT LPAREN RPAREN','input',3,'p_input','lua_yacc_builder.py',62),
 ]
