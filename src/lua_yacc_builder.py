@@ -1,6 +1,7 @@
 from lua_lexer_builder import tokens
 from ply import yacc
 
+# Cristhian Muñoz
 def p_start(p):
     'start : expression'
     p[0] = p[1]
@@ -31,11 +32,23 @@ def p_term_factor(p):
 
 def p_factor_num(p):
     'factor : INTEGER'
-    p[0] = p[1]
+    p[0] = int(p[1])
+
+def p_factor_float(p):
+    'factor : FLOAT'
+    p[0] = float(p[1])
 
 def p_factor_expr(p):
     'factor : LPAREN expression RPAREN'
     p[0] = p[2]
+
+
+# Diego Araujo
+
+
+# Randy Rivera
+
+
 
 # Error rule for syntax errors
 def p_error(p):
