@@ -17,7 +17,7 @@ local saludo2 = 'Mundo'
 local multilinea = [[
 Esto es
 una cadena
-multilínea
+multilinea
 ]]
 
 -- Tablas: listas, diccionarios, mixtas y anidadas
@@ -44,10 +44,10 @@ local frase = saludo1 .. ", " .. saludo2 .. "!"
 -- Esto es un comentario de línea
 
 -- Comentarios multilínea
---[ [
+--[[
     Esto es un comentario
     de varias líneas
-] ]
+]]--
 
 -- Condicionales con diferentes formatos y operadores
 if a > 50 then print("a es mayor que 50") end
