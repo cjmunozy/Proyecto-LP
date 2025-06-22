@@ -16,19 +16,28 @@ def p_chunk(p):
     pass
 
 def p_block(p):
-    '''block : stat_list'''
+    '''block : stat_list retstat_opt'''
     pass
     
 def p_stat_list(p):
     '''stat_list : stat_list stat
-                 | stat'''
+                 | empty'''
+    pass
+
+def p_retstat_opt(p):
+    '''retstat_opt : retstat
+                   | empty'''
     pass
     
 def p_stat(p):
     '''stat : SEMICOLON
+            | varlist ASSIGN explist
             | functioncall
-            | BREAK
-            | expression'''
+            | BREAK'''
+    pass
+
+def p_goto(p):
+    '''stat : GOTO IDENTIFIER'''
     pass
 
 def p_do(p):
@@ -71,9 +80,27 @@ def p_stat_for_in(p):
 
 
 # Diego Araujo
+def p_stat_function(p):
+    '''stat : FUNCTION funcname funcbody'''
+    pass
+
+def p_stat_local_function(p):
+    '''stat : LOCAL FUNCTION IDENTIFIER funcbody'''
+    pass
 
 def p_empty(p):
     'empty :'
+    pass
+
+def p_retstat(p):
+    '''retstat : RETURN explist SEMICOLON
+               | RETURN explist
+               | RETURN SEMICOLON
+               | RETURN'''
+    pass
+
+def p_label(p):
+    '''stat : DOUBLECOLON IDENTIFIER DOUBLECOLON'''
     pass
 
 def p_funcname(p):
@@ -91,8 +118,8 @@ def p_method_opt(p):
     pass
 
 def p_varlist(p):
-    '''varlist : varlist COMMA var
-               | empty'''
+    '''varlist : var
+               | varlist COMMA var'''
     pass
 
 def p_var(p):
@@ -102,14 +129,18 @@ def p_var(p):
     pass
 
 def p_namelist(p):
-    '''namelist : namelist COMMA IDENTIFIER
-                | IDENTIFIER'''
+    '''namelist : IDENTIFIER
+                | namelist COMMA IDENTIFIER'''
     pass
 
 def p_explist(p):
-    '''explist : explist COMMA expression
-               | expression'''
+    '''explist : expression
+               | explist COMMA expression'''
     pass
+
+# def p_exp_prefixexp(p):
+#     '''expression : prefixexp'''
+#     pass
 
 def p_prefixexp(p):
     '''prefixexp : var
@@ -125,22 +156,22 @@ def p_functioncall(p):
 def p_args(p):
     '''args : LPAREN RPAREN
             | LPAREN explist RPAREN
-            | STRING'''
-            # | tableconstructor'''
+            | STRING
+            | tableconstructor'''
     pass
 
 def p_functiondef(p):
-    '''functiondef : FUNCTION funcbody'''
+    '''expression : FUNCTION funcbody'''
     pass
 
 def p_funcbody(p):
-    '''funcbody : LPAREN parlist RPAREN block END'''
+    '''funcbody : LPAREN RPAREN block END
+                | LPAREN parlist RPAREN block END'''
     pass
 
 def p_parlist(p):
     '''parlist : namelist vararg_tail
-               | VARARG
-               | empty'''
+               | VARARG'''
     pass
 
 def p_vararg_tail(p):
@@ -148,6 +179,34 @@ def p_vararg_tail(p):
                    | empty'''
     pass
 
+def p_tableconstructor(p):
+    '''tableconstructor : LBRACE RBRACE
+                        | LBRACE fieldlist RBRACE'''
+    pass
+
+def p_fieldlist(p):
+    '''fieldlist : field fieldsep_tail'''
+    pass
+
+def p_fieldsep_tail(p):
+    '''fieldsep_tail : fieldsep fieldfield_tail_opt
+                     | empty'''
+    pass
+
+def p_fieldfield_tail_opt(p):
+    '''fieldfield_tail_opt : fieldlist
+                           | empty'''
+    pass
+
+def p_field(p):
+    '''field : LBRACKET expression RBRACKET ASSIGN expression
+             | IDENTIFIER ASSIGN expression
+             | expression'''
+    
+def p_fieldsep(p):
+    '''fieldsep : COMMA
+                | SEMICOLON'''
+    pass
 
 #Cristhian Muñoz
 def p_start_input(p):
@@ -257,9 +316,9 @@ def probar_salida():
 # Build the parser
 parser = yacc.yacc()
 
-archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
 result = parser.parse(contenido)
 
 # Descomentar para guardar el log
