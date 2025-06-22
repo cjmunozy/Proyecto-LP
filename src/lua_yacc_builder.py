@@ -6,15 +6,88 @@ errors = []
 
 # Cristhian Muñoz
 def p_start(p):
-    'start : expression'
+    'start : chunk'
     p[0] = p[1]
 
+
+# Diego Araujo
+def p_chunk(p):
+    'chunk : block'
+    pass
+
+def p_block(p):
+    '''block : stat_list'''
+    pass
+    
+def p_stat_list(p):
+    '''stat_list : stat_list stat
+                 | stat'''
+    pass
+    
+def p_stat(p):
+    '''stat : SEMICOLON
+            | stat_if
+            | expression'''
+            # | stat_while
+            # | stat_for'''
+    pass
+
+def p_stat_if(p):
+    '''stat_if : IF expression THEN block elseif_blocks else_block END'''
+    pass
+
+def p_elseif_blocks(p):
+    '''elseif_blocks : ELSEIF expression THEN block
+                     | elseif_blocks ELSEIF expression THEN block
+                     | empty'''
+    pass
+
+def p_else_block(p):
+    '''else_block : ELSE block
+                  | empty'''
+    pass
+
+def p_empty(p):
+    'empty :'
+    pass
+
+def p_var(p):
+    '''var : IDENTIFIER
+           | prefixexp LBRACKET expression RBRACKET
+           | prefixexp DOT IDENTIFIER'''
+    pass
+
+def p_explist(p):
+    '''explist : explist COMMA expression
+               | expression'''
+    pass
+
+def p_prefixexp(p):
+    '''prefixexp : var
+                 | functioncall
+                 | LPAREN expression RPAREN'''
+    pass
+
+def p_functioncall(p):
+    '''functioncall : prefixexp args
+                    | prefixexp COLON IDENTIFIER args'''
+    pass
+
+def p_args(p):
+    '''args : LPAREN RPAREN
+            | LPAREN explist RPAREN
+            | STRING'''
+            # | tableconstructor'''
+    pass
+
+
+#Cristhian Muñoz
 def p_start_input(p):
-    'start : input'
+    'expression : input'
     p[0] = p[1]
 
 def p_start_print(p):
-    'start : print'
+    'expression : print'
     p[0] = p[1]
 
 def p_expression_plus(p):
@@ -69,8 +142,6 @@ def p_input(p):
     'input : INPUT LPAREN RPAREN'
     p[0] = input("Input: ")
 
-# Diego Araujo
-
 
 # Randy Rivera
 
@@ -113,8 +184,8 @@ def guardar_log(username):
 # Build the parser
 parser = yacc.yacc()
 
-archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
 result = parser.parse(contenido)
 guardar_log(usuario)
