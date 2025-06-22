@@ -1,0 +1,321 @@
+from lua_lexer_builder import tokens, leer_archivo
+from ply import yacc
+import datetime
+
+errors = []
+
+# Cristhian Muñoz
+def p_start(p):
+    'start : chunk'
+    pass
+
+
+# Diego Araujo
+def p_chunk(p):
+    'chunk : block'
+    pass
+
+def p_block(p):
+    '''block : stat_list'''
+    pass
+    
+def p_stat_list(p):
+    '''stat_list : stat_list stat
+                 | stat'''
+    pass
+    
+def p_stat(p):
+    '''stat : SEMICOLON
+            | varlist ASSIGN explist
+            | functioncall
+            | BREAK
+            | exp'''
+    pass
+
+def p_do(p):
+    '''stat : DO block END'''
+    pass
+
+# Randy Rivera
+def p_stat_while(p):
+    '''stat : WHILE exp DO block END'''
+    pass
+
+def p_opt_explist(p):
+    '''opt_explist : empty
+                   | explist'''
+    pass
+
+def p_varlist(p):
+    '''varlist : var
+               | varlist COMMA var'''
+    pass
+
+def p_var(p):
+    '''var : NAME
+           | prefixexp LBRACK exp RBRACK
+           | prefixexp DOT NAME'''
+    pass
+
+def p_namelist(p):
+    '''namelist : NAME
+                | namelist COMMA NAME'''
+    pass
+
+def p_exp(p):
+    '''exp : NIL
+           | FALSE
+           | TRUE
+           | NUMBER
+           | STRING
+           | DOTDOTDOT
+           | functiondef
+           | prefixexp
+           | tableconstructor
+           | exp binop exp
+           | unop exp'''
+    pass
+
+def p_prefixexp(p):
+    '''prefixexp : var
+                 | functioncall
+                 | LPAREN exp RPAREN'''
+    pass
+
+# exp = exp nam too
+
+def p_functioncall(p):
+    '''functioncall : prefixexp args
+                    | prefixexp COLON NAME args'''
+    pass
+
+def p_args(p):
+    '''args : LPAREN opt_explist RPAREN
+            | tableconstructor
+            | STRING'''
+    pass
+
+def p_functiondef(p):
+    '''functiondef : FUNCTION funcbody'''
+    pass
+
+def p_funcbody(p):
+    '''funcbody : LPAREN opt_parlist RPAREN block END'''
+    pass
+
+def p_opt_parlist(p):
+    '''opt_parlist : empty
+                   | parlist'''
+    pass
+
+def p_parlist(p):
+    '''parlist : namelist COMMA DOTDOTDOT
+               | namelist
+               | DOTDOTDOT'''
+    pass
+
+def p_tableconstructor(p):
+    '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
+    pass
+
+# Diego Araujo
+def p_stat_repeat(p):
+    '''stat : REPEAT block UNTIL exp'''
+    pass
+
+def p_stat_if(p):
+    '''stat : IF exp THEN block elseif_blocks else_block END'''
+    pass
+
+def p_elseif_blocks(p):
+    '''elseif_blocks : ELSEIF exp THEN block
+                     | elseif_blocks ELSEIF exp THEN block
+                     | empty'''
+    pass
+
+def p_else_block(p):
+    '''else_block : ELSE block
+                  | empty'''
+    pass
+
+def p_opt_fieldlist(p):
+    '''opt_fieldlist : empty
+                     | fieldlist'''
+    pass
+
+def p_fieldlist(p):
+    '''fieldlist : field
+                 | fieldlist fieldsep field
+                 | fieldlist fieldsep'''
+    pass
+
+def p_fieldsep(p):
+    '''fieldsep : COMMA
+                | SEMICOLON'''
+    pass
+
+def p_field(p):
+    '''field : LBRACK exp RBRACK ASSIGN exp
+             | NAME ASSIGN exp
+             | exp'''
+    pass
+
+def p_binop(p):
+    '''binop : PLUS
+             | MINUS
+             | TIMES
+             | DIVIDE
+             | IDIV
+             | POWER
+             | MOD
+             | BITAND
+             | BITOR
+             | BITXOR
+             | SHIFTL
+             | SHIFTR
+             | CONCAT
+             | LOWER
+             | LOWEREQUALS
+             | GREATER
+             | GREATEREQUALS
+             | EQUALS
+             | NEQUALS
+             | AND
+             | OR'''
+    pass
+
+def p_unop(p):
+    '''unop : MINUS
+            | NOT
+            | LEN
+            | BITNOT'''
+    pass
+
+# Cristhian Muñoz
+def p_stat_for(p):
+    '''stat : FOR NAME ASSIGN exp COMMA exp DO block END'''
+    pass
+
+def p_stat_for_in(p):
+    '''stat : FOR namelist IN explist DO block END'''
+    pass
+
+
+# Diego Araujo
+
+def p_empty(p):
+    'empty :'
+    pass
+
+def p_funcname(p):
+    '''funcname : NAME funcname_tail method_opt''' 
+    pass
+
+def p_funcname_tail(p):
+    '''funcname_tail : funcname_tail DOT NAME
+                     | empty'''
+    pass
+
+def p_method_opt(p):
+    '''method_opt : COLON NAME
+                  | empty'''
+    pass
+
+def p_explist(p):
+    '''explist : explist COMMA exp
+               | exp'''
+    pass
+
+#Cristhian Muñoz
+def p_start_print(p):
+    'statement : print'
+    pass
+
+def p_exp_term(p):
+    'exp : term'
+    p[0] = p[1]
+
+def p_term_factor(p):
+    'term : factor'
+    p[0] = p[1]
+
+def p_factor_num(p):
+    'factor : NUMBER'
+    p[0] = float(p[1])
+
+def p_factor_expr(p):
+    'factor : LPAREN exp RPAREN'
+    p[0] = p[2]
+
+def p_print(p):
+    '''print : PRINT LPAREN exp RPAREN
+             | PRINT LPAREN STRING RPAREN'''
+    p[0] = p[3] if isinstance(p[3], (int, float)) else p[3].strip(r'\'|\"')
+
+def p_input(p):
+    'input : INPUT LPAREN RPAREN'
+    p[0] = input("Input: ")
+
+
+# Randy Rivera
+
+
+
+# Cristhian Muñoz
+def find_line(input, token):
+    return input.count('\n', 0, token.lexpos) + 1
+
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
+
+# Error rule for syntax errors
+def p_error(p):
+    if p:
+        # Información sobre la posición y línea
+        errors.append(
+            f"Error sintáctico en la línea {find_line(p.lexer.lexdata, p)}, "
+            f"columna {find_column(p.lexer.lexdata, p)}: "
+            f"Token inesperado '{p.value}'"
+        )
+    else:
+        errors.append(
+            "Error sintáctico: Fin de archivo inesperado"
+        )
+
+def crear_log_filename(username):
+    now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
+    return f"sintactico-{username}-{now}.txt"
+
+def guardar_log(username):
+    nombre_log = crear_log_filename(username)
+    ruta_log = f"./logs/{nombre_log}"
+    # Escribe tokens y errores en el log
+    with open(ruta_log, 'w', encoding='utf-8') as log:
+        for error in errors:
+            log.write(f"{error}\n")
+    print(f"Log guardado en: {ruta_log}")
+
+def probar_salida():
+    while True:
+        try:
+            s = input('calc > ')
+        except EOFError:
+            break
+        if not s: continue
+        result = parser.parse(s)
+        print(result)
+
+# Build the parser
+parser = yacc.yacc()
+
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+contenido = leer_archivo(archivo)
+usuario = "randyRivera0"  # Reemplaza con tu nombre de usuario de GitHub
+result = parser.parse(contenido)
+
+# Descomentar para guardar el log
+guardar_log(usuario)
+
+# Descomentar para probar con entrada por consola
+probar_salida()
