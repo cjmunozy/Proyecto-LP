@@ -1,0 +1,7 @@
+Error sintáctico en la línea 6, columna 1: Token inesperado 'local'
+Error sintáctico en la línea 77, columna 12: Token inesperado '#'
+Error sintáctico en la línea 78, columna 16: Token inesperado '#'
+Error sintáctico en la línea 101, columna 17: Token inesperado 'pairs'
+Error sintáctico en la línea 110, columna 36: Token inesperado ')'
+Error sintáctico en la línea 111, columna 28: Token inesperado ')'
+Error sintáctico en la línea 112, columna 30: Token inesperado ')'
