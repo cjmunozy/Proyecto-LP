@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND ASSIGN BREAK COLON COMMA CONCAT DIVIDE DIVIDEASSIGN DO DOT DOUBLECOLON ELSE ELSEIF END EQUALS FALSE FLOAT FOR FUNCTION GOTO GREATER GREATEREQUALS IDENTIFIER IF IN INPUT INTEGER LBRACE LBRACKET LEN LOCAL LOWER LOWEREQUALS LPAREN MINUS MINUSASSIGN MOD MODASSIGN NEQUALS NIL NOT OR PLUS PLUSASSIGN POWER POWERASSIGN PRINT RBRACE RBRACKET REPEAT RETURN RPAREN SEMICOLON STRING THEN TIMES TIMESASSIGN TRUE UNTIL WHILEstart : expressionstart : inputstart : printexpression : expression PLUS term\n           | expression MINUS term\nterm       : term TIMES factor\n           | term DIVIDE factor\n           | term POWER factorexpression : termterm : factorfactor : INTEGERfactor : FLOATfactor : LPAREN expression RPARENprint : PRINT LPAREN expression RPAREN\n| PRINT LPAREN STRING RPARENinput : INPUT LPAREN RPAREN'
+_lr_signature = 'AND ASSIGN BREAK COLON COMMA CONCAT DIVIDE DIVIDEASSIGN DO DOT DOUBLECOLON ELSE ELSEIF END EQUALS FALSE FLOAT FOR FUNCTION GOTO GREATER GREATEREQUALS IDENTIFIER IF IN INPUT INTEGER LBRACE LBRACKET LEN LOCAL LOWER LOWEREQUALS LPAREN MINUS MINUSASSIGN MOD MODASSIGN NEQUALS NIL NOT OR PLUS PLUSASSIGN POWER POWERASSIGN PRINT RBRACE RBRACKET REPEAT RETURN RPAREN SEMICOLON STRING THEN TIMES TIMESASSIGN TRUE UNTIL WHILEstart : chunkchunk : blockblock : stat_liststat_list : stat_list stat\n| statstat : SEMICOLON\n| expressionstat : WHILE expression DO block ENDstat : REPEAT block UNTIL expressionstat : IF expression THEN block elseif_blocks else_block ENDelseif_blocks : ELSEIF expression THEN block\n| elseif_blocks ELSEIF expression THEN block\n| emptyelse_block : ELSE block\n| emptystat : FOR IDENTIFIER ASSIGN expression COMMA expression DO block ENDstat : FOR namelist IN explist DO block ENDempty :varlist : varlist COMMA var\n| varvar : IDENTIFIER\n| prefixexp LBRACKET expression RBRACKET\n| prefixexp DOT IDENTIFIERnamelist : namelist COMMA IDENTIFIER\n| IDENTIFIERexplist : explist COMMA expression\n| expressionprefixexp : var\n| functioncall\n| LPAREN expression RPARENfunctioncall : prefixexp args\n| prefixexp COLON IDENTIFIER argsargs : LPAREN RPAREN\n| LPAREN explist RPAREN\n| STRINGstatement : inputstatement : printexpression : expression PLUS term\n           | expression MINUS term\nterm       : term TIMES factor\n           | term DIVIDE factor\n           | term POWER factorexpression : termterm : factorfactor : INTEGERfactor : FLOATfactor : LPAREN expression RPARENprint : PRINT LPAREN expression RPAREN\n| PRINT LPAREN STRING RPARENinput : INPUT LPAREN RPAREN'
     
-_lr_action_items = {'INPUT':([0,],[6,]),'PRINT':([0,],[8,]),'INTEGER':([0,7,12,13,14,15,16,19,],[10,10,10,10,10,10,10,10,]),'FLOAT':([0,7,12,13,14,15,16,19,],[11,11,11,11,11,11,11,11,]),'LPAREN':([0,6,7,8,12,13,14,15,16,19,],[7,17,7,19,7,7,7,7,7,7,]),'$end':([1,2,3,4,5,9,10,11,20,21,22,23,24,25,26,29,30,],[0,-1,-2,-3,-9,-10,-11,-12,-4,-5,-6,-7,-8,-16,-13,-14,-15,]),'PLUS':([2,5,9,10,11,18,20,21,22,23,24,26,27,],[12,-9,-10,-11,-12,12,-4,-5,-6,-7,-8,-13,12,]),'MINUS':([2,5,9,10,11,18,20,21,22,23,24,26,27,],[13,-9,-10,-11,-12,13,-4,-5,-6,-7,-8,-13,13,]),'RPAREN':([5,9,10,11,17,18,20,21,22,23,24,26,27,28,],[-9,-10,-11,-12,25,26,-4,-5,-6,-7,-8,-13,29,30,]),'TIMES':([5,9,10,11,20,21,22,23,24,26,],[14,-10,-11,-12,14,14,-6,-7,-8,-13,]),'DIVIDE':([5,9,10,11,20,21,22,23,24,26,],[15,-10,-11,-12,15,15,-6,-7,-8,-13,]),'POWER':([5,9,10,11,20,21,22,23,24,26,],[16,-10,-11,-12,16,16,-6,-7,-8,-13,]),'STRING':([19,],[28,]),}
+_lr_action_items = {'SEMICOLON':([0,4,5,6,7,9,12,13,14,15,17,29,30,31,33,37,38,39,40,42,48,53,57,63,66,67,68,69,73,],[6,6,-5,-6,-7,6,-43,-44,-45,-46,-4,-38,-39,6,6,-40,-41,-42,-47,-9,-8,6,6,-10,6,6,-17,6,-16,]),'WHILE':([0,4,5,6,7,9,12,13,14,15,17,29,30,31,33,37,38,39,40,42,48,53,57,63,66,67,68,69,73,],[8,8,-5,-6,-7,8,-43,-44,-45,-46,-4,-38,-39,8,8,-40,-41,-42,-47,-9,-8,8,8,-10,8,8,-17,8,-16,]),'REPEAT':([0,4,5,6,7,9,12,13,14,15,17,29,30,31,33,37,38,39,40,42,48,53,57,63,66,67,68,69,73,],[9,9,-5,-6,-7,9,-43,-44,-45,-46,-4,-38,-39,9,9,-40,-41,-42,-47,-9,-8,9,9,-10,9,9,-17,9,-16,]),'IF':([0,4,5,6,7,9,12,13,14,15,17,29,30,31,33,37,38,39,40,42,48,53,57,63,66,67,68,69,73,],[10,10,-5,-6,-7,10,-43,-44,-45,-46,-4,-38,-39,10,10,-40,-41,-42,-47,-9,-8,10,10,-10,10,10,-17,10,-16,]),'FOR':([0,4,5,6,7,9,12,13,14,15,17,29,30,31,33,37,38,39,40,42,48,53,57,63,66,67,68,69,73,],[11,11,-5,-6,-7,11,-43,-44,-45,-46,-4,-38,-39,11,11,-40,-41,-42,-47,-9,-8,11,11,-10,11,11,-17,11,-16,]),'INTEGER':([0,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,25,26,27,29,30,31,32,33,34,35,37,38,39,40,42,48,50,52,53,54,56,57,63,66,67,68,69,73,],[14,14,-5,-6,-7,14,14,14,-43,-44,-45,-46,14,-4,14,14,14,14,14,-38,-39,14,14,14,14,14,-40,-41,-42,-47,-9,-8,14,14,14,14,14,14,-10,14,14,-17,14,-16,]),'FLOAT':([0,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,25,26,27,29,30,31,32,33,34,35,37,38,39,40,42,48,50,52,53,54,56,57,63,66,67,68,69,73,],[15,15,-5,-6,-7,15,15,15,-43,-44,-45,-46,15,-4,15,15,15,15,15,-38,-39,15,15,15,15,15,-40,-41,-42,-47,-9,-8,15,15,15,15,15,15,-10,15,15,-17,15,-16,]),'LPAREN':([0,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,25,26,27,29,30,31,32,33,34,35,37,38,39,40,42,48,50,52,53,54,56,57,63,66,67,68,69,73,],[16,16,-5,-6,-7,16,16,16,-43,-44,-45,-46,16,-4,16,16,16,16,16,-38,-39,16,16,16,16,16,-40,-41,-42,-47,-9,-8,16,16,16,16,16,16,-10,16,16,-17,16,-16,]),'$end':([1,2,3,4,5,6,7,12,13,14,15,17,29,30,37,38,39,40,42,48,63,68,73,],[0,-1,-2,-3,-5,-6,-7,-43,-44,-45,-46,-4,-38,-39,-40,-41,-42,-47,-9,-8,-10,-17,-16,]),'UNTIL':([4,5,6,7,12,13,14,15,17,21,29,30,37,38,39,40,42,48,63,68,73,],[-3,-5,-6,-7,-43,-44,-45,-46,-4,32,-38,-39,-40,-41,-42,-47,-9,-8,-10,-17,-16,]),'END':([4,5,6,7,12,13,14,15,17,29,30,37,38,39,40,41,42,43,48,49,51,55,58,61,63,65,68,70,71,72,73,],[-3,-5,-6,-7,-43,-44,-45,-46,-4,-38,-39,-40,-41,-42,-47,48,-9,-18,-8,-18,-13,63,-15,68,-10,-14,-17,-11,73,-12,-16,]),'ELSEIF':([4,5,6,7,12,13,14,15,17,29,30,37,38,39,40,42,43,48,49,51,63,68,70,72,73,],[-3,-5,-6,-7,-43,-44,-45,-46,-4,-38,-39,-40,-41,-42,-47,-9,50,-8,56,-13,-10,-17,-11,-12,-16,]),'ELSE':([4,5,6,7,12,13,14,15,17,29,30,37,38,39,40,42,43,48,49,51,63,68,70,72,73,],[-3,-5,-6,-7,-43,-44,-45,-46,-4,-38,-39,-40,-41,-42,-47,-9,-18,-8,57,-13,-10,-17,-11,-12,-16,]),'PLUS':([7,12,13,14,15,20,22,28,29,30,37,38,39,40,42,44,46,59,60,62,64,],[18,-43,-44,-45,-46,18,18,18,-38,-39,-40,-41,-42,-47,18,18,18,18,18,18,18,]),'MINUS':([7,12,13,14,15,20,22,28,29,30,37,38,39,40,42,44,46,59,60,62,64,],[19,-43,-44,-45,-46,19,19,19,-38,-39,-40,-41,-42,-47,19,19,19,19,19,19,19,]),'IDENTIFIER':([11,36,],[23,47,]),'DO':([12,13,14,15,20,29,30,37,38,39,40,45,46,60,62,],[-43,-44,-45,-46,31,-38,-39,-40,-41,-42,-47,53,-27,67,-26,]),'THEN':([12,13,14,15,22,29,30,37,38,39,40,59,64,],[-43,-44,-45,-46,33,-38,-39,-40,-41,-42,-47,66,69,]),'RPAREN':([12,13,14,15,28,29,30,37,38,39,40,],[-43,-44,-45,-46,40,-38,-39,-40,-41,-42,-47,]),'COMMA':([12,13,14,15,23,24,29,30,37,38,39,40,44,45,46,47,62,],[-43,-44,-45,-46,-25,36,-38,-39,-40,-41,-42,-47,52,54,-27,-24,-26,]),'TIMES':([12,13,14,15,29,30,37,38,39,40,],[25,-44,-45,-46,25,25,-40,-41,-42,-47,]),'DIVIDE':([12,13,14,15,29,30,37,38,39,40,],[26,-44,-45,-46,26,26,-40,-41,-42,-47,]),'POWER':([12,13,14,15,29,30,37,38,39,40,],[27,-44,-45,-46,27,27,-40,-41,-42,-47,]),'ASSIGN':([23,],[34,]),'IN':([23,24,47,],[-25,35,-24,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'start':([0,],[1,]),'expression':([0,7,19,],[2,18,27,]),'input':([0,],[3,]),'print':([0,],[4,]),'term':([0,7,12,13,19,],[5,5,20,21,5,]),'factor':([0,7,12,13,14,15,16,19,],[9,9,9,9,22,23,24,9,]),}
+_lr_goto_items = {'start':([0,],[1,]),'chunk':([0,],[2,]),'block':([0,9,31,33,53,57,66,67,69,],[3,21,41,43,61,65,70,71,72,]),'stat_list':([0,9,31,33,53,57,66,67,69,],[4,4,4,4,4,4,4,4,4,]),'stat':([0,4,9,31,33,53,57,66,67,69,],[5,17,5,5,5,5,5,5,5,5,]),'expression':([0,4,8,9,10,16,31,32,33,34,35,50,52,53,54,56,57,66,67,69,],[7,7,20,7,22,28,7,42,7,44,46,59,60,7,62,64,7,7,7,7,]),'term':([0,4,8,9,10,16,18,19,31,32,33,34,35,50,52,53,54,56,57,66,67,69,],[12,12,12,12,12,12,29,30,12,12,12,12,12,12,12,12,12,12,12,12,12,12,]),'factor':([0,4,8,9,10,16,18,19,25,26,27,31,32,33,34,35,50,52,53,54,56,57,66,67,69,],[13,13,13,13,13,13,13,13,37,38,39,13,13,13,13,13,13,13,13,13,13,13,13,13,13,]),'namelist':([11,],[24,]),'explist':([35,],[45,]),'elseif_blocks':([43,],[49,]),'empty':([43,49,],[51,58,]),'else_block':([49,],[55,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,20 +27,54 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> expression','start',1,'p_start','lua_yacc_builder.py',9),
-  ('start -> input','start',1,'p_start_input','lua_yacc_builder.py',13),
-  ('start -> print','start',1,'p_start_print','lua_yacc_builder.py',17),
-  ('expression -> expression PLUS term','expression',3,'p_binary_operators','lua_yacc_builder.py',21),
-  ('expression -> expression MINUS term','expression',3,'p_binary_operators','lua_yacc_builder.py',22),
-  ('term -> term TIMES factor','term',3,'p_binary_operators','lua_yacc_builder.py',23),
-  ('term -> term DIVIDE factor','term',3,'p_binary_operators','lua_yacc_builder.py',24),
-  ('term -> term POWER factor','term',3,'p_binary_operators','lua_yacc_builder.py',25),
-  ('expression -> term','expression',1,'p_expression_term','lua_yacc_builder.py',38),
-  ('term -> factor','term',1,'p_term_factor','lua_yacc_builder.py',42),
-  ('factor -> INTEGER','factor',1,'p_factor_num','lua_yacc_builder.py',46),
-  ('factor -> FLOAT','factor',1,'p_factor_float','lua_yacc_builder.py',50),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','lua_yacc_builder.py',54),
-  ('print -> PRINT LPAREN expression RPAREN','print',4,'p_print','lua_yacc_builder.py',58),
-  ('print -> PRINT LPAREN STRING RPAREN','print',4,'p_print','lua_yacc_builder.py',59),
-  ('input -> INPUT LPAREN RPAREN','input',3,'p_input','lua_yacc_builder.py',63),
+  ('start -> chunk','start',1,'p_start','lua_yacc_builder.py',9),
+  ('chunk -> block','chunk',1,'p_chunk','lua_yacc_builder.py',15),
+  ('block -> stat_list','block',1,'p_block','lua_yacc_builder.py',19),
+  ('stat_list -> stat_list stat','stat_list',2,'p_stat_list','lua_yacc_builder.py',23),
+  ('stat_list -> stat','stat_list',1,'p_stat_list','lua_yacc_builder.py',24),
+  ('stat -> SEMICOLON','stat',1,'p_stat','lua_yacc_builder.py',28),
+  ('stat -> expression','stat',1,'p_stat','lua_yacc_builder.py',29),
+  ('stat -> WHILE expression DO block END','stat',5,'p_stat_while','lua_yacc_builder.py',34),
+  ('stat -> REPEAT block UNTIL expression','stat',4,'p_stat_repeat','lua_yacc_builder.py',39),
+  ('stat -> IF expression THEN block elseif_blocks else_block END','stat',7,'p_stat_if','lua_yacc_builder.py',43),
+  ('elseif_blocks -> ELSEIF expression THEN block','elseif_blocks',4,'p_elseif_blocks','lua_yacc_builder.py',47),
+  ('elseif_blocks -> elseif_blocks ELSEIF expression THEN block','elseif_blocks',5,'p_elseif_blocks','lua_yacc_builder.py',48),
+  ('elseif_blocks -> empty','elseif_blocks',1,'p_elseif_blocks','lua_yacc_builder.py',49),
+  ('else_block -> ELSE block','else_block',2,'p_else_block','lua_yacc_builder.py',53),
+  ('else_block -> empty','else_block',1,'p_else_block','lua_yacc_builder.py',54),
+  ('stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END','stat',9,'p_stat_for','lua_yacc_builder.py',59),
+  ('stat -> FOR namelist IN explist DO block END','stat',7,'p_stat_for_in','lua_yacc_builder.py',63),
+  ('empty -> <empty>','empty',0,'p_empty','lua_yacc_builder.py',70),
+  ('varlist -> varlist COMMA var','varlist',3,'p_varlist','lua_yacc_builder.py',74),
+  ('varlist -> var','varlist',1,'p_varlist','lua_yacc_builder.py',75),
+  ('var -> IDENTIFIER','var',1,'p_var','lua_yacc_builder.py',79),
+  ('var -> prefixexp LBRACKET expression RBRACKET','var',4,'p_var','lua_yacc_builder.py',80),
+  ('var -> prefixexp DOT IDENTIFIER','var',3,'p_var','lua_yacc_builder.py',81),
+  ('namelist -> namelist COMMA IDENTIFIER','namelist',3,'p_namelist','lua_yacc_builder.py',85),
+  ('namelist -> IDENTIFIER','namelist',1,'p_namelist','lua_yacc_builder.py',86),
+  ('explist -> explist COMMA expression','explist',3,'p_explist','lua_yacc_builder.py',90),
+  ('explist -> expression','explist',1,'p_explist','lua_yacc_builder.py',91),
+  ('prefixexp -> var','prefixexp',1,'p_prefixexp','lua_yacc_builder.py',95),
+  ('prefixexp -> functioncall','prefixexp',1,'p_prefixexp','lua_yacc_builder.py',96),
+  ('prefixexp -> LPAREN expression RPAREN','prefixexp',3,'p_prefixexp','lua_yacc_builder.py',97),
+  ('functioncall -> prefixexp args','functioncall',2,'p_functioncall','lua_yacc_builder.py',101),
+  ('functioncall -> prefixexp COLON IDENTIFIER args','functioncall',4,'p_functioncall','lua_yacc_builder.py',102),
+  ('args -> LPAREN RPAREN','args',2,'p_args','lua_yacc_builder.py',106),
+  ('args -> LPAREN explist RPAREN','args',3,'p_args','lua_yacc_builder.py',107),
+  ('args -> STRING','args',1,'p_args','lua_yacc_builder.py',108),
+  ('statement -> input','statement',1,'p_start_input','lua_yacc_builder.py',115),
+  ('statement -> print','statement',1,'p_start_print','lua_yacc_builder.py',119),
+  ('expression -> expression PLUS term','expression',3,'p_binary_operators','lua_yacc_builder.py',123),
+  ('expression -> expression MINUS term','expression',3,'p_binary_operators','lua_yacc_builder.py',124),
+  ('term -> term TIMES factor','term',3,'p_binary_operators','lua_yacc_builder.py',125),
+  ('term -> term DIVIDE factor','term',3,'p_binary_operators','lua_yacc_builder.py',126),
+  ('term -> term POWER factor','term',3,'p_binary_operators','lua_yacc_builder.py',127),
+  ('expression -> term','expression',1,'p_expression_term','lua_yacc_builder.py',157),
+  ('term -> factor','term',1,'p_term_factor','lua_yacc_builder.py',161),
+  ('factor -> INTEGER','factor',1,'p_factor_num','lua_yacc_builder.py',165),
+  ('factor -> FLOAT','factor',1,'p_factor_float','lua_yacc_builder.py',169),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','lua_yacc_builder.py',173),
+  ('print -> PRINT LPAREN expression RPAREN','print',4,'p_print','lua_yacc_builder.py',177),
+  ('print -> PRINT LPAREN STRING RPAREN','print',4,'p_print','lua_yacc_builder.py',178),
+  ('input -> INPUT LPAREN RPAREN','input',3,'p_input','lua_yacc_builder.py',182),
 ]

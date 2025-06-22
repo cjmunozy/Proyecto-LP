@@ -35,6 +35,10 @@ def p_stat_while(p):
     pass
 
 # Diego Araujo
+def p_stat_repeat(p):
+    '''stat : REPEAT block UNTIL expression'''
+    pass
+
 def p_stat_if(p):
     '''stat : IF expression THEN block elseif_blocks else_block END'''
     pass
@@ -50,21 +54,36 @@ def p_else_block(p):
                   | empty'''
     pass
 
-
 # Cristhian Muñoz
 def p_stat_for(p):
     '''stat : FOR IDENTIFIER ASSIGN expression COMMA expression DO block END'''
     pass
 
+def p_stat_for_in(p):
+    '''stat : FOR namelist IN explist DO block END'''
+    pass
+
+# Diego Araujo
+
+
 def p_empty(p):
     'empty :'
     pass
 
-# Diego Araujo
+def p_varlist(p):
+    '''varlist : varlist COMMA var
+               | var'''
+    pass
+
 def p_var(p):
     '''var : IDENTIFIER
            | prefixexp LBRACKET expression RBRACKET
            | prefixexp DOT IDENTIFIER'''
+    pass
+
+def p_namelist(p):
+    '''namelist : namelist COMMA IDENTIFIER
+                | IDENTIFIER'''
     pass
 
 def p_explist(p):
