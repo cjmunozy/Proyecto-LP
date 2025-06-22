@@ -3,7 +3,6 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     AND
-    BREAK
     CONCAT
     DIVIDEASSIGN
     DOUBLECOLON
@@ -41,88 +40,96 @@ Rule 3     block -> stat_list
 Rule 4     stat_list -> stat_list stat
 Rule 5     stat_list -> stat
 Rule 6     stat -> SEMICOLON
-Rule 7     stat -> expression
-Rule 8     stat -> WHILE expression DO block END
-Rule 9     stat -> REPEAT block UNTIL expression
-Rule 10    stat -> IF expression THEN block elseif_blocks else_block END
-Rule 11    elseif_blocks -> ELSEIF expression THEN block
-Rule 12    elseif_blocks -> elseif_blocks ELSEIF expression THEN block
-Rule 13    elseif_blocks -> empty
-Rule 14    else_block -> ELSE block
-Rule 15    else_block -> empty
-Rule 16    stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-Rule 17    stat -> FOR namelist IN explist DO block END
-Rule 18    empty -> <empty>
-Rule 19    varlist -> varlist COMMA var
-Rule 20    varlist -> var
-Rule 21    var -> IDENTIFIER
-Rule 22    var -> prefixexp LBRACKET expression RBRACKET
-Rule 23    var -> prefixexp DOT IDENTIFIER
-Rule 24    namelist -> namelist COMMA IDENTIFIER
-Rule 25    namelist -> IDENTIFIER
-Rule 26    explist -> explist COMMA expression
-Rule 27    explist -> expression
-Rule 28    prefixexp -> var
-Rule 29    prefixexp -> functioncall
-Rule 30    prefixexp -> LPAREN expression RPAREN
-Rule 31    functioncall -> prefixexp args
-Rule 32    functioncall -> prefixexp COLON IDENTIFIER args
-Rule 33    args -> LPAREN RPAREN
-Rule 34    args -> LPAREN explist RPAREN
-Rule 35    args -> STRING
-Rule 36    statement -> input
-Rule 37    statement -> print
-Rule 38    expression -> expression PLUS term
-Rule 39    expression -> expression MINUS term
-Rule 40    term -> term TIMES factor
-Rule 41    term -> term DIVIDE factor
-Rule 42    term -> term POWER factor
-Rule 43    expression -> term
-Rule 44    term -> factor
-Rule 45    factor -> INTEGER
-Rule 46    factor -> FLOAT
-Rule 47    factor -> LPAREN expression RPAREN
-Rule 48    print -> PRINT LPAREN expression RPAREN
-Rule 49    print -> PRINT LPAREN STRING RPAREN
-Rule 50    input -> INPUT LPAREN RPAREN
+Rule 7     stat -> functioncall
+Rule 8     stat -> BREAK
+Rule 9     stat -> expression
+Rule 10    stat -> DO block END
+Rule 11    stat -> WHILE expression DO block END
+Rule 12    stat -> REPEAT block UNTIL expression
+Rule 13    stat -> IF expression THEN block elseif_blocks else_block END
+Rule 14    elseif_blocks -> ELSEIF expression THEN block
+Rule 15    elseif_blocks -> elseif_blocks ELSEIF expression THEN block
+Rule 16    elseif_blocks -> empty
+Rule 17    else_block -> ELSE block
+Rule 18    else_block -> empty
+Rule 19    stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+Rule 20    stat -> FOR namelist IN explist DO block END
+Rule 21    empty -> <empty>
+Rule 22    funcname -> IDENTIFIER funcname_tail method_opt
+Rule 23    funcname_tail -> funcname_tail DOT IDENTIFIER
+Rule 24    funcname_tail -> empty
+Rule 25    method_opt -> COLON IDENTIFIER
+Rule 26    method_opt -> empty
+Rule 27    varlist -> varlist COMMA var
+Rule 28    varlist -> empty
+Rule 29    var -> IDENTIFIER
+Rule 30    var -> prefixexp LBRACKET expression RBRACKET
+Rule 31    var -> prefixexp DOT IDENTIFIER
+Rule 32    namelist -> namelist COMMA IDENTIFIER
+Rule 33    namelist -> IDENTIFIER
+Rule 34    explist -> explist COMMA expression
+Rule 35    explist -> expression
+Rule 36    prefixexp -> var
+Rule 37    prefixexp -> functioncall
+Rule 38    prefixexp -> LPAREN expression RPAREN
+Rule 39    functioncall -> prefixexp args
+Rule 40    functioncall -> prefixexp COLON IDENTIFIER args
+Rule 41    args -> LPAREN RPAREN
+Rule 42    args -> LPAREN explist RPAREN
+Rule 43    args -> STRING
+Rule 44    statement -> input
+Rule 45    statement -> print
+Rule 46    expression -> expression PLUS term
+Rule 47    expression -> expression MINUS term
+Rule 48    term -> term TIMES factor
+Rule 49    term -> term DIVIDE factor
+Rule 50    term -> term POWER factor
+Rule 51    expression -> term
+Rule 52    term -> factor
+Rule 53    factor -> INTEGER
+Rule 54    factor -> FLOAT
+Rule 55    factor -> LPAREN expression RPAREN
+Rule 56    print -> PRINT LPAREN expression RPAREN
+Rule 57    print -> PRINT LPAREN STRING RPAREN
+Rule 58    input -> INPUT LPAREN RPAREN
 
 Terminals, with rules where they appear
 
 AND                  : 
-ASSIGN               : 16
-BREAK                : 
-COLON                : 32
-COMMA                : 16 19 24 26
+ASSIGN               : 19
+BREAK                : 8
+COLON                : 25 40
+COMMA                : 19 27 32 34
 CONCAT               : 
-DIVIDE               : 41
+DIVIDE               : 49
 DIVIDEASSIGN         : 
-DO                   : 8 16 17
-DOT                  : 23
+DO                   : 10 11 19 20
+DOT                  : 23 31
 DOUBLECOLON          : 
-ELSE                 : 14
-ELSEIF               : 11 12
-END                  : 8 10 16 17
+ELSE                 : 17
+ELSEIF               : 14 15
+END                  : 10 11 13 19 20
 EQUALS               : 
 FALSE                : 
-FLOAT                : 46
-FOR                  : 16 17
+FLOAT                : 54
+FOR                  : 19 20
 FUNCTION             : 
 GOTO                 : 
 GREATER              : 
 GREATEREQUALS        : 
-IDENTIFIER           : 16 21 23 24 25 32
-IF                   : 10
-IN                   : 17
-INPUT                : 50
-INTEGER              : 45
+IDENTIFIER           : 19 22 23 25 29 31 32 33 40
+IF                   : 13
+IN                   : 20
+INPUT                : 58
+INTEGER              : 53
 LBRACE               : 
-LBRACKET             : 22
+LBRACKET             : 30
 LEN                  : 
 LOCAL                : 
 LOWER                : 
 LOWEREQUALS          : 
-LPAREN               : 30 33 34 47 48 49 50
-MINUS                : 39
+LPAREN               : 38 41 42 55 56 57 58
+MINUS                : 47
 MINUSASSIGN          : 
 MOD                  : 
 MODASSIGN            : 
@@ -130,49 +137,52 @@ NEQUALS              :
 NIL                  : 
 NOT                  : 
 OR                   : 
-PLUS                 : 38
+PLUS                 : 46
 PLUSASSIGN           : 
-POWER                : 42
+POWER                : 50
 POWERASSIGN          : 
-PRINT                : 48 49
+PRINT                : 56 57
 RBRACE               : 
-RBRACKET             : 22
-REPEAT               : 9
+RBRACKET             : 30
+REPEAT               : 12
 RETURN               : 
-RPAREN               : 30 33 34 47 48 49 50
+RPAREN               : 38 41 42 55 56 57 58
 SEMICOLON            : 6
-STRING               : 35 49
-THEN                 : 10 11 12
-TIMES                : 40
+STRING               : 43 57
+THEN                 : 13 14 15
+TIMES                : 48
 TIMESASSIGN          : 
 TRUE                 : 
-UNTIL                : 9
-WHILE                : 8
+UNTIL                : 12
+WHILE                : 11
 error                : 
 
 Nonterminals, with rules where they appear
 
-args                 : 31 32
-block                : 2 8 9 10 11 12 14 16 17
+args                 : 39 40
+block                : 2 10 11 12 13 14 15 17 19 20
 chunk                : 1
-else_block           : 10
-elseif_blocks        : 10 12
-empty                : 13 15
-explist              : 17 26 34
-expression           : 7 8 9 10 11 12 16 16 22 26 27 30 38 39 47 48
-factor               : 40 41 42 44
-functioncall         : 29
-input                : 36
-namelist             : 17 24
-prefixexp            : 22 23 31 32
-print                : 37
+else_block           : 13
+elseif_blocks        : 13 15
+empty                : 16 18 24 26 28
+explist              : 20 34 42
+expression           : 9 11 12 13 14 15 19 19 30 34 35 38 46 47 55 56
+factor               : 48 49 50 52
+funcname             : 
+funcname_tail        : 22 23
+functioncall         : 7 37
+input                : 44
+method_opt           : 22
+namelist             : 20 32
+prefixexp            : 30 31 39 40
+print                : 45
 start                : 0
 stat                 : 4 5
 stat_list            : 3 4
 statement            : 
-term                 : 38 39 40 41 42 43
-var                  : 19 20 28
-varlist              : 19
+term                 : 46 47 48 49 50 51
+var                  : 27 36
+varlist              : 27
 
 Parsing method: LALR
 
@@ -185,40 +195,57 @@ state 0
     (4) stat_list -> . stat_list stat
     (5) stat_list -> . stat
     (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
     SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
     start                          shift and go to state 1
     chunk                          shift and go to state 2
     block                          shift and go to state 3
     stat_list                      shift and go to state 4
     stat                           shift and go to state 5
-    expression                     shift and go to state 7
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    functioncall                   shift and go to state 7
+    expression                     shift and go to state 9
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
 
 state 1
 
@@ -245,57 +272,77 @@ state 4
     (3) block -> stat_list .
     (4) stat_list -> stat_list . stat
     (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
     $end            reduce using rule 3 (block -> stat_list .)
-    UNTIL           reduce using rule 3 (block -> stat_list .)
     END             reduce using rule 3 (block -> stat_list .)
+    UNTIL           reduce using rule 3 (block -> stat_list .)
     ELSEIF          reduce using rule 3 (block -> stat_list .)
     ELSE            reduce using rule 3 (block -> stat_list .)
     SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
-    stat                           shift and go to state 17
-    expression                     shift and go to state 7
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    stat                           shift and go to state 23
+    functioncall                   shift and go to state 7
+    expression                     shift and go to state 9
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
 
 state 5
 
     (5) stat_list -> stat .
 
     SEMICOLON       reduce using rule 5 (stat_list -> stat .)
+    BREAK           reduce using rule 5 (stat_list -> stat .)
+    DO              reduce using rule 5 (stat_list -> stat .)
     WHILE           reduce using rule 5 (stat_list -> stat .)
     REPEAT          reduce using rule 5 (stat_list -> stat .)
     IF              reduce using rule 5 (stat_list -> stat .)
     FOR             reduce using rule 5 (stat_list -> stat .)
+    LPAREN          reduce using rule 5 (stat_list -> stat .)
+    IDENTIFIER      reduce using rule 5 (stat_list -> stat .)
     INTEGER         reduce using rule 5 (stat_list -> stat .)
     FLOAT           reduce using rule 5 (stat_list -> stat .)
-    LPAREN          reduce using rule 5 (stat_list -> stat .)
     $end            reduce using rule 5 (stat_list -> stat .)
-    UNTIL           reduce using rule 5 (stat_list -> stat .)
     END             reduce using rule 5 (stat_list -> stat .)
+    UNTIL           reduce using rule 5 (stat_list -> stat .)
     ELSEIF          reduce using rule 5 (stat_list -> stat .)
     ELSE            reduce using rule 5 (stat_list -> stat .)
 
@@ -305,1332 +352,2023 @@ state 6
     (6) stat -> SEMICOLON .
 
     SEMICOLON       reduce using rule 6 (stat -> SEMICOLON .)
+    BREAK           reduce using rule 6 (stat -> SEMICOLON .)
+    DO              reduce using rule 6 (stat -> SEMICOLON .)
     WHILE           reduce using rule 6 (stat -> SEMICOLON .)
     REPEAT          reduce using rule 6 (stat -> SEMICOLON .)
     IF              reduce using rule 6 (stat -> SEMICOLON .)
     FOR             reduce using rule 6 (stat -> SEMICOLON .)
+    LPAREN          reduce using rule 6 (stat -> SEMICOLON .)
+    IDENTIFIER      reduce using rule 6 (stat -> SEMICOLON .)
     INTEGER         reduce using rule 6 (stat -> SEMICOLON .)
     FLOAT           reduce using rule 6 (stat -> SEMICOLON .)
-    LPAREN          reduce using rule 6 (stat -> SEMICOLON .)
     $end            reduce using rule 6 (stat -> SEMICOLON .)
-    UNTIL           reduce using rule 6 (stat -> SEMICOLON .)
     END             reduce using rule 6 (stat -> SEMICOLON .)
+    UNTIL           reduce using rule 6 (stat -> SEMICOLON .)
     ELSEIF          reduce using rule 6 (stat -> SEMICOLON .)
     ELSE            reduce using rule 6 (stat -> SEMICOLON .)
 
 
 state 7
 
-    (7) stat -> expression .
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (7) stat -> functioncall .
+    (37) prefixexp -> functioncall .
 
-    SEMICOLON       reduce using rule 7 (stat -> expression .)
-    WHILE           reduce using rule 7 (stat -> expression .)
-    REPEAT          reduce using rule 7 (stat -> expression .)
-    IF              reduce using rule 7 (stat -> expression .)
-    FOR             reduce using rule 7 (stat -> expression .)
-    INTEGER         reduce using rule 7 (stat -> expression .)
-    FLOAT           reduce using rule 7 (stat -> expression .)
-    LPAREN          reduce using rule 7 (stat -> expression .)
-    $end            reduce using rule 7 (stat -> expression .)
-    UNTIL           reduce using rule 7 (stat -> expression .)
-    END             reduce using rule 7 (stat -> expression .)
-    ELSEIF          reduce using rule 7 (stat -> expression .)
-    ELSE            reduce using rule 7 (stat -> expression .)
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+  ! reduce/reduce conflict for LPAREN resolved using rule 7 (stat -> functioncall .)
+    SEMICOLON       reduce using rule 7 (stat -> functioncall .)
+    BREAK           reduce using rule 7 (stat -> functioncall .)
+    DO              reduce using rule 7 (stat -> functioncall .)
+    WHILE           reduce using rule 7 (stat -> functioncall .)
+    REPEAT          reduce using rule 7 (stat -> functioncall .)
+    IF              reduce using rule 7 (stat -> functioncall .)
+    FOR             reduce using rule 7 (stat -> functioncall .)
+    LPAREN          reduce using rule 7 (stat -> functioncall .)
+    IDENTIFIER      reduce using rule 7 (stat -> functioncall .)
+    INTEGER         reduce using rule 7 (stat -> functioncall .)
+    FLOAT           reduce using rule 7 (stat -> functioncall .)
+    $end            reduce using rule 7 (stat -> functioncall .)
+    END             reduce using rule 7 (stat -> functioncall .)
+    UNTIL           reduce using rule 7 (stat -> functioncall .)
+    ELSEIF          reduce using rule 7 (stat -> functioncall .)
+    ELSE            reduce using rule 7 (stat -> functioncall .)
+    COLON           reduce using rule 37 (prefixexp -> functioncall .)
+    LBRACKET        reduce using rule 37 (prefixexp -> functioncall .)
+    DOT             reduce using rule 37 (prefixexp -> functioncall .)
+    STRING          reduce using rule 37 (prefixexp -> functioncall .)
+
+  ! LPAREN          [ reduce using rule 37 (prefixexp -> functioncall .) ]
 
 
 state 8
 
-    (8) stat -> WHILE . expression DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (8) stat -> BREAK .
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    SEMICOLON       reduce using rule 8 (stat -> BREAK .)
+    BREAK           reduce using rule 8 (stat -> BREAK .)
+    DO              reduce using rule 8 (stat -> BREAK .)
+    WHILE           reduce using rule 8 (stat -> BREAK .)
+    REPEAT          reduce using rule 8 (stat -> BREAK .)
+    IF              reduce using rule 8 (stat -> BREAK .)
+    FOR             reduce using rule 8 (stat -> BREAK .)
+    LPAREN          reduce using rule 8 (stat -> BREAK .)
+    IDENTIFIER      reduce using rule 8 (stat -> BREAK .)
+    INTEGER         reduce using rule 8 (stat -> BREAK .)
+    FLOAT           reduce using rule 8 (stat -> BREAK .)
+    $end            reduce using rule 8 (stat -> BREAK .)
+    END             reduce using rule 8 (stat -> BREAK .)
+    UNTIL           reduce using rule 8 (stat -> BREAK .)
+    ELSEIF          reduce using rule 8 (stat -> BREAK .)
+    ELSE            reduce using rule 8 (stat -> BREAK .)
 
-    expression                     shift and go to state 20
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 9
 
-    (9) stat -> REPEAT . block UNTIL expression
+    (9) stat -> expression .
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
+
+    SEMICOLON       reduce using rule 9 (stat -> expression .)
+    BREAK           reduce using rule 9 (stat -> expression .)
+    DO              reduce using rule 9 (stat -> expression .)
+    WHILE           reduce using rule 9 (stat -> expression .)
+    REPEAT          reduce using rule 9 (stat -> expression .)
+    IF              reduce using rule 9 (stat -> expression .)
+    FOR             reduce using rule 9 (stat -> expression .)
+    LPAREN          reduce using rule 9 (stat -> expression .)
+    IDENTIFIER      reduce using rule 9 (stat -> expression .)
+    INTEGER         reduce using rule 9 (stat -> expression .)
+    FLOAT           reduce using rule 9 (stat -> expression .)
+    $end            reduce using rule 9 (stat -> expression .)
+    END             reduce using rule 9 (stat -> expression .)
+    UNTIL           reduce using rule 9 (stat -> expression .)
+    ELSEIF          reduce using rule 9 (stat -> expression .)
+    ELSE            reduce using rule 9 (stat -> expression .)
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+
+
+state 10
+
+    (10) stat -> DO . block END
     (3) block -> . stat_list
     (4) stat_list -> . stat_list stat
     (5) stat_list -> . stat
     (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
     SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
-    block                          shift and go to state 21
-    expression                     shift and go to state 7
+    block                          shift and go to state 26
     stat_list                      shift and go to state 4
     stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
-
-state 10
-
-    (10) stat -> IF . expression THEN block elseif_blocks else_block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
-
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
-
-    expression                     shift and go to state 22
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    functioncall                   shift and go to state 7
+    expression                     shift and go to state 9
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
 
 state 11
 
-    (16) stat -> FOR . IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> FOR . namelist IN explist DO block END
-    (24) namelist -> . namelist COMMA IDENTIFIER
-    (25) namelist -> . IDENTIFIER
+    (11) stat -> WHILE . expression DO block END
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    IDENTIFIER      shift and go to state 23
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
-    namelist                       shift and go to state 24
+    expression                     shift and go to state 27
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 12
 
-    (43) expression -> term .
-    (40) term -> term . TIMES factor
-    (41) term -> term . DIVIDE factor
-    (42) term -> term . POWER factor
+    (12) stat -> REPEAT . block UNTIL expression
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    PLUS            reduce using rule 43 (expression -> term .)
-    MINUS           reduce using rule 43 (expression -> term .)
-    SEMICOLON       reduce using rule 43 (expression -> term .)
-    WHILE           reduce using rule 43 (expression -> term .)
-    REPEAT          reduce using rule 43 (expression -> term .)
-    IF              reduce using rule 43 (expression -> term .)
-    FOR             reduce using rule 43 (expression -> term .)
-    INTEGER         reduce using rule 43 (expression -> term .)
-    FLOAT           reduce using rule 43 (expression -> term .)
-    LPAREN          reduce using rule 43 (expression -> term .)
-    $end            reduce using rule 43 (expression -> term .)
-    UNTIL           reduce using rule 43 (expression -> term .)
-    END             reduce using rule 43 (expression -> term .)
-    ELSEIF          reduce using rule 43 (expression -> term .)
-    ELSE            reduce using rule 43 (expression -> term .)
-    DO              reduce using rule 43 (expression -> term .)
-    THEN            reduce using rule 43 (expression -> term .)
-    RPAREN          reduce using rule 43 (expression -> term .)
-    COMMA           reduce using rule 43 (expression -> term .)
-    TIMES           shift and go to state 25
-    DIVIDE          shift and go to state 26
-    POWER           shift and go to state 27
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
+    block                          shift and go to state 29
+    expression                     shift and go to state 9
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
 
 state 13
 
-    (44) term -> factor .
+    (13) stat -> IF . expression THEN block elseif_blocks else_block END
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 44 (term -> factor .)
-    DIVIDE          reduce using rule 44 (term -> factor .)
-    POWER           reduce using rule 44 (term -> factor .)
-    PLUS            reduce using rule 44 (term -> factor .)
-    MINUS           reduce using rule 44 (term -> factor .)
-    SEMICOLON       reduce using rule 44 (term -> factor .)
-    WHILE           reduce using rule 44 (term -> factor .)
-    REPEAT          reduce using rule 44 (term -> factor .)
-    IF              reduce using rule 44 (term -> factor .)
-    FOR             reduce using rule 44 (term -> factor .)
-    INTEGER         reduce using rule 44 (term -> factor .)
-    FLOAT           reduce using rule 44 (term -> factor .)
-    LPAREN          reduce using rule 44 (term -> factor .)
-    $end            reduce using rule 44 (term -> factor .)
-    UNTIL           reduce using rule 44 (term -> factor .)
-    END             reduce using rule 44 (term -> factor .)
-    ELSEIF          reduce using rule 44 (term -> factor .)
-    ELSE            reduce using rule 44 (term -> factor .)
-    DO              reduce using rule 44 (term -> factor .)
-    THEN            reduce using rule 44 (term -> factor .)
-    RPAREN          reduce using rule 44 (term -> factor .)
-    COMMA           reduce using rule 44 (term -> factor .)
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    expression                     shift and go to state 30
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 14
 
-    (45) factor -> INTEGER .
+    (19) stat -> FOR . IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> FOR . namelist IN explist DO block END
+    (32) namelist -> . namelist COMMA IDENTIFIER
+    (33) namelist -> . IDENTIFIER
 
-    TIMES           reduce using rule 45 (factor -> INTEGER .)
-    DIVIDE          reduce using rule 45 (factor -> INTEGER .)
-    POWER           reduce using rule 45 (factor -> INTEGER .)
-    PLUS            reduce using rule 45 (factor -> INTEGER .)
-    MINUS           reduce using rule 45 (factor -> INTEGER .)
-    SEMICOLON       reduce using rule 45 (factor -> INTEGER .)
-    WHILE           reduce using rule 45 (factor -> INTEGER .)
-    REPEAT          reduce using rule 45 (factor -> INTEGER .)
-    IF              reduce using rule 45 (factor -> INTEGER .)
-    FOR             reduce using rule 45 (factor -> INTEGER .)
-    INTEGER         reduce using rule 45 (factor -> INTEGER .)
-    FLOAT           reduce using rule 45 (factor -> INTEGER .)
-    LPAREN          reduce using rule 45 (factor -> INTEGER .)
-    $end            reduce using rule 45 (factor -> INTEGER .)
-    UNTIL           reduce using rule 45 (factor -> INTEGER .)
-    END             reduce using rule 45 (factor -> INTEGER .)
-    ELSEIF          reduce using rule 45 (factor -> INTEGER .)
-    ELSE            reduce using rule 45 (factor -> INTEGER .)
-    DO              reduce using rule 45 (factor -> INTEGER .)
-    THEN            reduce using rule 45 (factor -> INTEGER .)
-    RPAREN          reduce using rule 45 (factor -> INTEGER .)
-    COMMA           reduce using rule 45 (factor -> INTEGER .)
+    IDENTIFIER      shift and go to state 31
 
+    namelist                       shift and go to state 32
 
 state 15
 
-    (46) factor -> FLOAT .
+    (29) var -> IDENTIFIER .
 
-    TIMES           reduce using rule 46 (factor -> FLOAT .)
-    DIVIDE          reduce using rule 46 (factor -> FLOAT .)
-    POWER           reduce using rule 46 (factor -> FLOAT .)
-    PLUS            reduce using rule 46 (factor -> FLOAT .)
-    MINUS           reduce using rule 46 (factor -> FLOAT .)
-    SEMICOLON       reduce using rule 46 (factor -> FLOAT .)
-    WHILE           reduce using rule 46 (factor -> FLOAT .)
-    REPEAT          reduce using rule 46 (factor -> FLOAT .)
-    IF              reduce using rule 46 (factor -> FLOAT .)
-    FOR             reduce using rule 46 (factor -> FLOAT .)
-    INTEGER         reduce using rule 46 (factor -> FLOAT .)
-    FLOAT           reduce using rule 46 (factor -> FLOAT .)
-    LPAREN          reduce using rule 46 (factor -> FLOAT .)
-    $end            reduce using rule 46 (factor -> FLOAT .)
-    UNTIL           reduce using rule 46 (factor -> FLOAT .)
-    END             reduce using rule 46 (factor -> FLOAT .)
-    ELSEIF          reduce using rule 46 (factor -> FLOAT .)
-    ELSE            reduce using rule 46 (factor -> FLOAT .)
-    DO              reduce using rule 46 (factor -> FLOAT .)
-    THEN            reduce using rule 46 (factor -> FLOAT .)
-    RPAREN          reduce using rule 46 (factor -> FLOAT .)
-    COMMA           reduce using rule 46 (factor -> FLOAT .)
+    COLON           reduce using rule 29 (var -> IDENTIFIER .)
+    LBRACKET        reduce using rule 29 (var -> IDENTIFIER .)
+    DOT             reduce using rule 29 (var -> IDENTIFIER .)
+    LPAREN          reduce using rule 29 (var -> IDENTIFIER .)
+    STRING          reduce using rule 29 (var -> IDENTIFIER .)
 
 
 state 16
 
-    (47) factor -> LPAREN . expression RPAREN
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (39) functioncall -> prefixexp . args
+    (40) functioncall -> prefixexp . COLON IDENTIFIER args
+    (30) var -> prefixexp . LBRACKET expression RBRACKET
+    (31) var -> prefixexp . DOT IDENTIFIER
+    (41) args -> . LPAREN RPAREN
+    (42) args -> . LPAREN explist RPAREN
+    (43) args -> . STRING
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    COLON           shift and go to state 34
+    LBRACKET        shift and go to state 35
+    DOT             shift and go to state 36
+    LPAREN          shift and go to state 37
+    STRING          shift and go to state 38
 
-    expression                     shift and go to state 28
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    args                           shift and go to state 33
 
 state 17
 
-    (4) stat_list -> stat_list stat .
+    (51) expression -> term .
+    (48) term -> term . TIMES factor
+    (49) term -> term . DIVIDE factor
+    (50) term -> term . POWER factor
 
-    SEMICOLON       reduce using rule 4 (stat_list -> stat_list stat .)
-    WHILE           reduce using rule 4 (stat_list -> stat_list stat .)
-    REPEAT          reduce using rule 4 (stat_list -> stat_list stat .)
-    IF              reduce using rule 4 (stat_list -> stat_list stat .)
-    FOR             reduce using rule 4 (stat_list -> stat_list stat .)
-    INTEGER         reduce using rule 4 (stat_list -> stat_list stat .)
-    FLOAT           reduce using rule 4 (stat_list -> stat_list stat .)
-    LPAREN          reduce using rule 4 (stat_list -> stat_list stat .)
-    $end            reduce using rule 4 (stat_list -> stat_list stat .)
-    UNTIL           reduce using rule 4 (stat_list -> stat_list stat .)
-    END             reduce using rule 4 (stat_list -> stat_list stat .)
-    ELSEIF          reduce using rule 4 (stat_list -> stat_list stat .)
-    ELSE            reduce using rule 4 (stat_list -> stat_list stat .)
+    PLUS            reduce using rule 51 (expression -> term .)
+    MINUS           reduce using rule 51 (expression -> term .)
+    SEMICOLON       reduce using rule 51 (expression -> term .)
+    BREAK           reduce using rule 51 (expression -> term .)
+    DO              reduce using rule 51 (expression -> term .)
+    WHILE           reduce using rule 51 (expression -> term .)
+    REPEAT          reduce using rule 51 (expression -> term .)
+    IF              reduce using rule 51 (expression -> term .)
+    FOR             reduce using rule 51 (expression -> term .)
+    LPAREN          reduce using rule 51 (expression -> term .)
+    IDENTIFIER      reduce using rule 51 (expression -> term .)
+    INTEGER         reduce using rule 51 (expression -> term .)
+    FLOAT           reduce using rule 51 (expression -> term .)
+    $end            reduce using rule 51 (expression -> term .)
+    END             reduce using rule 51 (expression -> term .)
+    UNTIL           reduce using rule 51 (expression -> term .)
+    ELSEIF          reduce using rule 51 (expression -> term .)
+    ELSE            reduce using rule 51 (expression -> term .)
+    THEN            reduce using rule 51 (expression -> term .)
+    RPAREN          reduce using rule 51 (expression -> term .)
+    RBRACKET        reduce using rule 51 (expression -> term .)
+    COMMA           reduce using rule 51 (expression -> term .)
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
 
 
 state 18
 
-    (38) expression -> expression PLUS . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (36) prefixexp -> var .
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    COLON           reduce using rule 36 (prefixexp -> var .)
+    LBRACKET        reduce using rule 36 (prefixexp -> var .)
+    DOT             reduce using rule 36 (prefixexp -> var .)
+    LPAREN          reduce using rule 36 (prefixexp -> var .)
+    STRING          reduce using rule 36 (prefixexp -> var .)
 
-    term                           shift and go to state 29
-    factor                         shift and go to state 13
 
 state 19
 
-    (39) expression -> expression MINUS . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (38) prefixexp -> LPAREN . expression RPAREN
+    (55) factor -> LPAREN . expression RPAREN
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
-    term                           shift and go to state 30
-    factor                         shift and go to state 13
+    expression                     shift and go to state 42
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 20
 
-    (8) stat -> WHILE expression . DO block END
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (52) term -> factor .
 
-    DO              shift and go to state 31
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    TIMES           reduce using rule 52 (term -> factor .)
+    DIVIDE          reduce using rule 52 (term -> factor .)
+    POWER           reduce using rule 52 (term -> factor .)
+    PLUS            reduce using rule 52 (term -> factor .)
+    MINUS           reduce using rule 52 (term -> factor .)
+    SEMICOLON       reduce using rule 52 (term -> factor .)
+    BREAK           reduce using rule 52 (term -> factor .)
+    DO              reduce using rule 52 (term -> factor .)
+    WHILE           reduce using rule 52 (term -> factor .)
+    REPEAT          reduce using rule 52 (term -> factor .)
+    IF              reduce using rule 52 (term -> factor .)
+    FOR             reduce using rule 52 (term -> factor .)
+    LPAREN          reduce using rule 52 (term -> factor .)
+    IDENTIFIER      reduce using rule 52 (term -> factor .)
+    INTEGER         reduce using rule 52 (term -> factor .)
+    FLOAT           reduce using rule 52 (term -> factor .)
+    $end            reduce using rule 52 (term -> factor .)
+    END             reduce using rule 52 (term -> factor .)
+    UNTIL           reduce using rule 52 (term -> factor .)
+    ELSEIF          reduce using rule 52 (term -> factor .)
+    ELSE            reduce using rule 52 (term -> factor .)
+    THEN            reduce using rule 52 (term -> factor .)
+    RPAREN          reduce using rule 52 (term -> factor .)
+    RBRACKET        reduce using rule 52 (term -> factor .)
+    COMMA           reduce using rule 52 (term -> factor .)
 
 
 state 21
 
-    (9) stat -> REPEAT block . UNTIL expression
+    (53) factor -> INTEGER .
 
-    UNTIL           shift and go to state 32
+    TIMES           reduce using rule 53 (factor -> INTEGER .)
+    DIVIDE          reduce using rule 53 (factor -> INTEGER .)
+    POWER           reduce using rule 53 (factor -> INTEGER .)
+    PLUS            reduce using rule 53 (factor -> INTEGER .)
+    MINUS           reduce using rule 53 (factor -> INTEGER .)
+    SEMICOLON       reduce using rule 53 (factor -> INTEGER .)
+    BREAK           reduce using rule 53 (factor -> INTEGER .)
+    DO              reduce using rule 53 (factor -> INTEGER .)
+    WHILE           reduce using rule 53 (factor -> INTEGER .)
+    REPEAT          reduce using rule 53 (factor -> INTEGER .)
+    IF              reduce using rule 53 (factor -> INTEGER .)
+    FOR             reduce using rule 53 (factor -> INTEGER .)
+    LPAREN          reduce using rule 53 (factor -> INTEGER .)
+    IDENTIFIER      reduce using rule 53 (factor -> INTEGER .)
+    INTEGER         reduce using rule 53 (factor -> INTEGER .)
+    FLOAT           reduce using rule 53 (factor -> INTEGER .)
+    $end            reduce using rule 53 (factor -> INTEGER .)
+    END             reduce using rule 53 (factor -> INTEGER .)
+    UNTIL           reduce using rule 53 (factor -> INTEGER .)
+    ELSEIF          reduce using rule 53 (factor -> INTEGER .)
+    ELSE            reduce using rule 53 (factor -> INTEGER .)
+    THEN            reduce using rule 53 (factor -> INTEGER .)
+    RPAREN          reduce using rule 53 (factor -> INTEGER .)
+    RBRACKET        reduce using rule 53 (factor -> INTEGER .)
+    COMMA           reduce using rule 53 (factor -> INTEGER .)
 
 
 state 22
 
-    (10) stat -> IF expression . THEN block elseif_blocks else_block END
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (54) factor -> FLOAT .
 
-    THEN            shift and go to state 33
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    TIMES           reduce using rule 54 (factor -> FLOAT .)
+    DIVIDE          reduce using rule 54 (factor -> FLOAT .)
+    POWER           reduce using rule 54 (factor -> FLOAT .)
+    PLUS            reduce using rule 54 (factor -> FLOAT .)
+    MINUS           reduce using rule 54 (factor -> FLOAT .)
+    SEMICOLON       reduce using rule 54 (factor -> FLOAT .)
+    BREAK           reduce using rule 54 (factor -> FLOAT .)
+    DO              reduce using rule 54 (factor -> FLOAT .)
+    WHILE           reduce using rule 54 (factor -> FLOAT .)
+    REPEAT          reduce using rule 54 (factor -> FLOAT .)
+    IF              reduce using rule 54 (factor -> FLOAT .)
+    FOR             reduce using rule 54 (factor -> FLOAT .)
+    LPAREN          reduce using rule 54 (factor -> FLOAT .)
+    IDENTIFIER      reduce using rule 54 (factor -> FLOAT .)
+    INTEGER         reduce using rule 54 (factor -> FLOAT .)
+    FLOAT           reduce using rule 54 (factor -> FLOAT .)
+    $end            reduce using rule 54 (factor -> FLOAT .)
+    END             reduce using rule 54 (factor -> FLOAT .)
+    UNTIL           reduce using rule 54 (factor -> FLOAT .)
+    ELSEIF          reduce using rule 54 (factor -> FLOAT .)
+    ELSE            reduce using rule 54 (factor -> FLOAT .)
+    THEN            reduce using rule 54 (factor -> FLOAT .)
+    RPAREN          reduce using rule 54 (factor -> FLOAT .)
+    RBRACKET        reduce using rule 54 (factor -> FLOAT .)
+    COMMA           reduce using rule 54 (factor -> FLOAT .)
 
 
 state 23
 
-    (16) stat -> FOR IDENTIFIER . ASSIGN expression COMMA expression DO block END
-    (25) namelist -> IDENTIFIER .
+    (4) stat_list -> stat_list stat .
 
-    ASSIGN          shift and go to state 34
-    IN              reduce using rule 25 (namelist -> IDENTIFIER .)
-    COMMA           reduce using rule 25 (namelist -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 4 (stat_list -> stat_list stat .)
+    BREAK           reduce using rule 4 (stat_list -> stat_list stat .)
+    DO              reduce using rule 4 (stat_list -> stat_list stat .)
+    WHILE           reduce using rule 4 (stat_list -> stat_list stat .)
+    REPEAT          reduce using rule 4 (stat_list -> stat_list stat .)
+    IF              reduce using rule 4 (stat_list -> stat_list stat .)
+    FOR             reduce using rule 4 (stat_list -> stat_list stat .)
+    LPAREN          reduce using rule 4 (stat_list -> stat_list stat .)
+    IDENTIFIER      reduce using rule 4 (stat_list -> stat_list stat .)
+    INTEGER         reduce using rule 4 (stat_list -> stat_list stat .)
+    FLOAT           reduce using rule 4 (stat_list -> stat_list stat .)
+    $end            reduce using rule 4 (stat_list -> stat_list stat .)
+    END             reduce using rule 4 (stat_list -> stat_list stat .)
+    UNTIL           reduce using rule 4 (stat_list -> stat_list stat .)
+    ELSEIF          reduce using rule 4 (stat_list -> stat_list stat .)
+    ELSE            reduce using rule 4 (stat_list -> stat_list stat .)
 
 
 state 24
 
-    (17) stat -> FOR namelist . IN explist DO block END
-    (24) namelist -> namelist . COMMA IDENTIFIER
+    (46) expression -> expression PLUS . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    IN              shift and go to state 35
-    COMMA           shift and go to state 36
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    term                           shift and go to state 43
+    factor                         shift and go to state 20
 
 state 25
 
-    (40) term -> term TIMES . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (47) expression -> expression MINUS . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
-    factor                         shift and go to state 37
+    term                           shift and go to state 44
+    factor                         shift and go to state 20
 
 state 26
 
-    (41) term -> term DIVIDE . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (10) stat -> DO block . END
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    END             shift and go to state 45
 
-    factor                         shift and go to state 38
 
 state 27
 
-    (42) term -> term POWER . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (11) stat -> WHILE expression . DO block END
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    DO              shift and go to state 46
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
-    factor                         shift and go to state 39
 
 state 28
 
-    (47) factor -> LPAREN expression . RPAREN
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (55) factor -> LPAREN . expression RPAREN
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    RPAREN          shift and go to state 40
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    expression                     shift and go to state 47
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 29
 
-    (38) expression -> expression PLUS term .
-    (40) term -> term . TIMES factor
-    (41) term -> term . DIVIDE factor
-    (42) term -> term . POWER factor
+    (12) stat -> REPEAT block . UNTIL expression
 
-    PLUS            reduce using rule 38 (expression -> expression PLUS term .)
-    MINUS           reduce using rule 38 (expression -> expression PLUS term .)
-    SEMICOLON       reduce using rule 38 (expression -> expression PLUS term .)
-    WHILE           reduce using rule 38 (expression -> expression PLUS term .)
-    REPEAT          reduce using rule 38 (expression -> expression PLUS term .)
-    IF              reduce using rule 38 (expression -> expression PLUS term .)
-    FOR             reduce using rule 38 (expression -> expression PLUS term .)
-    INTEGER         reduce using rule 38 (expression -> expression PLUS term .)
-    FLOAT           reduce using rule 38 (expression -> expression PLUS term .)
-    LPAREN          reduce using rule 38 (expression -> expression PLUS term .)
-    $end            reduce using rule 38 (expression -> expression PLUS term .)
-    UNTIL           reduce using rule 38 (expression -> expression PLUS term .)
-    END             reduce using rule 38 (expression -> expression PLUS term .)
-    ELSEIF          reduce using rule 38 (expression -> expression PLUS term .)
-    ELSE            reduce using rule 38 (expression -> expression PLUS term .)
-    DO              reduce using rule 38 (expression -> expression PLUS term .)
-    THEN            reduce using rule 38 (expression -> expression PLUS term .)
-    RPAREN          reduce using rule 38 (expression -> expression PLUS term .)
-    COMMA           reduce using rule 38 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 25
-    DIVIDE          shift and go to state 26
-    POWER           shift and go to state 27
+    UNTIL           shift and go to state 48
 
 
 state 30
 
-    (39) expression -> expression MINUS term .
-    (40) term -> term . TIMES factor
-    (41) term -> term . DIVIDE factor
-    (42) term -> term . POWER factor
+    (13) stat -> IF expression . THEN block elseif_blocks else_block END
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    PLUS            reduce using rule 39 (expression -> expression MINUS term .)
-    MINUS           reduce using rule 39 (expression -> expression MINUS term .)
-    SEMICOLON       reduce using rule 39 (expression -> expression MINUS term .)
-    WHILE           reduce using rule 39 (expression -> expression MINUS term .)
-    REPEAT          reduce using rule 39 (expression -> expression MINUS term .)
-    IF              reduce using rule 39 (expression -> expression MINUS term .)
-    FOR             reduce using rule 39 (expression -> expression MINUS term .)
-    INTEGER         reduce using rule 39 (expression -> expression MINUS term .)
-    FLOAT           reduce using rule 39 (expression -> expression MINUS term .)
-    LPAREN          reduce using rule 39 (expression -> expression MINUS term .)
-    $end            reduce using rule 39 (expression -> expression MINUS term .)
-    UNTIL           reduce using rule 39 (expression -> expression MINUS term .)
-    END             reduce using rule 39 (expression -> expression MINUS term .)
-    ELSEIF          reduce using rule 39 (expression -> expression MINUS term .)
-    ELSE            reduce using rule 39 (expression -> expression MINUS term .)
-    DO              reduce using rule 39 (expression -> expression MINUS term .)
-    THEN            reduce using rule 39 (expression -> expression MINUS term .)
-    RPAREN          reduce using rule 39 (expression -> expression MINUS term .)
-    COMMA           reduce using rule 39 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 25
-    DIVIDE          shift and go to state 26
-    POWER           shift and go to state 27
+    THEN            shift and go to state 49
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
 
 state 31
 
-    (8) stat -> WHILE expression DO . block END
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (19) stat -> FOR IDENTIFIER . ASSIGN expression COMMA expression DO block END
+    (33) namelist -> IDENTIFIER .
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    ASSIGN          shift and go to state 50
+    IN              reduce using rule 33 (namelist -> IDENTIFIER .)
+    COMMA           reduce using rule 33 (namelist -> IDENTIFIER .)
 
-    expression                     shift and go to state 7
-    block                          shift and go to state 41
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 32
 
-    (9) stat -> REPEAT block UNTIL . expression
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (20) stat -> FOR namelist . IN explist DO block END
+    (32) namelist -> namelist . COMMA IDENTIFIER
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    IN              shift and go to state 51
+    COMMA           shift and go to state 52
 
-    expression                     shift and go to state 42
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 33
 
-    (10) stat -> IF expression THEN . block elseif_blocks else_block END
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (39) functioncall -> prefixexp args .
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    SEMICOLON       reduce using rule 39 (functioncall -> prefixexp args .)
+    BREAK           reduce using rule 39 (functioncall -> prefixexp args .)
+    DO              reduce using rule 39 (functioncall -> prefixexp args .)
+    WHILE           reduce using rule 39 (functioncall -> prefixexp args .)
+    REPEAT          reduce using rule 39 (functioncall -> prefixexp args .)
+    IF              reduce using rule 39 (functioncall -> prefixexp args .)
+    FOR             reduce using rule 39 (functioncall -> prefixexp args .)
+    LPAREN          reduce using rule 39 (functioncall -> prefixexp args .)
+    IDENTIFIER      reduce using rule 39 (functioncall -> prefixexp args .)
+    INTEGER         reduce using rule 39 (functioncall -> prefixexp args .)
+    FLOAT           reduce using rule 39 (functioncall -> prefixexp args .)
+    $end            reduce using rule 39 (functioncall -> prefixexp args .)
+    COLON           reduce using rule 39 (functioncall -> prefixexp args .)
+    LBRACKET        reduce using rule 39 (functioncall -> prefixexp args .)
+    DOT             reduce using rule 39 (functioncall -> prefixexp args .)
+    STRING          reduce using rule 39 (functioncall -> prefixexp args .)
+    END             reduce using rule 39 (functioncall -> prefixexp args .)
+    UNTIL           reduce using rule 39 (functioncall -> prefixexp args .)
+    ELSEIF          reduce using rule 39 (functioncall -> prefixexp args .)
+    ELSE            reduce using rule 39 (functioncall -> prefixexp args .)
 
-    expression                     shift and go to state 7
-    block                          shift and go to state 43
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 34
 
-    (16) stat -> FOR IDENTIFIER ASSIGN . expression COMMA expression DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (40) functioncall -> prefixexp COLON . IDENTIFIER args
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    IDENTIFIER      shift and go to state 53
 
-    expression                     shift and go to state 44
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 35
 
-    (17) stat -> FOR namelist IN . explist DO block END
-    (26) explist -> . explist COMMA expression
-    (27) explist -> . expression
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (30) var -> prefixexp LBRACKET . expression RBRACKET
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
-    explist                        shift and go to state 45
-    expression                     shift and go to state 46
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    expression                     shift and go to state 54
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 36
 
-    (24) namelist -> namelist COMMA . IDENTIFIER
+    (31) var -> prefixexp DOT . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 47
+    IDENTIFIER      shift and go to state 55
 
 
 state 37
 
-    (40) term -> term TIMES factor .
+    (41) args -> LPAREN . RPAREN
+    (42) args -> LPAREN . explist RPAREN
+    (34) explist -> . explist COMMA expression
+    (35) explist -> . expression
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 40 (term -> term TIMES factor .)
-    DIVIDE          reduce using rule 40 (term -> term TIMES factor .)
-    POWER           reduce using rule 40 (term -> term TIMES factor .)
-    PLUS            reduce using rule 40 (term -> term TIMES factor .)
-    MINUS           reduce using rule 40 (term -> term TIMES factor .)
-    SEMICOLON       reduce using rule 40 (term -> term TIMES factor .)
-    WHILE           reduce using rule 40 (term -> term TIMES factor .)
-    REPEAT          reduce using rule 40 (term -> term TIMES factor .)
-    IF              reduce using rule 40 (term -> term TIMES factor .)
-    FOR             reduce using rule 40 (term -> term TIMES factor .)
-    INTEGER         reduce using rule 40 (term -> term TIMES factor .)
-    FLOAT           reduce using rule 40 (term -> term TIMES factor .)
-    LPAREN          reduce using rule 40 (term -> term TIMES factor .)
-    $end            reduce using rule 40 (term -> term TIMES factor .)
-    UNTIL           reduce using rule 40 (term -> term TIMES factor .)
-    END             reduce using rule 40 (term -> term TIMES factor .)
-    ELSEIF          reduce using rule 40 (term -> term TIMES factor .)
-    ELSE            reduce using rule 40 (term -> term TIMES factor .)
-    DO              reduce using rule 40 (term -> term TIMES factor .)
-    THEN            reduce using rule 40 (term -> term TIMES factor .)
-    RPAREN          reduce using rule 40 (term -> term TIMES factor .)
-    COMMA           reduce using rule 40 (term -> term TIMES factor .)
+    RPAREN          shift and go to state 56
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    explist                        shift and go to state 57
+    expression                     shift and go to state 58
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 38
 
-    (41) term -> term DIVIDE factor .
+    (43) args -> STRING .
 
-    TIMES           reduce using rule 41 (term -> term DIVIDE factor .)
-    DIVIDE          reduce using rule 41 (term -> term DIVIDE factor .)
-    POWER           reduce using rule 41 (term -> term DIVIDE factor .)
-    PLUS            reduce using rule 41 (term -> term DIVIDE factor .)
-    MINUS           reduce using rule 41 (term -> term DIVIDE factor .)
-    SEMICOLON       reduce using rule 41 (term -> term DIVIDE factor .)
-    WHILE           reduce using rule 41 (term -> term DIVIDE factor .)
-    REPEAT          reduce using rule 41 (term -> term DIVIDE factor .)
-    IF              reduce using rule 41 (term -> term DIVIDE factor .)
-    FOR             reduce using rule 41 (term -> term DIVIDE factor .)
-    INTEGER         reduce using rule 41 (term -> term DIVIDE factor .)
-    FLOAT           reduce using rule 41 (term -> term DIVIDE factor .)
-    LPAREN          reduce using rule 41 (term -> term DIVIDE factor .)
-    $end            reduce using rule 41 (term -> term DIVIDE factor .)
-    UNTIL           reduce using rule 41 (term -> term DIVIDE factor .)
-    END             reduce using rule 41 (term -> term DIVIDE factor .)
-    ELSEIF          reduce using rule 41 (term -> term DIVIDE factor .)
-    ELSE            reduce using rule 41 (term -> term DIVIDE factor .)
-    DO              reduce using rule 41 (term -> term DIVIDE factor .)
-    THEN            reduce using rule 41 (term -> term DIVIDE factor .)
-    RPAREN          reduce using rule 41 (term -> term DIVIDE factor .)
-    COMMA           reduce using rule 41 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 43 (args -> STRING .)
+    BREAK           reduce using rule 43 (args -> STRING .)
+    DO              reduce using rule 43 (args -> STRING .)
+    WHILE           reduce using rule 43 (args -> STRING .)
+    REPEAT          reduce using rule 43 (args -> STRING .)
+    IF              reduce using rule 43 (args -> STRING .)
+    FOR             reduce using rule 43 (args -> STRING .)
+    LPAREN          reduce using rule 43 (args -> STRING .)
+    IDENTIFIER      reduce using rule 43 (args -> STRING .)
+    INTEGER         reduce using rule 43 (args -> STRING .)
+    FLOAT           reduce using rule 43 (args -> STRING .)
+    $end            reduce using rule 43 (args -> STRING .)
+    COLON           reduce using rule 43 (args -> STRING .)
+    LBRACKET        reduce using rule 43 (args -> STRING .)
+    DOT             reduce using rule 43 (args -> STRING .)
+    STRING          reduce using rule 43 (args -> STRING .)
+    END             reduce using rule 43 (args -> STRING .)
+    UNTIL           reduce using rule 43 (args -> STRING .)
+    ELSEIF          reduce using rule 43 (args -> STRING .)
+    ELSE            reduce using rule 43 (args -> STRING .)
 
 
 state 39
 
-    (42) term -> term POWER factor .
+    (48) term -> term TIMES . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 42 (term -> term POWER factor .)
-    DIVIDE          reduce using rule 42 (term -> term POWER factor .)
-    POWER           reduce using rule 42 (term -> term POWER factor .)
-    PLUS            reduce using rule 42 (term -> term POWER factor .)
-    MINUS           reduce using rule 42 (term -> term POWER factor .)
-    SEMICOLON       reduce using rule 42 (term -> term POWER factor .)
-    WHILE           reduce using rule 42 (term -> term POWER factor .)
-    REPEAT          reduce using rule 42 (term -> term POWER factor .)
-    IF              reduce using rule 42 (term -> term POWER factor .)
-    FOR             reduce using rule 42 (term -> term POWER factor .)
-    INTEGER         reduce using rule 42 (term -> term POWER factor .)
-    FLOAT           reduce using rule 42 (term -> term POWER factor .)
-    LPAREN          reduce using rule 42 (term -> term POWER factor .)
-    $end            reduce using rule 42 (term -> term POWER factor .)
-    UNTIL           reduce using rule 42 (term -> term POWER factor .)
-    END             reduce using rule 42 (term -> term POWER factor .)
-    ELSEIF          reduce using rule 42 (term -> term POWER factor .)
-    ELSE            reduce using rule 42 (term -> term POWER factor .)
-    DO              reduce using rule 42 (term -> term POWER factor .)
-    THEN            reduce using rule 42 (term -> term POWER factor .)
-    RPAREN          reduce using rule 42 (term -> term POWER factor .)
-    COMMA           reduce using rule 42 (term -> term POWER factor .)
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    factor                         shift and go to state 59
 
 state 40
 
-    (47) factor -> LPAREN expression RPAREN .
+    (49) term -> term DIVIDE . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    POWER           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    SEMICOLON       reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    WHILE           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    REPEAT          reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    IF              reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    FOR             reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    INTEGER         reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    FLOAT           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    LPAREN          reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    $end            reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    UNTIL           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    END             reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    ELSEIF          reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    ELSE            reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    DO              reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    THEN            reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 47 (factor -> LPAREN expression RPAREN .)
-    COMMA           reduce using rule 47 (factor -> LPAREN expression RPAREN .)
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    factor                         shift and go to state 60
 
 state 41
 
-    (8) stat -> WHILE expression DO block . END
+    (50) term -> term POWER . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    END             shift and go to state 48
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    factor                         shift and go to state 61
 
 state 42
 
-    (9) stat -> REPEAT block UNTIL expression .
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (38) prefixexp -> LPAREN expression . RPAREN
+    (55) factor -> LPAREN expression . RPAREN
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    SEMICOLON       reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    WHILE           reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    REPEAT          reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    IF              reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    FOR             reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    INTEGER         reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    FLOAT           reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    LPAREN          reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    $end            reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    UNTIL           reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    END             reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    ELSEIF          reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    ELSE            reduce using rule 9 (stat -> REPEAT block UNTIL expression .)
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    RPAREN          shift and go to state 62
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
 
 state 43
 
-    (10) stat -> IF expression THEN block . elseif_blocks else_block END
-    (11) elseif_blocks -> . ELSEIF expression THEN block
-    (12) elseif_blocks -> . elseif_blocks ELSEIF expression THEN block
-    (13) elseif_blocks -> . empty
-    (18) empty -> .
+    (46) expression -> expression PLUS term .
+    (48) term -> term . TIMES factor
+    (49) term -> term . DIVIDE factor
+    (50) term -> term . POWER factor
 
-  ! shift/reduce conflict for ELSEIF resolved as shift
-    ELSEIF          shift and go to state 50
-    ELSE            reduce using rule 18 (empty -> .)
-    END             reduce using rule 18 (empty -> .)
+    PLUS            reduce using rule 46 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 46 (expression -> expression PLUS term .)
+    SEMICOLON       reduce using rule 46 (expression -> expression PLUS term .)
+    BREAK           reduce using rule 46 (expression -> expression PLUS term .)
+    DO              reduce using rule 46 (expression -> expression PLUS term .)
+    WHILE           reduce using rule 46 (expression -> expression PLUS term .)
+    REPEAT          reduce using rule 46 (expression -> expression PLUS term .)
+    IF              reduce using rule 46 (expression -> expression PLUS term .)
+    FOR             reduce using rule 46 (expression -> expression PLUS term .)
+    LPAREN          reduce using rule 46 (expression -> expression PLUS term .)
+    IDENTIFIER      reduce using rule 46 (expression -> expression PLUS term .)
+    INTEGER         reduce using rule 46 (expression -> expression PLUS term .)
+    FLOAT           reduce using rule 46 (expression -> expression PLUS term .)
+    $end            reduce using rule 46 (expression -> expression PLUS term .)
+    END             reduce using rule 46 (expression -> expression PLUS term .)
+    UNTIL           reduce using rule 46 (expression -> expression PLUS term .)
+    ELSEIF          reduce using rule 46 (expression -> expression PLUS term .)
+    ELSE            reduce using rule 46 (expression -> expression PLUS term .)
+    THEN            reduce using rule 46 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 46 (expression -> expression PLUS term .)
+    RBRACKET        reduce using rule 46 (expression -> expression PLUS term .)
+    COMMA           reduce using rule 46 (expression -> expression PLUS term .)
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
 
-  ! ELSEIF          [ reduce using rule 18 (empty -> .) ]
-
-    elseif_blocks                  shift and go to state 49
-    empty                          shift and go to state 51
 
 state 44
 
-    (16) stat -> FOR IDENTIFIER ASSIGN expression . COMMA expression DO block END
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (47) expression -> expression MINUS term .
+    (48) term -> term . TIMES factor
+    (49) term -> term . DIVIDE factor
+    (50) term -> term . POWER factor
 
-    COMMA           shift and go to state 52
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    PLUS            reduce using rule 47 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 47 (expression -> expression MINUS term .)
+    SEMICOLON       reduce using rule 47 (expression -> expression MINUS term .)
+    BREAK           reduce using rule 47 (expression -> expression MINUS term .)
+    DO              reduce using rule 47 (expression -> expression MINUS term .)
+    WHILE           reduce using rule 47 (expression -> expression MINUS term .)
+    REPEAT          reduce using rule 47 (expression -> expression MINUS term .)
+    IF              reduce using rule 47 (expression -> expression MINUS term .)
+    FOR             reduce using rule 47 (expression -> expression MINUS term .)
+    LPAREN          reduce using rule 47 (expression -> expression MINUS term .)
+    IDENTIFIER      reduce using rule 47 (expression -> expression MINUS term .)
+    INTEGER         reduce using rule 47 (expression -> expression MINUS term .)
+    FLOAT           reduce using rule 47 (expression -> expression MINUS term .)
+    $end            reduce using rule 47 (expression -> expression MINUS term .)
+    END             reduce using rule 47 (expression -> expression MINUS term .)
+    UNTIL           reduce using rule 47 (expression -> expression MINUS term .)
+    ELSEIF          reduce using rule 47 (expression -> expression MINUS term .)
+    ELSE            reduce using rule 47 (expression -> expression MINUS term .)
+    THEN            reduce using rule 47 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 47 (expression -> expression MINUS term .)
+    RBRACKET        reduce using rule 47 (expression -> expression MINUS term .)
+    COMMA           reduce using rule 47 (expression -> expression MINUS term .)
+    TIMES           shift and go to state 39
+    DIVIDE          shift and go to state 40
+    POWER           shift and go to state 41
 
 
 state 45
 
-    (17) stat -> FOR namelist IN explist . DO block END
-    (26) explist -> explist . COMMA expression
+    (10) stat -> DO block END .
 
-    DO              shift and go to state 53
-    COMMA           shift and go to state 54
+    SEMICOLON       reduce using rule 10 (stat -> DO block END .)
+    BREAK           reduce using rule 10 (stat -> DO block END .)
+    DO              reduce using rule 10 (stat -> DO block END .)
+    WHILE           reduce using rule 10 (stat -> DO block END .)
+    REPEAT          reduce using rule 10 (stat -> DO block END .)
+    IF              reduce using rule 10 (stat -> DO block END .)
+    FOR             reduce using rule 10 (stat -> DO block END .)
+    LPAREN          reduce using rule 10 (stat -> DO block END .)
+    IDENTIFIER      reduce using rule 10 (stat -> DO block END .)
+    INTEGER         reduce using rule 10 (stat -> DO block END .)
+    FLOAT           reduce using rule 10 (stat -> DO block END .)
+    $end            reduce using rule 10 (stat -> DO block END .)
+    END             reduce using rule 10 (stat -> DO block END .)
+    UNTIL           reduce using rule 10 (stat -> DO block END .)
+    ELSEIF          reduce using rule 10 (stat -> DO block END .)
+    ELSE            reduce using rule 10 (stat -> DO block END .)
 
 
 state 46
 
-    (27) explist -> expression .
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (11) stat -> WHILE expression DO . block END
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    DO              reduce using rule 27 (explist -> expression .)
-    COMMA           reduce using rule 27 (explist -> expression .)
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
+    expression                     shift and go to state 9
+    block                          shift and go to state 63
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
 
 state 47
 
-    (24) namelist -> namelist COMMA IDENTIFIER .
+    (55) factor -> LPAREN expression . RPAREN
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    IN              reduce using rule 24 (namelist -> namelist COMMA IDENTIFIER .)
-    COMMA           reduce using rule 24 (namelist -> namelist COMMA IDENTIFIER .)
+    RPAREN          shift and go to state 64
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
 
 state 48
 
-    (8) stat -> WHILE expression DO block END .
+    (12) stat -> REPEAT block UNTIL . expression
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    SEMICOLON       reduce using rule 8 (stat -> WHILE expression DO block END .)
-    WHILE           reduce using rule 8 (stat -> WHILE expression DO block END .)
-    REPEAT          reduce using rule 8 (stat -> WHILE expression DO block END .)
-    IF              reduce using rule 8 (stat -> WHILE expression DO block END .)
-    FOR             reduce using rule 8 (stat -> WHILE expression DO block END .)
-    INTEGER         reduce using rule 8 (stat -> WHILE expression DO block END .)
-    FLOAT           reduce using rule 8 (stat -> WHILE expression DO block END .)
-    LPAREN          reduce using rule 8 (stat -> WHILE expression DO block END .)
-    $end            reduce using rule 8 (stat -> WHILE expression DO block END .)
-    UNTIL           reduce using rule 8 (stat -> WHILE expression DO block END .)
-    END             reduce using rule 8 (stat -> WHILE expression DO block END .)
-    ELSEIF          reduce using rule 8 (stat -> WHILE expression DO block END .)
-    ELSE            reduce using rule 8 (stat -> WHILE expression DO block END .)
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
 
+    expression                     shift and go to state 65
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
 
 state 49
 
-    (10) stat -> IF expression THEN block elseif_blocks . else_block END
-    (12) elseif_blocks -> elseif_blocks . ELSEIF expression THEN block
-    (14) else_block -> . ELSE block
-    (15) else_block -> . empty
-    (18) empty -> .
-
-    ELSEIF          shift and go to state 56
-    ELSE            shift and go to state 57
-    END             reduce using rule 18 (empty -> .)
-
-    else_block                     shift and go to state 55
-    empty                          shift and go to state 58
-
-state 50
-
-    (11) elseif_blocks -> ELSEIF . expression THEN block
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
-
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
-
-    expression                     shift and go to state 59
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
-
-state 51
-
-    (13) elseif_blocks -> empty .
-
-    ELSEIF          reduce using rule 13 (elseif_blocks -> empty .)
-    ELSE            reduce using rule 13 (elseif_blocks -> empty .)
-    END             reduce using rule 13 (elseif_blocks -> empty .)
-
-
-state 52
-
-    (16) stat -> FOR IDENTIFIER ASSIGN expression COMMA . expression DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
-
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
-
-    expression                     shift and go to state 60
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
-
-state 53
-
-    (17) stat -> FOR namelist IN explist DO . block END
+    (13) stat -> IF expression THEN . block elseif_blocks else_block END
     (3) block -> . stat_list
     (4) stat_list -> . stat_list stat
     (5) stat_list -> . stat
     (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
     SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
 
-    block                          shift and go to state 61
+    expression                     shift and go to state 9
+    block                          shift and go to state 66
     stat_list                      shift and go to state 4
     stat                           shift and go to state 5
-    expression                     shift and go to state 7
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 50
+
+    (19) stat -> FOR IDENTIFIER ASSIGN . expression COMMA expression DO block END
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    expression                     shift and go to state 67
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 51
+
+    (20) stat -> FOR namelist IN . explist DO block END
+    (34) explist -> . explist COMMA expression
+    (35) explist -> . expression
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    explist                        shift and go to state 68
+    expression                     shift and go to state 58
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 52
+
+    (32) namelist -> namelist COMMA . IDENTIFIER
+
+    IDENTIFIER      shift and go to state 69
+
+
+state 53
+
+    (40) functioncall -> prefixexp COLON IDENTIFIER . args
+    (41) args -> . LPAREN RPAREN
+    (42) args -> . LPAREN explist RPAREN
+    (43) args -> . STRING
+
+    LPAREN          shift and go to state 37
+    STRING          shift and go to state 38
+
+    args                           shift and go to state 70
 
 state 54
 
-    (26) explist -> explist COMMA . expression
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (30) var -> prefixexp LBRACKET expression . RBRACKET
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    RBRACKET        shift and go to state 71
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
-    expression                     shift and go to state 62
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 55
 
-    (10) stat -> IF expression THEN block elseif_blocks else_block . END
+    (31) var -> prefixexp DOT IDENTIFIER .
 
-    END             shift and go to state 63
+    COLON           reduce using rule 31 (var -> prefixexp DOT IDENTIFIER .)
+    LBRACKET        reduce using rule 31 (var -> prefixexp DOT IDENTIFIER .)
+    DOT             reduce using rule 31 (var -> prefixexp DOT IDENTIFIER .)
+    LPAREN          reduce using rule 31 (var -> prefixexp DOT IDENTIFIER .)
+    STRING          reduce using rule 31 (var -> prefixexp DOT IDENTIFIER .)
 
 
 state 56
 
-    (12) elseif_blocks -> elseif_blocks ELSEIF . expression THEN block
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (41) args -> LPAREN RPAREN .
 
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    SEMICOLON       reduce using rule 41 (args -> LPAREN RPAREN .)
+    BREAK           reduce using rule 41 (args -> LPAREN RPAREN .)
+    DO              reduce using rule 41 (args -> LPAREN RPAREN .)
+    WHILE           reduce using rule 41 (args -> LPAREN RPAREN .)
+    REPEAT          reduce using rule 41 (args -> LPAREN RPAREN .)
+    IF              reduce using rule 41 (args -> LPAREN RPAREN .)
+    FOR             reduce using rule 41 (args -> LPAREN RPAREN .)
+    LPAREN          reduce using rule 41 (args -> LPAREN RPAREN .)
+    IDENTIFIER      reduce using rule 41 (args -> LPAREN RPAREN .)
+    INTEGER         reduce using rule 41 (args -> LPAREN RPAREN .)
+    FLOAT           reduce using rule 41 (args -> LPAREN RPAREN .)
+    $end            reduce using rule 41 (args -> LPAREN RPAREN .)
+    COLON           reduce using rule 41 (args -> LPAREN RPAREN .)
+    LBRACKET        reduce using rule 41 (args -> LPAREN RPAREN .)
+    DOT             reduce using rule 41 (args -> LPAREN RPAREN .)
+    STRING          reduce using rule 41 (args -> LPAREN RPAREN .)
+    END             reduce using rule 41 (args -> LPAREN RPAREN .)
+    UNTIL           reduce using rule 41 (args -> LPAREN RPAREN .)
+    ELSEIF          reduce using rule 41 (args -> LPAREN RPAREN .)
+    ELSE            reduce using rule 41 (args -> LPAREN RPAREN .)
 
-    expression                     shift and go to state 64
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 57
 
-    (14) else_block -> ELSE . block
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (42) args -> LPAREN explist . RPAREN
+    (34) explist -> explist . COMMA expression
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    RPAREN          shift and go to state 72
+    COMMA           shift and go to state 73
 
-    block                          shift and go to state 65
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    expression                     shift and go to state 7
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 58
 
-    (15) else_block -> empty .
+    (35) explist -> expression .
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    END             reduce using rule 15 (else_block -> empty .)
+    RPAREN          reduce using rule 35 (explist -> expression .)
+    COMMA           reduce using rule 35 (explist -> expression .)
+    DO              reduce using rule 35 (explist -> expression .)
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
 
 state 59
 
-    (11) elseif_blocks -> ELSEIF expression . THEN block
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (48) term -> term TIMES factor .
 
-    THEN            shift and go to state 66
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    TIMES           reduce using rule 48 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 48 (term -> term TIMES factor .)
+    POWER           reduce using rule 48 (term -> term TIMES factor .)
+    PLUS            reduce using rule 48 (term -> term TIMES factor .)
+    MINUS           reduce using rule 48 (term -> term TIMES factor .)
+    SEMICOLON       reduce using rule 48 (term -> term TIMES factor .)
+    BREAK           reduce using rule 48 (term -> term TIMES factor .)
+    DO              reduce using rule 48 (term -> term TIMES factor .)
+    WHILE           reduce using rule 48 (term -> term TIMES factor .)
+    REPEAT          reduce using rule 48 (term -> term TIMES factor .)
+    IF              reduce using rule 48 (term -> term TIMES factor .)
+    FOR             reduce using rule 48 (term -> term TIMES factor .)
+    LPAREN          reduce using rule 48 (term -> term TIMES factor .)
+    IDENTIFIER      reduce using rule 48 (term -> term TIMES factor .)
+    INTEGER         reduce using rule 48 (term -> term TIMES factor .)
+    FLOAT           reduce using rule 48 (term -> term TIMES factor .)
+    $end            reduce using rule 48 (term -> term TIMES factor .)
+    END             reduce using rule 48 (term -> term TIMES factor .)
+    UNTIL           reduce using rule 48 (term -> term TIMES factor .)
+    ELSEIF          reduce using rule 48 (term -> term TIMES factor .)
+    ELSE            reduce using rule 48 (term -> term TIMES factor .)
+    THEN            reduce using rule 48 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 48 (term -> term TIMES factor .)
+    RBRACKET        reduce using rule 48 (term -> term TIMES factor .)
+    COMMA           reduce using rule 48 (term -> term TIMES factor .)
 
 
 state 60
 
-    (16) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression . DO block END
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (49) term -> term DIVIDE factor .
 
-    DO              shift and go to state 67
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    TIMES           reduce using rule 49 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 49 (term -> term DIVIDE factor .)
+    POWER           reduce using rule 49 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 49 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 49 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 49 (term -> term DIVIDE factor .)
+    BREAK           reduce using rule 49 (term -> term DIVIDE factor .)
+    DO              reduce using rule 49 (term -> term DIVIDE factor .)
+    WHILE           reduce using rule 49 (term -> term DIVIDE factor .)
+    REPEAT          reduce using rule 49 (term -> term DIVIDE factor .)
+    IF              reduce using rule 49 (term -> term DIVIDE factor .)
+    FOR             reduce using rule 49 (term -> term DIVIDE factor .)
+    LPAREN          reduce using rule 49 (term -> term DIVIDE factor .)
+    IDENTIFIER      reduce using rule 49 (term -> term DIVIDE factor .)
+    INTEGER         reduce using rule 49 (term -> term DIVIDE factor .)
+    FLOAT           reduce using rule 49 (term -> term DIVIDE factor .)
+    $end            reduce using rule 49 (term -> term DIVIDE factor .)
+    END             reduce using rule 49 (term -> term DIVIDE factor .)
+    UNTIL           reduce using rule 49 (term -> term DIVIDE factor .)
+    ELSEIF          reduce using rule 49 (term -> term DIVIDE factor .)
+    ELSE            reduce using rule 49 (term -> term DIVIDE factor .)
+    THEN            reduce using rule 49 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 49 (term -> term DIVIDE factor .)
+    RBRACKET        reduce using rule 49 (term -> term DIVIDE factor .)
+    COMMA           reduce using rule 49 (term -> term DIVIDE factor .)
 
 
 state 61
 
-    (17) stat -> FOR namelist IN explist DO block . END
+    (50) term -> term POWER factor .
 
-    END             shift and go to state 68
+    TIMES           reduce using rule 50 (term -> term POWER factor .)
+    DIVIDE          reduce using rule 50 (term -> term POWER factor .)
+    POWER           reduce using rule 50 (term -> term POWER factor .)
+    PLUS            reduce using rule 50 (term -> term POWER factor .)
+    MINUS           reduce using rule 50 (term -> term POWER factor .)
+    SEMICOLON       reduce using rule 50 (term -> term POWER factor .)
+    BREAK           reduce using rule 50 (term -> term POWER factor .)
+    DO              reduce using rule 50 (term -> term POWER factor .)
+    WHILE           reduce using rule 50 (term -> term POWER factor .)
+    REPEAT          reduce using rule 50 (term -> term POWER factor .)
+    IF              reduce using rule 50 (term -> term POWER factor .)
+    FOR             reduce using rule 50 (term -> term POWER factor .)
+    LPAREN          reduce using rule 50 (term -> term POWER factor .)
+    IDENTIFIER      reduce using rule 50 (term -> term POWER factor .)
+    INTEGER         reduce using rule 50 (term -> term POWER factor .)
+    FLOAT           reduce using rule 50 (term -> term POWER factor .)
+    $end            reduce using rule 50 (term -> term POWER factor .)
+    END             reduce using rule 50 (term -> term POWER factor .)
+    UNTIL           reduce using rule 50 (term -> term POWER factor .)
+    ELSEIF          reduce using rule 50 (term -> term POWER factor .)
+    ELSE            reduce using rule 50 (term -> term POWER factor .)
+    THEN            reduce using rule 50 (term -> term POWER factor .)
+    RPAREN          reduce using rule 50 (term -> term POWER factor .)
+    RBRACKET        reduce using rule 50 (term -> term POWER factor .)
+    COMMA           reduce using rule 50 (term -> term POWER factor .)
 
 
 state 62
 
-    (26) explist -> explist COMMA expression .
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (38) prefixexp -> LPAREN expression RPAREN .
+    (55) factor -> LPAREN expression RPAREN .
 
-    DO              reduce using rule 26 (explist -> explist COMMA expression .)
-    COMMA           reduce using rule 26 (explist -> explist COMMA expression .)
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+  ! reduce/reduce conflict for LPAREN resolved using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    COLON           reduce using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    LBRACKET        reduce using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    DOT             reduce using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    STRING          reduce using rule 38 (prefixexp -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    POWER           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    BREAK           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    DO              reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    REPEAT          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    IF              reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    FOR             reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    IDENTIFIER      reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    INTEGER         reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    FLOAT           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    END             reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    UNTIL           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    ELSEIF          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+
+  ! LPAREN          [ reduce using rule 55 (factor -> LPAREN expression RPAREN .) ]
 
 
 state 63
 
-    (10) stat -> IF expression THEN block elseif_blocks else_block END .
+    (11) stat -> WHILE expression DO block . END
 
-    SEMICOLON       reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    WHILE           reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    REPEAT          reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    IF              reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    FOR             reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    INTEGER         reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    FLOAT           reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    LPAREN          reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    $end            reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    UNTIL           reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    END             reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    ELSEIF          reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
-    ELSE            reduce using rule 10 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    END             shift and go to state 74
 
 
 state 64
 
-    (12) elseif_blocks -> elseif_blocks ELSEIF expression . THEN block
-    (38) expression -> expression . PLUS term
-    (39) expression -> expression . MINUS term
+    (55) factor -> LPAREN expression RPAREN .
 
-    THEN            shift and go to state 69
-    PLUS            shift and go to state 18
-    MINUS           shift and go to state 19
+    TIMES           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    POWER           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    DO              reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    THEN            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    BREAK           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    REPEAT          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    IF              reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    FOR             reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    IDENTIFIER      reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    INTEGER         reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    FLOAT           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    $end            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    END             reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    UNTIL           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    ELSEIF          reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    RBRACKET        reduce using rule 55 (factor -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 55 (factor -> LPAREN expression RPAREN .)
 
 
 state 65
 
-    (14) else_block -> ELSE block .
+    (12) stat -> REPEAT block UNTIL expression .
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    END             reduce using rule 14 (else_block -> ELSE block .)
+    SEMICOLON       reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    BREAK           reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    DO              reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    WHILE           reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    REPEAT          reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    IF              reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    FOR             reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    LPAREN          reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    IDENTIFIER      reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    INTEGER         reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    FLOAT           reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    $end            reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    END             reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    UNTIL           reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    ELSEIF          reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    ELSE            reduce using rule 12 (stat -> REPEAT block UNTIL expression .)
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
 
 state 66
 
-    (11) elseif_blocks -> ELSEIF expression THEN . block
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (13) stat -> IF expression THEN block . elseif_blocks else_block END
+    (14) elseif_blocks -> . ELSEIF expression THEN block
+    (15) elseif_blocks -> . elseif_blocks ELSEIF expression THEN block
+    (16) elseif_blocks -> . empty
+    (21) empty -> .
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+  ! shift/reduce conflict for ELSEIF resolved as shift
+    ELSEIF          shift and go to state 76
+    ELSE            reduce using rule 21 (empty -> .)
+    END             reduce using rule 21 (empty -> .)
 
-    expression                     shift and go to state 7
-    block                          shift and go to state 70
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
+  ! ELSEIF          [ reduce using rule 21 (empty -> .) ]
+
+    elseif_blocks                  shift and go to state 75
+    empty                          shift and go to state 77
 
 state 67
 
-    (16) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO . block END
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (19) stat -> FOR IDENTIFIER ASSIGN expression . COMMA expression DO block END
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    COMMA           shift and go to state 78
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
 
-    expression                     shift and go to state 7
-    block                          shift and go to state 71
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 68
 
-    (17) stat -> FOR namelist IN explist DO block END .
+    (20) stat -> FOR namelist IN explist . DO block END
+    (34) explist -> explist . COMMA expression
 
-    SEMICOLON       reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    WHILE           reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    REPEAT          reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    IF              reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    FOR             reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    INTEGER         reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    FLOAT           reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    LPAREN          reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    $end            reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    UNTIL           reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    END             reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    ELSEIF          reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
-    ELSE            reduce using rule 17 (stat -> FOR namelist IN explist DO block END .)
+    DO              shift and go to state 79
+    COMMA           shift and go to state 73
 
 
 state 69
 
-    (12) elseif_blocks -> elseif_blocks ELSEIF expression THEN . block
-    (3) block -> . stat_list
-    (4) stat_list -> . stat_list stat
-    (5) stat_list -> . stat
-    (6) stat -> . SEMICOLON
-    (7) stat -> . expression
-    (8) stat -> . WHILE expression DO block END
-    (9) stat -> . REPEAT block UNTIL expression
-    (10) stat -> . IF expression THEN block elseif_blocks else_block END
-    (16) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
-    (17) stat -> . FOR namelist IN explist DO block END
-    (38) expression -> . expression PLUS term
-    (39) expression -> . expression MINUS term
-    (43) expression -> . term
-    (40) term -> . term TIMES factor
-    (41) term -> . term DIVIDE factor
-    (42) term -> . term POWER factor
-    (44) term -> . factor
-    (45) factor -> . INTEGER
-    (46) factor -> . FLOAT
-    (47) factor -> . LPAREN expression RPAREN
+    (32) namelist -> namelist COMMA IDENTIFIER .
 
-    SEMICOLON       shift and go to state 6
-    WHILE           shift and go to state 8
-    REPEAT          shift and go to state 9
-    IF              shift and go to state 10
-    FOR             shift and go to state 11
-    INTEGER         shift and go to state 14
-    FLOAT           shift and go to state 15
-    LPAREN          shift and go to state 16
+    IN              reduce using rule 32 (namelist -> namelist COMMA IDENTIFIER .)
+    COMMA           reduce using rule 32 (namelist -> namelist COMMA IDENTIFIER .)
 
-    expression                     shift and go to state 7
-    block                          shift and go to state 72
-    stat_list                      shift and go to state 4
-    stat                           shift and go to state 5
-    term                           shift and go to state 12
-    factor                         shift and go to state 13
 
 state 70
 
-    (11) elseif_blocks -> ELSEIF expression THEN block .
+    (40) functioncall -> prefixexp COLON IDENTIFIER args .
 
-    ELSEIF          reduce using rule 11 (elseif_blocks -> ELSEIF expression THEN block .)
-    ELSE            reduce using rule 11 (elseif_blocks -> ELSEIF expression THEN block .)
-    END             reduce using rule 11 (elseif_blocks -> ELSEIF expression THEN block .)
+    SEMICOLON       reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    BREAK           reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    DO              reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    WHILE           reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    REPEAT          reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    IF              reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    FOR             reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    LPAREN          reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    IDENTIFIER      reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    INTEGER         reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    FLOAT           reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    $end            reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    COLON           reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    LBRACKET        reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    DOT             reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    STRING          reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    END             reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    UNTIL           reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    ELSEIF          reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
+    ELSE            reduce using rule 40 (functioncall -> prefixexp COLON IDENTIFIER args .)
 
 
 state 71
 
-    (16) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block . END
+    (30) var -> prefixexp LBRACKET expression RBRACKET .
 
-    END             shift and go to state 73
+    COLON           reduce using rule 30 (var -> prefixexp LBRACKET expression RBRACKET .)
+    LBRACKET        reduce using rule 30 (var -> prefixexp LBRACKET expression RBRACKET .)
+    DOT             reduce using rule 30 (var -> prefixexp LBRACKET expression RBRACKET .)
+    LPAREN          reduce using rule 30 (var -> prefixexp LBRACKET expression RBRACKET .)
+    STRING          reduce using rule 30 (var -> prefixexp LBRACKET expression RBRACKET .)
 
 
 state 72
 
-    (12) elseif_blocks -> elseif_blocks ELSEIF expression THEN block .
+    (42) args -> LPAREN explist RPAREN .
 
-    ELSEIF          reduce using rule 12 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
-    ELSE            reduce using rule 12 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
-    END             reduce using rule 12 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
+    SEMICOLON       reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    BREAK           reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    DO              reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    WHILE           reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    REPEAT          reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    IF              reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    FOR             reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    LPAREN          reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    IDENTIFIER      reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    INTEGER         reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    FLOAT           reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    $end            reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    COLON           reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    LBRACKET        reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    DOT             reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    STRING          reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    END             reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    UNTIL           reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    ELSEIF          reduce using rule 42 (args -> LPAREN explist RPAREN .)
+    ELSE            reduce using rule 42 (args -> LPAREN explist RPAREN .)
 
 
 state 73
 
-    (16) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .
+    (34) explist -> explist COMMA . expression
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
 
-    SEMICOLON       reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    WHILE           reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    REPEAT          reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    IF              reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    FOR             reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    INTEGER         reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    FLOAT           reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    LPAREN          reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    $end            reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    UNTIL           reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    END             reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    ELSEIF          reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
-    ELSE            reduce using rule 16 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    expression                     shift and go to state 80
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 74
+
+    (11) stat -> WHILE expression DO block END .
+
+    SEMICOLON       reduce using rule 11 (stat -> WHILE expression DO block END .)
+    BREAK           reduce using rule 11 (stat -> WHILE expression DO block END .)
+    DO              reduce using rule 11 (stat -> WHILE expression DO block END .)
+    WHILE           reduce using rule 11 (stat -> WHILE expression DO block END .)
+    REPEAT          reduce using rule 11 (stat -> WHILE expression DO block END .)
+    IF              reduce using rule 11 (stat -> WHILE expression DO block END .)
+    FOR             reduce using rule 11 (stat -> WHILE expression DO block END .)
+    LPAREN          reduce using rule 11 (stat -> WHILE expression DO block END .)
+    IDENTIFIER      reduce using rule 11 (stat -> WHILE expression DO block END .)
+    INTEGER         reduce using rule 11 (stat -> WHILE expression DO block END .)
+    FLOAT           reduce using rule 11 (stat -> WHILE expression DO block END .)
+    $end            reduce using rule 11 (stat -> WHILE expression DO block END .)
+    END             reduce using rule 11 (stat -> WHILE expression DO block END .)
+    UNTIL           reduce using rule 11 (stat -> WHILE expression DO block END .)
+    ELSEIF          reduce using rule 11 (stat -> WHILE expression DO block END .)
+    ELSE            reduce using rule 11 (stat -> WHILE expression DO block END .)
+
+
+state 75
+
+    (13) stat -> IF expression THEN block elseif_blocks . else_block END
+    (15) elseif_blocks -> elseif_blocks . ELSEIF expression THEN block
+    (17) else_block -> . ELSE block
+    (18) else_block -> . empty
+    (21) empty -> .
+
+    ELSEIF          shift and go to state 82
+    ELSE            shift and go to state 83
+    END             reduce using rule 21 (empty -> .)
+
+    else_block                     shift and go to state 81
+    empty                          shift and go to state 84
+
+state 76
+
+    (14) elseif_blocks -> ELSEIF . expression THEN block
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    expression                     shift and go to state 85
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 77
+
+    (16) elseif_blocks -> empty .
+
+    ELSEIF          reduce using rule 16 (elseif_blocks -> empty .)
+    ELSE            reduce using rule 16 (elseif_blocks -> empty .)
+    END             reduce using rule 16 (elseif_blocks -> empty .)
+
+
+state 78
+
+    (19) stat -> FOR IDENTIFIER ASSIGN expression COMMA . expression DO block END
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    expression                     shift and go to state 86
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 79
+
+    (20) stat -> FOR namelist IN explist DO . block END
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+
+    block                          shift and go to state 87
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    expression                     shift and go to state 9
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 80
+
+    (34) explist -> explist COMMA expression .
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
+
+    RPAREN          reduce using rule 34 (explist -> explist COMMA expression .)
+    COMMA           reduce using rule 34 (explist -> explist COMMA expression .)
+    DO              reduce using rule 34 (explist -> explist COMMA expression .)
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+
+
+state 81
+
+    (13) stat -> IF expression THEN block elseif_blocks else_block . END
+
+    END             shift and go to state 88
+
+
+state 82
+
+    (15) elseif_blocks -> elseif_blocks ELSEIF . expression THEN block
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+    LPAREN          shift and go to state 28
+
+    expression                     shift and go to state 89
+    term                           shift and go to state 17
+    factor                         shift and go to state 20
+
+state 83
+
+    (17) else_block -> ELSE . block
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+
+    block                          shift and go to state 90
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    expression                     shift and go to state 9
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 84
+
+    (18) else_block -> empty .
+
+    END             reduce using rule 18 (else_block -> empty .)
+
+
+state 85
+
+    (14) elseif_blocks -> ELSEIF expression . THEN block
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
+
+    THEN            shift and go to state 91
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+
+
+state 86
+
+    (19) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression . DO block END
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
+
+    DO              shift and go to state 92
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+
+
+state 87
+
+    (20) stat -> FOR namelist IN explist DO block . END
+
+    END             shift and go to state 93
+
+
+state 88
+
+    (13) stat -> IF expression THEN block elseif_blocks else_block END .
+
+    SEMICOLON       reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    BREAK           reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    DO              reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    WHILE           reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    REPEAT          reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    IF              reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    FOR             reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    LPAREN          reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    IDENTIFIER      reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    INTEGER         reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    FLOAT           reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    $end            reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    END             reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    UNTIL           reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    ELSEIF          reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+    ELSE            reduce using rule 13 (stat -> IF expression THEN block elseif_blocks else_block END .)
+
+
+state 89
+
+    (15) elseif_blocks -> elseif_blocks ELSEIF expression . THEN block
+    (46) expression -> expression . PLUS term
+    (47) expression -> expression . MINUS term
+
+    THEN            shift and go to state 94
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+
+
+state 90
+
+    (17) else_block -> ELSE block .
+
+    END             reduce using rule 17 (else_block -> ELSE block .)
+
+
+state 91
+
+    (14) elseif_blocks -> ELSEIF expression THEN . block
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+
+    expression                     shift and go to state 9
+    block                          shift and go to state 95
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 92
+
+    (19) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO . block END
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+
+    expression                     shift and go to state 9
+    block                          shift and go to state 96
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 93
+
+    (20) stat -> FOR namelist IN explist DO block END .
+
+    SEMICOLON       reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    BREAK           reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    DO              reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    WHILE           reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    REPEAT          reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    IF              reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    FOR             reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    LPAREN          reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    IDENTIFIER      reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    INTEGER         reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    FLOAT           reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    $end            reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    END             reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    UNTIL           reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    ELSEIF          reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+    ELSE            reduce using rule 20 (stat -> FOR namelist IN explist DO block END .)
+
+
+state 94
+
+    (15) elseif_blocks -> elseif_blocks ELSEIF expression THEN . block
+    (3) block -> . stat_list
+    (4) stat_list -> . stat_list stat
+    (5) stat_list -> . stat
+    (6) stat -> . SEMICOLON
+    (7) stat -> . functioncall
+    (8) stat -> . BREAK
+    (9) stat -> . expression
+    (10) stat -> . DO block END
+    (11) stat -> . WHILE expression DO block END
+    (12) stat -> . REPEAT block UNTIL expression
+    (13) stat -> . IF expression THEN block elseif_blocks else_block END
+    (19) stat -> . FOR IDENTIFIER ASSIGN expression COMMA expression DO block END
+    (20) stat -> . FOR namelist IN explist DO block END
+    (39) functioncall -> . prefixexp args
+    (40) functioncall -> . prefixexp COLON IDENTIFIER args
+    (46) expression -> . expression PLUS term
+    (47) expression -> . expression MINUS term
+    (51) expression -> . term
+    (36) prefixexp -> . var
+    (37) prefixexp -> . functioncall
+    (38) prefixexp -> . LPAREN expression RPAREN
+    (48) term -> . term TIMES factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . term POWER factor
+    (52) term -> . factor
+    (29) var -> . IDENTIFIER
+    (30) var -> . prefixexp LBRACKET expression RBRACKET
+    (31) var -> . prefixexp DOT IDENTIFIER
+    (53) factor -> . INTEGER
+    (54) factor -> . FLOAT
+    (55) factor -> . LPAREN expression RPAREN
+
+    SEMICOLON       shift and go to state 6
+    BREAK           shift and go to state 8
+    DO              shift and go to state 10
+    WHILE           shift and go to state 11
+    REPEAT          shift and go to state 12
+    IF              shift and go to state 13
+    FOR             shift and go to state 14
+    LPAREN          shift and go to state 19
+    IDENTIFIER      shift and go to state 15
+    INTEGER         shift and go to state 21
+    FLOAT           shift and go to state 22
+
+    expression                     shift and go to state 9
+    block                          shift and go to state 97
+    stat_list                      shift and go to state 4
+    stat                           shift and go to state 5
+    functioncall                   shift and go to state 7
+    prefixexp                      shift and go to state 16
+    term                           shift and go to state 17
+    var                            shift and go to state 18
+    factor                         shift and go to state 20
+
+state 95
+
+    (14) elseif_blocks -> ELSEIF expression THEN block .
+
+    ELSEIF          reduce using rule 14 (elseif_blocks -> ELSEIF expression THEN block .)
+    ELSE            reduce using rule 14 (elseif_blocks -> ELSEIF expression THEN block .)
+    END             reduce using rule 14 (elseif_blocks -> ELSEIF expression THEN block .)
+
+
+state 96
+
+    (19) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block . END
+
+    END             shift and go to state 98
+
+
+state 97
+
+    (15) elseif_blocks -> elseif_blocks ELSEIF expression THEN block .
+
+    ELSEIF          reduce using rule 15 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
+    ELSE            reduce using rule 15 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
+    END             reduce using rule 15 (elseif_blocks -> elseif_blocks ELSEIF expression THEN block .)
+
+
+state 98
+
+    (19) stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .
+
+    SEMICOLON       reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    BREAK           reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    DO              reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    WHILE           reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    REPEAT          reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    IF              reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    FOR             reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    LPAREN          reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    IDENTIFIER      reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    INTEGER         reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    FLOAT           reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    $end            reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    END             reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    UNTIL           reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    ELSEIF          reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
+    ELSE            reduce using rule 19 (stat -> FOR IDENTIFIER ASSIGN expression COMMA expression DO block END .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for ELSEIF in state 43 resolved as shift
+WARNING: shift/reduce conflict for ELSEIF in state 66 resolved as shift
+WARNING: reduce/reduce conflict in state 7 resolved using rule (stat -> functioncall)
+WARNING: rejected rule (prefixexp -> functioncall) in state 7
+WARNING: reduce/reduce conflict in state 62 resolved using rule (prefixexp -> LPAREN expression RPAREN)
+WARNING: rejected rule (factor -> LPAREN expression RPAREN) in state 62

@@ -26,7 +26,13 @@ def p_stat_list(p):
     
 def p_stat(p):
     '''stat : SEMICOLON
+            | functioncall
+            | BREAK
             | expression'''
+    pass
+
+def p_do(p):
+    '''stat : DO block END'''
     pass
 
 # Randy Rivera
@@ -70,9 +76,23 @@ def p_empty(p):
     'empty :'
     pass
 
+def p_funcname(p):
+    '''funcname : IDENTIFIER funcname_tail method_opt''' 
+    pass
+
+def p_funcname_tail(p):
+    '''funcname_tail : funcname_tail DOT IDENTIFIER
+                     | empty'''
+    pass
+
+def p_method_opt(p):
+    '''method_opt : COLON IDENTIFIER
+                  | empty'''
+    pass
+
 def p_varlist(p):
     '''varlist : varlist COMMA var
-               | var'''
+               | empty'''
     pass
 
 def p_var(p):
@@ -107,6 +127,25 @@ def p_args(p):
             | LPAREN explist RPAREN
             | STRING'''
             # | tableconstructor'''
+    pass
+
+def p_functiondef(p):
+    '''functiondef : FUNCTION funcbody'''
+    pass
+
+def p_funcbody(p):
+    '''funcbody : LPAREN parlist RPAREN block END'''
+    pass
+
+def p_parlist(p):
+    '''parlist : namelist vararg_tail
+               | VARARG
+               | empty'''
+    pass
+
+def p_vararg_tail(p):
+    '''vararg_tail : COMMA VARARG
+                   | empty'''
     pass
 
 
