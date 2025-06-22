@@ -136,23 +136,6 @@ def p_binary_operators(p):
     elif p[2] == '^':
         p[0] = p[1] ** p[3]
 
-def multiple_operators(p):
-    '''expression : expression PLUS LPAREN term RPAREN
-                  | expression MINUS LPAREN term RPAREN
-       term       : term TIMES LPAREN expression RPAREN
-                  | term DIVIDE LPAREN expression RPAREN
-                  | term POWER LPAREN expression RPAREN'''
-    if p[2] == '+=':
-        p[0] = p[1] + p[4]
-    elif p[2] == '-=':
-        p[0] = p[1] - p[4]
-    elif p[2] == '*=':
-        p[0] = p[1] * p[4]
-    elif p[2] == '/=':
-        p[0] = p[1] / p[4]
-    elif p[2] == '^=':
-        p[0] = p[1] ** p[4]
-
 def p_expression_term(p):
     'expression : term'
     p[0] = p[1]
