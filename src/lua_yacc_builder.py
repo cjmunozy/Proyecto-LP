@@ -209,13 +209,14 @@ def p_fieldsep(p):
     pass
 
 #Cristhian Muñoz
-def p_start_input(p):
-    'statement : input'
-    p[0] = p[1]
+def p_functioncall_print(p):
+    '''functioncall : PRINT LPAREN expression RPAREN
+                    | PRINT LPAREN STRING RPAREN'''
+    p[0] = p[3] if isinstance(p[3], (int, float)) else p[3].strip(r'\'|\"')
 
-def p_start_print(p):
-    'statement : print'
-    p[0] = p[1]
+def p_functioncall_input(p):
+    '''functioncall : INPUT LPAREN RPAREN'''
+    p[0] = input("Input: ")
 
 def p_binary_operators(p):
     '''expression : expression PLUS term
@@ -253,15 +254,6 @@ def p_factor_float(p):
 def p_factor_expr(p):
     'factor : LPAREN expression RPAREN'
     p[0] = p[2]
-
-def p_print(p):
-    '''print : PRINT LPAREN expression RPAREN
-             | PRINT LPAREN STRING RPAREN'''
-    p[0] = p[3] if isinstance(p[3], (int, float)) else p[3].strip(r'\'|\"')
-
-def p_input(p):
-    'input : INPUT LPAREN RPAREN'
-    p[0] = input("Input: ")
 
 
 # Randy Rivera
@@ -316,9 +308,9 @@ def probar_salida():
 # Build the parser
 parser = yacc.yacc()
 
-archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
 result = parser.parse(contenido)
 
 # Descomentar para guardar el log

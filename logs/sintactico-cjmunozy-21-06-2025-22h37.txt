@@ -1,0 +1,7 @@
+Error sintáctico en la línea 4, columna 7: Token inesperado 'a'
+Error sintáctico en la línea 10, columna 8: Token inesperado 'c'
+Error sintáctico en la línea 23, columna 7: Token inesperado 'd'
+Error sintáctico en la línea 40, columna 46: Token inesperado '}'
+Error sintáctico en la línea 41, columna 35: Token inesperado ')'
+Error sintáctico en la línea 52, columna 5: Token inesperado 'print'
+Error sintáctico en la línea 61, columna 21: Token inesperado 'a'
