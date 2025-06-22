@@ -1,0 +1,3 @@
+Error sintáctico en la línea 4, columna 1: Token inesperado 'local'
+Error sintáctico en la línea 24, columna 1: Token inesperado 'local'
+Error sintáctico en la línea 52, columna 5: Token inesperado 'print'
