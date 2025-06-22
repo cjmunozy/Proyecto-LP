@@ -212,4 +212,4 @@ for tok in lexer:
         )
     )
 
-guardar_log(valid, errors, usuario)
+# guardar_log(valid, errors, usuario)
