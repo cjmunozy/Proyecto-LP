@@ -63,8 +63,8 @@ def p_stat_for_in(p):
     '''stat : FOR namelist IN explist DO block END'''
     pass
 
-# Diego Araujo
 
+# Diego Araujo
 
 def p_empty(p):
     'empty :'
@@ -218,9 +218,9 @@ def probar_salida():
 # Build the parser
 parser = yacc.yacc()
 
-archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
 result = parser.parse(contenido)
 
 # Descomentar para guardar el log
