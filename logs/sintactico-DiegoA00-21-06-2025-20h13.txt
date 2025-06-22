@@ -1,0 +1,1 @@
+Error sintáctico en la línea 8, columna 1: Token inesperado 'x'
