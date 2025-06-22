@@ -50,7 +50,7 @@ tokens = (
     'CONCAT', 'LEN',
     'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
     'SEMICOLON', 'COMMA', 'DOT',
-    'STRING',
+    'STRING', 'VARARG',
 
     # Randy Rivera
     'POWER', 'MOD',
@@ -90,6 +90,7 @@ t_RBRACKET  = r'\]'
 t_SEMICOLON = r';'
 t_COMMA     = r','
 t_DOT       = r'\.'
+t_VARARG = r'\.\.\.'
 
 def t_STRING(t):
     r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
@@ -196,9 +197,9 @@ def guardar_log(tokens, errores, usuario):
 
 lexer = build_lexer()
 
-archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
+archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
 contenido = leer_archivo(archivo)
-usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
+usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
 lexer.input(contenido)
 
 for tok in lexer:
@@ -211,4 +212,4 @@ for tok in lexer:
         )
     )
 
-# guardar_log(valid, errors, usuario)
+guardar_log(valid, errors, usuario)
