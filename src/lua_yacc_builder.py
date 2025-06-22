@@ -83,11 +83,11 @@ def p_args(p):
 
 #Cristhian Muñoz
 def p_start_input(p):
-    'expression : input'
+    'statement : input'
     p[0] = p[1]
 
 def p_start_print(p):
-    'expression : print'
+    'statement : print'
     p[0] = p[1]
 
 def p_binary_operators(p):
