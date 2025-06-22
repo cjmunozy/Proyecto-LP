@@ -26,14 +26,17 @@ def p_stat_list(p):
     
 def p_stat(p):
     '''stat : SEMICOLON
-            | stat_if
             | expression'''
-            # | stat_while
-            # | stat_for'''
     pass
 
+# Randy Rivera
+def p_stat_while(p):
+    '''stat : WHILE expression DO block END'''
+    pass
+
+# Diego Araujo
 def p_stat_if(p):
-    '''stat_if : IF expression THEN block elseif_blocks else_block END'''
+    '''stat : IF expression THEN block elseif_blocks else_block END'''
     pass
 
 def p_elseif_blocks(p):
@@ -47,10 +50,17 @@ def p_else_block(p):
                   | empty'''
     pass
 
+
+# Cristhian Muñoz
+def p_stat_for(p):
+    '''stat : FOR IDENTIFIER ASSIGN expression COMMA expression DO block END'''
+    pass
+
 def p_empty(p):
     'empty :'
     pass
 
+# Diego Araujo
 def p_var(p):
     '''var : IDENTIFIER
            | prefixexp LBRACKET expression RBRACKET
