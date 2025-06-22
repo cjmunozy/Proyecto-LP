@@ -55,3 +55,10 @@ end
 -- Código con errores léxicos (intencionales)
 local @error = 5.2     -- Error léxico: símbolo inválido '@'
 local otro = #$5     -- Error léxico: símbolo inválido '$'
+
+-- Operaciones con múltiples operadores
+local resultado = (a + b) * (c - d) / e
+local resultado2 = (a + b) * c /(a - (d + e))
+
+-- Imprimir el resultado final
+print("Resultado final: " .. resultado)
