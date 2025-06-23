@@ -1,10 +1,4 @@
-import ply.lex as lex
-import datetime
-
-valid = []
-errors = []
-
-# List of reserved words - Cristhian Muñoz
+# Cristhian Muñoz
 reserved = {
     'and': 'AND',
     'break': 'BREAK',
@@ -18,12 +12,12 @@ reserved = {
     'goto': 'GOTO',
     'if': 'IF',
     'in': 'IN',
-    'input': 'INPUT',
+    # 'input': 'INPUT',
     'local': 'LOCAL',
     'nil': 'NIL',
     'not': 'NOT',
     'or': 'OR',
-    'print': 'PRINT',
+    # 'print': 'PRINT',
     'repeat': 'REPEAT',
     'return': 'RETURN',
     'then': 'THEN',
@@ -32,35 +26,32 @@ reserved = {
     'while': 'WHILE',
 }
 
-# List of token names.   This is always required
 tokens = (
     # Cristhian Muñoz
-    'FLOAT',
-    'INTEGER',
     'PLUS',
     'MINUS',
     'TIMES',
     'DIVIDE',
     'LPAREN',
     'RPAREN',
-    'IDENTIFIER',
+    'NAME',
 
     # Diego Araujo
     'EQUALS', 'NEQUALS', 'LOWER', 'GREATER', 'LOWEREQUALS', 'GREATEREQUALS',
     'CONCAT', 'LEN',
     'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
     'SEMICOLON', 'COMMA', 'DOT',
-    'STRING', 'VARARG',
+    'STRING', 'DOTDOT',
 
     # Randy Rivera
     'POWER', 'MOD',
     'ASSIGN', 'PLUSASSIGN', 'MINUSASSIGN', 'TIMESASSIGN', 
     'DIVIDEASSIGN', 'MODASSIGN', 'POWERASSIGN',
-    'COLON', 'DOUBLECOLON',
+    'COLON', 'DOUBLECOLON', 'NUMBER', 'LABEL', 'DOTDOTDOT', 
+    'BITNOT', 'BITAND', 'BITOR', 'BITXOR', 'IDIV', 'SHIFTL', 'SHIFTR',
 
 ) + tuple(reserved.values())
 
-# Regular expression rules for simple tokens
 # Cristhian Muñoz
 t_PLUS = r'\+'
 t_MINUS = r'-'
@@ -90,18 +81,16 @@ t_RBRACKET  = r'\]'
 t_SEMICOLON = r';'
 t_COMMA     = r','
 t_DOT       = r'\.'
-t_VARARG = r'\.\.\.'
+t_DOTDOTDOT = r'\.\.\.'
 
 def t_STRING(t):
-    r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
-    # Eliminar las comillas del valor
-    t.value = t.value
+    r'(\'([^\\\n]|(\\.))*?\')|(\"([^\\\n]|(\\.))*?\")'
+    t.value = t.value[1:-1]
     return t
 
 
 # Randy Rivera
-# Expresión regular para números (enteros, flotantes y notación científica)
-# Operadores aritméticos adicionales (algunos ya están definidos por Cristhian)
+# Operadores aritméticos
 t_POWER = r'\^'  # Operador de potencia
 t_MOD = r'%'     # Operador módulo
 
@@ -118,35 +107,47 @@ t_POWERASSIGN = r'\^='
 t_COLON = r':'    # Dos puntos
 t_DOUBLECOLON = r'::'  # Dos puntos dobles (usado en Lua para etiquetas)
 
-def t_FLOAT(t):
-    r'\d+\.\d?'
-    t.value = float(t.value)
+t_BITNOT   = r'~'
+t_BITAND   = r'&'
+t_BITOR    = r'\|'
+t_BITXOR   = r'\~'
+t_IDIV     = r'//'
+t_SHIFTL   = r'<<'
+t_SHIFTR   = r'>>'
+t_DOTDOT   = r'\.\.'
+
+def t_NUMBER(t):
+    r'\d+\.?\d*([eE][+-]?\d+)?|0[xX][0-9a-fA-F]+'
+    try:
+        if 'x' in t.value or 'X' in t.value:
+            t.value = int(t.value, 16)
+        elif '.' in t.value or 'e' in t.value or 'E' in t.value:
+            t.value = float(t.value)
+        else:
+            t.value = int(t.value)
+    except ValueError:
+        print(f"Integer value too large: {t.value}")
+        t.value = 0
     return t
 
-def t_INTEGER(t):
-    r'\d+'
-    t.value = int(t.value)
+def t_LABEL(t):
+    r'::[a-zA-Z_][a-zA-Z0-9_]*::'
+    t.value = t.value[2:-2]  # Remove ::
     return t
 
 # Cristhian Muñoz
-# Define a rule so we can track line numbers
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Compute column.
-#     input is the input text string
-#     token is a token instance
 def find_column(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
 
-# A string containing ignored characters (spaces and tabs)
-t_ignore  = ' \t'
+t_ignore = ' \t\n\r'
 
-# Error handling rule
 def t_error(t):
-    errors.append(
+    print(
         f"[Error Léxico] Línea {t.lineno}, "
         f"Columna {find_column(t.lexer.lexdata, t)}: "
         f"Carácter no reconocido '{t.value[0]}'"
@@ -155,28 +156,19 @@ def t_error(t):
 
 def t_multiline_comment(t):
     r'--\[\[(.|\n)*?\]\]'
-    t.lexer.lineno += t.value.count('\n')  # Count newlines
-    pass  # No action needed for multiline comments
+    t.lexer.lineno += t.value.count('\n')
+    pass
 
 def t_comment(t):
     r'--.*'
-    pass  # No action needed for comments
+    pass
 
-def t_identifier(t):
+def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')  # Check for reserved words
+    t.type = reserved.get(t.value, 'NAME')
     return t
 
-# Ejecución del lexer
 # Cristian Muñoz
-def build_lexer():
-    return lex.lex()
-
-def leer_archivo(archivo):
-    with open(archivo, 'r', encoding='utf-8') as f:
-        contenido = f.read()
-    return contenido
-
 def crear_log_filename(username):
     now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
     return f"lexico-{username}-{now}.txt"
@@ -193,23 +185,3 @@ def guardar_log(tokens, errores, usuario):
         for error in errores:
             log.write(f"{error}\n")
     print(f"Log guardado en: {ruta_log}")
-
-
-lexer = build_lexer()
-
-archivo = "tests/algorithm_araujo.lua"  # Reemplaza con tu archivo Lua
-contenido = leer_archivo(archivo)
-usuario = "DiegoA00"  # Reemplaza con tu nombre de usuario de GitHub
-lexer.input(contenido)
-
-for tok in lexer:
-    valid.append(
-        (
-            f"Token: {tok.type:<12} "
-            f"Valor: {repr(tok.value):<20} "
-            f"Línea: {tok.lineno:<4} "
-            f"Columna: {find_column(contenido, tok):<4} "
-        )
-    )
-
-# guardar_log(valid, errors, usuario)

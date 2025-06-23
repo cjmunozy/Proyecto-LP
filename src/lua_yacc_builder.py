@@ -1,9 +1,4 @@
-from lua_lexer_builder import tokens, leer_archivo
-from ply import yacc
-import datetime
-
-errors = []
-
+from utility import find_line, find_column
 # Cristhian Muñoz
 def p_start(p):
     'start : chunk'
@@ -11,310 +6,356 @@ def p_start(p):
 
 
 # Diego Araujo
+# GOTO NAME
+# DO block END
+
 def p_chunk(p):
-    'chunk : block'
-    pass
+    '''chunk : block'''
+    p[0] = ('chunk', p[1])
 
 def p_block(p):
-    '''block : stat_list retstat_opt'''
-    pass
+    '''block : stat_list opt_retstat'''
+    p[0] = ('block', p[1], p[2])
     
 def p_stat_list(p):
-    '''stat_list : stat_list stat
-                 | empty'''
-    pass
+    '''stat_list : stat
+                 | stat_list stat'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[2]]
 
-def p_retstat_opt(p):
-    '''retstat_opt : retstat
-                   | empty'''
-    pass
+def p_opt_retstat(p):
+    '''opt_retstat : empty
+                   | retstat'''
+    p[0] = p[1]
     
 def p_stat(p):
     '''stat : SEMICOLON
             | varlist ASSIGN explist
             | functioncall
-            | BREAK'''
-    pass
-
-def p_goto(p):
-    '''stat : GOTO IDENTIFIER'''
-    pass
-
-def p_do(p):
-    '''stat : DO block END'''
-    pass
+            | LABEL
+            | BREAK
+            | GOTO NAME
+            | DO block END
+            | WHILE exp DO block END
+            | REPEAT block UNTIL exp
+            | IF exp THEN block elseif_list opt_else END
+            | FOR NAME ASSIGN exp COMMA exp opt_third_exp DO block END
+            | FOR namelist IN explist DO block END
+            | FUNCTION funcname funcbody
+            | LOCAL FUNCTION NAME funcbody
+            | LOCAL attnamelist opt_assign'''
+    if len(p) == 2:
+        p[0] = ('stat', p[1])
+    elif len(p) == 3:
+        p[0] = ('stat', p[1], p[2])
+    elif len(p) == 4:
+        p[0] = ('stat', p[1], p[2], p[3])
+    elif len(p) == 5:
+        p[0] = ('stat', p[1], p[2], p[3], p[4])
+    else:
+        p[0] = ('stat',) + tuple(p[1:])
 
 # Randy Rivera
-def p_stat_while(p):
-    '''stat : WHILE expression DO block END'''
+# WHILE exp DO block END
+
+def p_elseif_list(p):
+    '''elseif_list : empty
+                   | elseif_list ELSEIF exp THEN block'''
+    if len(p) == 2:
+        p[0] = []
+    else:
+        p[0] = p[1] + [('elseif', p[3], p[5])]
+
+def p_opt_else(p):
+    '''opt_else : empty
+                | ELSE block'''
+    if len(p) == 2:
+        p[0] = None
+    else:
+        p[0] = ('else', p[2])
+
+def p_opt_third_exp(p):
+    '''opt_third_exp : empty
+                     | COMMA exp'''
+    if len(p) == 2:
+        p[0] = None
+    else:
+        p[0] = p[2]
+
+def p_opt_assign(p):
+    '''opt_assign : empty
+                  | ASSIGN explist'''
+    if len(p) == 2:
+        p[0] = None
+    else:
+        p[0] = p[2]
+
+def p_attnamelist(p):
+    '''attnamelist : NAME attrib
+                   | attnamelist COMMA NAME attrib'''
+    if len(p) == 3:
+        p[0] = [('name', p[1], p[2])]
+    else:
+        p[0] = p[1] + [('name', p[3], p[4])]
+
+def p_attrib(p):
+    '''attrib : empty
+              | LOWER NAME GREATER'''
+    if len(p) == 2:
+        p[0] = None
+    else:
+        p[0] = p[2]
+
+
+
+def p_opt_explist(p):
+    '''opt_explist : empty
+                   | explist'''
+    p[0] = p[1]
+
+def p_opt_semi(p):
+    '''opt_semi : empty
+                | SEMICOLON'''
     pass
+
+
+
+
+
+
+
+def p_exp(p):
+    '''exp : NIL
+           | FALSE
+           | TRUE
+           | NUMBER
+           | STRING
+           | DOTDOTDOT
+           | functiondef
+           | prefixexp
+           | tableconstructor
+           | exp binop exp
+           | unop exp'''
+    if len(p) == 2:
+        p[0] = p[1]
+    elif len(p) == 3:
+        p[0] = (p[1], p[2])
+    else:
+        p[0] = (p[2], p[1], p[3])
+
+
+
+
+
+
+
+def p_opt_parlist(p):
+    '''opt_parlist : empty
+                   | parlist'''
+    p[0] = p[1]
+
+
+
+
+
+def p_opt_fieldlist(p):
+    '''opt_fieldlist : empty
+                     | fieldlist'''
+    p[0] = p[1]
+
+def p_unop(p):
+    '''unop : MINUS
+            | NOT
+            | LEN
+            | BITNOT'''
+    p[0] = p[1]
 
 # Diego Araujo
-def p_stat_repeat(p):
-    '''stat : REPEAT block UNTIL expression'''
-    pass
-
-def p_stat_if(p):
-    '''stat : IF expression THEN block elseif_blocks else_block END'''
-    pass
-
-def p_elseif_blocks(p):
-    '''elseif_blocks : ELSEIF expression THEN block
-                     | elseif_blocks ELSEIF expression THEN block
-                     | empty'''
-    pass
-
-def p_else_block(p):
-    '''else_block : ELSE block
-                  | empty'''
-    pass
-
-# Cristhian Muñoz
-def p_stat_for(p):
-    '''stat : FOR IDENTIFIER ASSIGN expression COMMA expression DO block END'''
-    pass
-
-def p_stat_for_in(p):
-    '''stat : FOR namelist IN explist DO block END'''
-    pass
-
-
-# Diego Araujo
-def p_stat_function(p):
-    '''stat : FUNCTION funcname funcbody'''
-    pass
-
-def p_stat_local_function(p):
-    '''stat : LOCAL FUNCTION IDENTIFIER funcbody'''
-    pass
+# REPEAT block UNTIL exp
+# IF exp THEN block elseif_list opt_else END
+# FUNCTION funcname funcbody
+# LOCAL FUNCTION NAME funcbody
 
 def p_empty(p):
     'empty :'
     pass
 
 def p_retstat(p):
-    '''retstat : RETURN explist SEMICOLON
-               | RETURN explist
-               | RETURN SEMICOLON
-               | RETURN'''
-    pass
-
-def p_label(p):
-    '''stat : DOUBLECOLON IDENTIFIER DOUBLECOLON'''
-    pass
+    '''retstat : RETURN opt_explist opt_semi'''
+    p[0] = ('return', p[2])
 
 def p_funcname(p):
-    '''funcname : IDENTIFIER funcname_tail method_opt''' 
-    pass
+    '''funcname : NAME funcname_tail'''
+    p[0] = ('funcname', p[1], p[2])
 
 def p_funcname_tail(p):
-    '''funcname_tail : funcname_tail DOT IDENTIFIER
-                     | empty'''
-    pass
-
-def p_method_opt(p):
-    '''method_opt : COLON IDENTIFIER
-                  | empty'''
-    pass
+    '''funcname_tail : empty
+                    | DOT NAME funcname_tail
+                    | COLON NAME funcname_tail'''
+    if len(p) == 2:
+        p[0] = []
+    else:
+        p[0] = [(p[2], p[1])] + p[3]
 
 def p_varlist(p):
     '''varlist : var
                | varlist COMMA var'''
-    pass
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[2]]
 
 def p_var(p):
-    '''var : IDENTIFIER
-           | prefixexp LBRACKET expression RBRACKET
-           | prefixexp DOT IDENTIFIER'''
-    pass
+    '''var : NAME
+           | prefixexp LBRACKET exp RBRACKET
+           | prefixexp DOT NAME'''
+    if len(p) == 2:
+        p[0] = ('var', p[1])
+    elif len(p) == 5:
+        if p[2] == '[':
+            p[0] = ('index', p[1], p[3])
+        else:
+            p[0] = ('dot', p[1], p[3])
 
 def p_namelist(p):
-    '''namelist : IDENTIFIER
-                | namelist COMMA IDENTIFIER'''
-    pass
+    '''namelist : NAME
+                | namelist COMMA NAME'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[2]]
 
 def p_explist(p):
-    '''explist : expression
-               | explist COMMA expression'''
-    pass
-
-# def p_exp_prefixexp(p):
-#     '''expression : prefixexp'''
-#     pass
+    '''explist : exp
+               | explist COMMA exp'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[2]]
 
 def p_prefixexp(p):
     '''prefixexp : var
                  | functioncall
-                 | LPAREN expression RPAREN'''
-    pass
+                 | LPAREN exp RPAREN'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
 
 def p_functioncall(p):
     '''functioncall : prefixexp args
-                    | prefixexp COLON IDENTIFIER args'''
-    pass
+                    | prefixexp COLON NAME args'''
+    if len(p) == 3:
+        p[0] = ('call', p[1], p[2])
+    else:
+        p[0] = ('method', p[1], p[3], p[4])
 
 def p_args(p):
-    '''args : LPAREN RPAREN
-            | LPAREN explist RPAREN
-            | STRING
-            | tableconstructor'''
-    pass
+    '''args : LPAREN opt_explist RPAREN
+            | tableconstructor
+            | STRING'''
+    if len(p) == 4:
+        p[0] = ('args', p[2])
+    else:
+        p[0] = ('args', p[1])
 
 def p_functiondef(p):
-    '''expression : FUNCTION funcbody'''
-    pass
+    '''functiondef : FUNCTION funcbody'''
+    p[0] = ('function', p[2])
 
 def p_funcbody(p):
-    '''funcbody : LPAREN RPAREN block END
-                | LPAREN parlist RPAREN block END'''
-    pass
+    '''funcbody : LPAREN opt_parlist RPAREN block END'''
+    p[0] = ('funcbody', p[2], p[4])
 
 def p_parlist(p):
-    '''parlist : namelist vararg_tail
-               | VARARG'''
-    pass
-
-def p_vararg_tail(p):
-    '''vararg_tail : COMMA VARARG
-                   | empty'''
-    pass
+    '''parlist : namelist COMMA DOTDOTDOT
+               | namelist
+               | DOTDOTDOT'''
+    if len(p) == 4:
+        p[0] = ('parlist', p[1], True)
+    elif len(p) == 2:
+        if p[1] == '...':
+            p[0] = ('parlist', [], True)
+        else:
+            p[0] = ('parlist', p[1], False)
 
 def p_tableconstructor(p):
-    '''tableconstructor : LBRACE RBRACE
-                        | LBRACE fieldlist RBRACE'''
-    pass
+    '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
+    p[0] = ('table', p[2])
 
 def p_fieldlist(p):
-    '''fieldlist : field fieldsep_tail'''
-    pass
-
-def p_fieldsep_tail(p):
-    '''fieldsep_tail : fieldsep fieldfield_tail_opt
-                     | empty'''
-    pass
-
-def p_fieldfield_tail_opt(p):
-    '''fieldfield_tail_opt : fieldlist
-                           | empty'''
-    pass
+    '''fieldlist : field
+                 | fieldlist fieldsep field
+                 | fieldlist fieldsep'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif len(p) == 3:
+        p[0] = p[1]
+    else:
+        p[0] = p[1] + [p[3]]
 
 def p_field(p):
-    '''field : LBRACKET expression RBRACKET ASSIGN expression
-             | IDENTIFIER ASSIGN expression
-             | expression'''
+    '''field : LBRACKET exp RBRACKET ASSIGN exp
+             | NAME ASSIGN exp
+             | exp'''
+    if len(p) == 6:
+        p[0] = ('key', p[2], p[5])
+    elif len(p) == 4:
+        p[0] = ('assign', p[1], p[3])
+    else:
+        p[0] = ('value', p[1])
     
 def p_fieldsep(p):
     '''fieldsep : COMMA
                 | SEMICOLON'''
     pass
 
-#Cristhian Muñoz
-def p_functioncall_print(p):
-    '''functioncall : PRINT LPAREN expression RPAREN
-                    | PRINT LPAREN STRING RPAREN'''
-    p[0] = p[3] if isinstance(p[3], (int, float)) else p[3].strip(r'\'|\"')
-
-def p_functioncall_input(p):
-    '''functioncall : INPUT LPAREN RPAREN'''
-    p[0] = input("Input: ")
-
-def p_binary_operators(p):
-    '''expression : expression PLUS term
-                  | expression MINUS term
-       term       : term TIMES factor
-                  | term DIVIDE factor
-                  | term POWER factor'''
-    if p[2] == '+':
-        p[0] = p[1] + p[3]
-    elif p[2] == '-':
-        p[0] = p[1] - p[3]
-    elif p[2] == '*':
-        p[0] = p[1] * p[3]
-    elif p[2] == '/':
-        p[0] = p[1] / p[3]
-    elif p[2] == '^':
-        p[0] = p[1] ** p[3]
-
-def p_expression_term(p):
-    'expression : term'
-    p[0] = p[1]
-
-def p_term_factor(p):
-    'term : factor'
-    p[0] = p[1]
-
-def p_factor_num(p):
-    'factor : INTEGER'
-    p[0] = int(p[1])
-
-def p_factor_float(p):
-    'factor : FLOAT'
-    p[0] = float(p[1])
-
-def p_factor_expr(p):
-    'factor : LPAREN expression RPAREN'
-    p[0] = p[2]
-
-
-# Randy Rivera
-
-
-
 # Cristhian Muñoz
-def find_line(input, token):
-    return input.count('\n', 0, token.lexpos) + 1
+# FOR NAME ASSIGN exp COMMA exp opt_third_exp DO block END
+# FOR namelist IN explist DO block END
+# def p_functioncall_print(p):
+#     '''functioncall : PRINT LPAREN expression RPAREN
+#                     | PRINT LPAREN STRING RPAREN'''
+#     p[0] = p[3] if isinstance(p[3], (int, float)) else p[3].strip(r'\'|\"')
 
-def find_column(input, token):
-    line_start = input.rfind('\n', 0, token.lexpos) + 1
-    return (token.lexpos - line_start) + 1
+# def p_functioncall_input(p):
+#     '''functioncall : INPUT LPAREN RPAREN'''
+#     p[0] = input("Input: ")
 
-# Error rule for syntax errors
+def p_binop(p):
+    '''binop : PLUS
+             | MINUS
+             | TIMES
+             | DIVIDE
+             | IDIV
+             | POWER
+             | MOD
+             | BITAND
+             | BITOR
+             | BITXOR
+             | SHIFTL
+             | SHIFTR
+             | CONCAT
+             | LOWER
+             | LOWEREQUALS
+             | GREATER
+             | GREATEREQUALS
+             | EQUALS
+             | NEQUALS
+             | AND
+             | OR'''
+    p[0] = p[1]
+
 def p_error(p):
     if p:
-        # Información sobre la posición y línea
-        errors.append(
+        print(
             f"Error sintáctico en la línea {find_line(p.lexer.lexdata, p)}, "
             f"columna {find_column(p.lexer.lexdata, p)}: "
             f"Token inesperado '{p.value}'"
         )
     else:
-        errors.append(
+        print(
             "Error sintáctico: Fin de archivo inesperado"
         )
-
-def crear_log_filename(username):
-    now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
-    return f"sintactico-{username}-{now}.txt"
-
-def guardar_log(username):
-    nombre_log = crear_log_filename(username)
-    ruta_log = f"./logs/{nombre_log}"
-    # Escribe tokens y errores en el log
-    with open(ruta_log, 'w', encoding='utf-8') as log:
-        for error in errors:
-            log.write(f"{error}\n")
-    print(f"Log guardado en: {ruta_log}")
-
-def probar_salida():
-    while True:
-        try:
-            s = input('calc > ')
-        except EOFError:
-            break
-        if not s: continue
-        result = parser.parse(s)
-        print(result)
-
-# Build the parser
-parser = yacc.yacc()
-
-archivo = "tests/algoritmo-cristhian.lua"  # Reemplaza con tu archivo Lua
-contenido = leer_archivo(archivo)
-usuario = "cjmunozy"  # Reemplaza con tu nombre de usuario de GitHub
-result = parser.parse(contenido)
-
-# Descomentar para guardar el log
-guardar_log(usuario)
-
-# Descomentar para probar con entrada por consola
-# probar_salida()
