@@ -1,0 +1,34 @@
+RECOGNIZED TOKENS:
+Token: NAME         Value: 'a'                  Line: 1    Column: 1    
+Token: COMMA        Value: ','                  Line: 1    Column: 2    
+Token: NAME         Value: 'b'                  Line: 1    Column: 4    
+Token: ASSIGN       Value: '='                  Line: 1    Column: 6    
+Token: NUMBER       Value: 1                    Line: 1    Column: 8    
+Token: NAME         Value: 'c'                  Line: 1    Column: 1    
+Token: ASSIGN       Value: '='                  Line: 1    Column: 3    
+Token: NUMBER       Value: 1                    Line: 1    Column: 5    
+Token: COMMA        Value: ','                  Line: 1    Column: 6    
+Token: NUMBER       Value: 2                    Line: 1    Column: 8    
+Token: COMMA        Value: ','                  Line: 1    Column: 9    
+Token: NUMBER       Value: 3                    Line: 1    Column: 11   
+Token: BREAK        Value: 'break'              Line: 1    Column: 1    
+Token: RETURN       Value: 'return'             Line: 1    Column: 1    
+Token: NUMBER       Value: 42                   Line: 1    Column: 8    
+Token: FUNCTION     Value: 'function'           Line: 1    Column: 1    
+Token: NAME         Value: 'f'                  Line: 1    Column: 10   
+Token: LPAREN       Value: '('                  Line: 1    Column: 11   
+Token: RPAREN       Value: ')'                  Line: 1    Column: 12   
+Token: RETURN       Value: 'return'             Line: 1    Column: 3    
+Token: STRING       Value: 'ok'                 Line: 1    Column: 10   
+Token: END          Value: 'end'                Line: 1    Column: 1    
+Token: FOR          Value: 'for'                Line: 1    Column: 1    
+Token: NAME         Value: 'i'                  Line: 1    Column: 5    
+Token: ASSIGN       Value: '='                  Line: 1    Column: 7    
+Token: NUMBER       Value: 1                    Line: 1    Column: 9    
+Token: COMMA        Value: ','                  Line: 1    Column: 10   
+Token: NUMBER       Value: 5                    Line: 1    Column: 12   
+Token: DO           Value: 'do'                 Line: 1    Column: 14   
+Token: BREAK        Value: 'break'              Line: 1    Column: 3    
+Token: END          Value: 'end'                Line: 1    Column: 1    
+
+ERRORS:

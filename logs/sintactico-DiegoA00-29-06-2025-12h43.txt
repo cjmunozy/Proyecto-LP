@@ -1,0 +1,8 @@
+RECOGNIZED TOKENS:
+Token: NAME         Value: 'x'                  Line: 1    Column: 1    
+Token: ASSIGN       Value: '='                  Line: 1    Column: 2    
+Token: NUMBER       Value: 1                    Line: 1    Column: 3    
+Token: RETURN       Value: 'return'             Line: 1    Column: 1    
+Token: NUMBER       Value: 5                    Line: 1    Column: 8    
+
+ERRORS:
