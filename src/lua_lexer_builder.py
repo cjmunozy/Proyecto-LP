@@ -45,8 +45,7 @@ tokens = (
 
     # Randy Rivera
     'POWER', 'MOD',
-    'ASSIGN', 'PLUSASSIGN', 'MINUSASSIGN', 'TIMESASSIGN', 
-    'DIVIDEASSIGN', 'MODASSIGN', 'POWERASSIGN',
+    'ASSIGN',
     'COLON', 'DOUBLECOLON', 'NUMBER', 'LABEL', 'DOTDOTDOT', 
     'BITNOT', 'BITAND', 'BITOR', 'BITXOR', 'IDIV', 'SHIFTL', 'SHIFTR',
 
@@ -96,12 +95,6 @@ t_MOD = r'%'     # Operador módulo
 
 # Operadores de asignación
 t_ASSIGN = r'='   # Asignación simple
-t_PLUSASSIGN = r'\+='
-t_MINUSASSIGN = r'-='
-t_TIMESASSIGN = r'\*='
-t_DIVIDEASSIGN = r'/='
-t_MODASSIGN = r'%='
-t_POWERASSIGN = r'\^='
 
 # Delimitadores y separadores adicionales
 t_COLON = r':'    # Dos puntos
@@ -167,21 +160,3 @@ def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'NAME')
     return t
-
-# Cristian Muñoz
-def crear_log_filename(username):
-    now = datetime.datetime.now().strftime("%d-%m-%Y-%Hh%M")
-    return f"lexico-{username}-{now}.txt"
-
-def guardar_log(tokens, errores, usuario):
-    nombre_log = crear_log_filename(usuario)
-    ruta_log = f"./logs/{nombre_log}"
-    # Escribe tokens y errores en el log
-    with open(ruta_log, 'w', encoding='utf-8') as log:
-        log.write("TOKENS RECONOCIDOS:\n")
-        for token in tokens:
-            log.write(f"{token}\n")
-        log.write("\nERRORES:\n")
-        for error in errores:
-            log.write(f"{error}\n")
-    print(f"Log guardado en: {ruta_log}")
