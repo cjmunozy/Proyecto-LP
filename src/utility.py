@@ -21,6 +21,15 @@ def save_log(tokens, errors, username):
             log.write(f"{error}\n")
     print(f"Log saved at: {ruta_log}")      
 
+def save_semantic_log(errors, username):
+    nombre_log = create_log_filename(username, 'semantico')
+    ruta_log = f"./logs/{nombre_log}"
+    with open(ruta_log, 'w', encoding='utf-8') as log:
+        log.write("SEMANTIC ERRORS:\n")
+        for error in errors:
+            log.write(f"{error}\n")
+    print(f"Semantic log saved at: {ruta_log}")
+
 def lua_repl(parser):
     while True:
         try:

@@ -1,4 +1,7 @@
 from utility import find_line, find_column
+
+context_stack = []
+
 # Cristhian Muñoz
 def p_start(p):
     'start : chunk'
@@ -56,6 +59,35 @@ def p_stat(p):
         p[0] = ('stat', p[1], p[2], p[3], p[4])
     else:
         p[0] = ('stat',) + tuple(p[1:])
+    if len(p) == 4 and p[2] == '=': #Diego Araujo
+        vars = p[1]
+        vals = p[3]
+        
+        if len(vals) < len(vars):
+            vals += ['nil'] * (len(vars) - len(vals))  # completar con nil
+        elif len(vals) > len(vars):
+            vals = vals[:len(vars)]  # descartar valores sobrantes
+
+        p[0] = ('assign', vars, vals)
+    elif p[1] == 'WHILE':
+        context_stack.append('loop')
+        ...
+        context_stack.pop()
+    elif p[1] == 'REPEAT':
+        context_stack.append('loop')
+        ...
+        context_stack.pop()
+    elif p[1] == 'FOR':
+        context_stack.append('loop')
+        ...
+        context_stack.pop()
+    elif len(p) == 2 and p[1] == 'BREAK':
+        if 'loop' not in context_stack:
+            print("Error semántico: 'break' usado fuera de un bucle")
+            p.parser.semantic_errors.append(
+                f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p)}"
+            )
+        p[0] = ('break',)
 
 # Randy Rivera
 # WHILE exp DO block END
@@ -182,8 +214,14 @@ def p_empty(p):
     'empty :'
     pass
 
+# Diego Araujo
 def p_retstat(p):
     '''retstat : RETURN opt_explist opt_semi'''
+    if 'function' not in context_stack:
+        print("Error semántico: 'return' fuera de una función o chunk")
+        p.parser.semantic_errors.append(
+            f"Error semántico: 'return' fuera de una función o chunk en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
+        )
     p[0] = ('return', p[2])
 
 def p_funcname(p):
@@ -265,9 +303,12 @@ def p_functiondef(p):
     '''functiondef : FUNCTION funcbody'''
     p[0] = ('function', p[2])
 
+# Diego Araujo
 def p_funcbody(p):
     '''funcbody : LPAREN opt_parlist RPAREN block END'''
+    context_stack.append('function')
     p[0] = ('funcbody', p[2], p[4])
+    context_stack.pop()
 
 def p_parlist(p):
     '''parlist : namelist COMMA DOTDOTDOT
