@@ -13,8 +13,8 @@ if __name__ == '__main__':
     lexer = lex.lex()
     parser = yacc.yacc()
     
-    username = "DiegoA00"
-    file = "tests/semantic_errors.lua"
+    username = "randyRivera0"
+    file = "tests/semantic_errors_copy.lua"
     data = read_file(file)
 
     lexer.input(data)

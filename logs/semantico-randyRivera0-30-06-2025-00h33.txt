@@ -1,0 +1,2 @@
+SEMANTIC ERRORS:
+Error semántico: 'return' fuera de una función o chunk en la línea 14

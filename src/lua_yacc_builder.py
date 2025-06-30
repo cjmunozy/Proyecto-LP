@@ -175,13 +175,33 @@ def p_exp(p):
     elif len(p) == 3:
         p[0] = (p[1], p[2])
     else:
-        p[0] = (p[2], p[1], p[3])
+        # Randy Rivera
+        # Implementación de la Regla 2: Verificación de Tipos en Operaciones Aritméticas
+        # Verificación de tipos para operaciones binarias
+        operator = p[2]
+        left = p[1]
+        right = p[3]
+        
+        # Verificar operaciones aritméticas
+        if operator in ['+', '-', '*', '/', '^', '%', '//']:
+            if not (is_numeric(left) and is_numeric(right)):
+                print(f"Error semántico: Operación aritmética '{operator}' aplicada a tipos no numéricos")
+                p.parser.semantic_errors.append(
+                    f"Error semántico en línea {find_line(p.lexer.lexdata, p.slice[2])}: "
+                    f"Operación aritmética '{operator}' requiere operandos numéricos"
+                )
+        
+        p[0] = (operator, left, right)
 
-
-
-
-
-
+def is_numeric(exp):
+    """Determina si una expresión es numérica"""
+    if isinstance(exp, (int, float)):
+        return True
+    if isinstance(exp, str) and exp.replace('.', '', 1).isdigit():
+        return True
+    if isinstance(exp, tuple) and exp[0] == 'unop' and exp[1] == '-' and is_numeric(exp[2]):
+        return True
+    return False
 
 def p_opt_parlist(p):
     '''opt_parlist : empty
