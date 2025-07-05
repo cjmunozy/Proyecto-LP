@@ -47,4 +47,13 @@ def find_line(input, token):
 
 def find_column(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
-    return (token.lexpos - line_start) + 1 
+    return (token.lexpos - line_start) + 1
+
+def is_numeric(exp):
+    if isinstance(exp, float):
+        return True
+    if isinstance(exp, int):
+        return True
+    if isinstance(exp, tuple) and exp[0] == 'unop' and exp[1] == '-' and is_numeric(exp[2]):
+        return True
+    return False

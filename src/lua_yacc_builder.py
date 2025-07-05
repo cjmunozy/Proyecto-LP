@@ -1,6 +1,15 @@
-from utility import find_line, find_column
+from utility import *
 
 context_stack = []
+
+#1. Agregar mi tabla de símbolos
+tabla_simbolos = {
+    "variables":{},
+    "tipos":{
+        "str-funciones":["len","to_uppercase", "to_lowercase", "to_str"]
+    }
+}
+
 
 # Cristhian Muñoz
 def p_start(p):
@@ -32,10 +41,29 @@ def p_opt_retstat(p):
     '''opt_retstat : empty
                    | retstat'''
     p[0] = p[1]
+
+def p_multiple_assign(p):
+    '''multiple_assign : varlist ASSIGN explist'''
+    variables = p[1]  # Lista de nombres de variables
+    valores = p[3]    # Lista de tipos o valores
+
+    if len(variables) != len(valores):
+        print(f"Error semántico: Se esperaban {len(variables)} valores pero se recibieron {len(valores)}.")
+        p.parser.semantic_errors.append(
+            f"Asignación múltiple con desajuste de longitud: {len(variables)} vars vs {len(valores)} exprs"
+        )
+        return
+
+    for i in range(len(variables)):
+        nombre = variables[i]
+        tipo = valores[i]
+        tabla_simbolos["variables"][nombre] = tipo
+        print(f"[INFO] Variable '{nombre}' asignada con tipo '{tipo}'")
+
     
 def p_stat(p):
     '''stat : SEMICOLON
-            | varlist ASSIGN explist
+            | multiple_assign
             | functioncall
             | LABEL
             | BREAK
@@ -152,10 +180,45 @@ def p_opt_semi(p):
                 | SEMICOLON'''
     pass
 
+def p_binary_exp(p):
+    # Randy Rivera
+    # Implementación de la Regla 2: Verificación de Tipos en Operaciones Aritméticas
+    # Verificación de tipos para operaciones binarias
+    'binary_exp : exp binop exp'
+    operator = p[2]
+    left = p[1]
+    right = p[3]
 
-
-
-
+    if is_numeric(left) and is_numeric(right):
+        left = int(left)
+        right = int(right)
+        try:
+            if operator == '+':
+                result = left + right
+            elif operator == '-':
+                result = left - right
+            elif operator == '*':
+                result = left * right
+            elif operator == '/':
+                result = left / right
+            elif operator == '%':
+                result = left % right
+            elif operator == '^':
+                result = left ** right
+            elif operator == '//':
+                result = left // right
+            else:
+                result = (operator, left, right)
+            p[0] = result
+        except Exception as e:
+            print(f"Error en la operación: {e}")
+            p.parser.semantic_errors.append(str(e))
+            p[0] = (operator, left, right)
+    else:
+        print(f"Error semántico: Operación aritmética '{operator}' aplicada a tipos no numéricos")
+        p.parser.semantic_errors.append(
+            f"Operación aritmética '{operator}' requiere operandos numéricos"
+        )
 
 
 def p_exp(p):
@@ -168,49 +231,27 @@ def p_exp(p):
            | functiondef
            | prefixexp
            | tableconstructor
-           | exp binop exp
+           | binary_exp
            | unop exp'''
     if len(p) == 2:
-        p[0] = p[1]
-    elif len(p) == 3:
-        p[0] = (p[1], p[2])
-    else:
-        # Randy Rivera
-        # Implementación de la Regla 2: Verificación de Tipos en Operaciones Aritméticas
-        # Verificación de tipos para operaciones binarias
-        operator = p[2]
-        left = p[1]
-        right = p[3]
+        if isinstance(p[1], int):
+            p[0]=int(p[1])
+        elif isinstance(p[1], float):
+            p[0]=float(p[1])
+        elif isinstance(p[1], str) and p.slice[1].type=="STRING":
+            p[0]="str"
+        else:
+            nombre = p[1]
+            if nombre not in tabla_simbolos["variables"]:
+                print(f"Error semántico: la variable {nombre} no ha sido definida.")
+            else:
+                p[0] = tabla_simbolos["variables"][nombre]
+            p[0] = p[1]
         
-        # Verificar operaciones aritméticas
-        if operator in ['+', '-', '*', '/', '^', '%', '//']:
-            if not (is_numeric(left) and is_numeric(right)):
-                print(f"Error semántico: Operación aritmética '{operator}' aplicada a tipos no numéricos")
-                p.parser.semantic_errors.append(
-                    f"Error semántico en línea {find_line(p.lexer.lexdata, p.slice[2])}: "
-                    f"Operación aritmética '{operator}' requiere operandos numéricos"
-                )
-        
-        p[0] = (operator, left, right)
-
-def is_numeric(exp):
-    """Determina si una expresión es numérica"""
-    if isinstance(exp, (int, float)):
-        return True
-    if isinstance(exp, str) and exp.replace('.', '', 1).isdigit():
-        return True
-    if isinstance(exp, tuple) and exp[0] == 'unop' and exp[1] == '-' and is_numeric(exp[2]):
-        return True
-    return False
-
 def p_opt_parlist(p):
     '''opt_parlist : empty
                    | parlist'''
     p[0] = p[1]
-
-
-
-
 
 def p_opt_fieldlist(p):
     '''opt_fieldlist : empty
