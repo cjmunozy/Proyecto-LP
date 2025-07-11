@@ -19,7 +19,7 @@ def analizar():
         resultado_sintactico = syntactic_analyzer.analizar_sintactico(entrada)
 
         # Análisis semántico
-        resultado_semantico = syntactic_analyzer.analizar_semantico(entrada)
+        resultado_semantico = syntactic_analyzer.analizar_semantico()
 
         # Mostrar resultados
         texto_salida.delete("1.0", tk.END)

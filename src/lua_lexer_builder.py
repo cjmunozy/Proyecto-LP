@@ -49,7 +49,7 @@ tokens = (
     'POWER', 'MOD',
     'ASSIGN',
     'COLON', 'DOUBLECOLON', 'NUMBER', 'LABEL', 'DOTDOTDOT', 
-    'BITNOT', 'BITAND', 'BITOR', 'BITXOR', 'IDIV', 'SHIFTL', 'SHIFTR',
+    'BITNOT', 'BITAND', 'BITOR', 'BITXOR', 'IDIV', 'SHIFTL', 'SHIFTR', 'SET',
 
 ) + tuple(reserved.values())
 

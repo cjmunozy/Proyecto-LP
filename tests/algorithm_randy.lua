@@ -3,7 +3,9 @@ if a == 1 then
     x = 5;
     x = x + 5
     print(x)
-    local arr = {1, 2, 3, 4, 5}
+    local table = {1, 2, 3, 4, 5}
+    local array = [1, 2, 3, 4, 5]
+    local tuple = (1, 2, 3, 4, 5)
 elseif a == 1 and not true or a < 5 then
     local a = "Hello World"
     dict = {name = "Alice", age = 30, active = true}

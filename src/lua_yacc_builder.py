@@ -232,6 +232,8 @@ def p_exp(p):
         | functiondef
         | prefixexp
         | tableconstructor
+        | arrayconstructor
+        | tupleconstructor
         | binary_exp
         | unop exp'''
     if len(p) == 2:
@@ -386,7 +388,15 @@ def p_parlist(p):
 
 def p_tableconstructor(p):
     '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
-    p[0] = ('table', p[3])
+    p[0] = ('table') # bug porque no p[2]
+
+def p_tupleconstructor(p):
+    '''tupleconstructor : LPAREN opt_fieldlist RPAREN''' # bug porque no p[2]
+    p[0] = ('tuple')
+
+def p_arrayconstructor(p):
+    '''arrayconstructor : LBRACKET opt_fieldlist RBRACKET''' # bug porque no p[2]
+    p[0] = ('array')
 
 def p_fieldlist(p):
     '''fieldlist : field
@@ -475,5 +485,5 @@ class syntactic_analyzer:
     def analizar_sintactico(self, codigo):
         return self.parser.parse(codigo)
     
-    def analizar_semantico(self, codigo):
+    def analizar_semantico(self):
         return "\n".join(semantic_errors)
