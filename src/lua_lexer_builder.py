@@ -1,3 +1,5 @@
+from ply import lex
+
 # Cristhian Muñoz
 reserved = {
     'and': 'AND',
@@ -160,3 +162,14 @@ def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'NAME')
     return t
+
+
+
+class lex_analyzer:
+
+    def __init__(self):
+        self.lexer = lex.lex()
+
+    def obtener_tokens(self, codigo):
+        self.lexer.input(codigo)
+        return [tok for tok in self.lexer]

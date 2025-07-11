@@ -1,15 +1,15 @@
 from utility import *
+from ply import yacc
+from lua_lexer_builder import *
 
-context_stack = []
-
-#1. Agregar mi tabla de símbolos
 tabla_simbolos = {
-    "variables":{},
-    "tipos":{
-        "str-funciones":["len","to_uppercase", "to_lowercase", "to_str"]
+        "variables":{},
+        "tipos":{
+            "str-funciones":["len","to_uppercase", "to_lowercase", "to_str"]
+        }
     }
-}
-
+semantic_errors = []
+context_stack = []
 
 # Cristhian Muñoz
 def p_start(p):
@@ -31,7 +31,7 @@ def p_block(p):
     
 def p_stat_list(p):
     '''stat_list : stat
-                 | stat_list stat'''
+                | stat_list stat'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
@@ -39,7 +39,7 @@ def p_stat_list(p):
 
 def p_opt_retstat(p):
     '''opt_retstat : empty
-                   | retstat'''
+                | retstat'''
     p[0] = p[1]
 
 def p_multiple_assign(p):
@@ -49,7 +49,7 @@ def p_multiple_assign(p):
 
     if len(variables) != len(valores):
         print(f"Error semántico: Se esperaban {len(variables)} valores pero se recibieron {len(valores)}.")
-        p.parser.semantic_errors.append(
+        semantic_errors.append(
             f"Asignación múltiple con desajuste de longitud: {len(variables)} vars vs {len(valores)} exprs"
         )
         return
@@ -112,7 +112,7 @@ def p_stat(p):
     elif len(p) == 2 and p[1] == 'BREAK':
         if 'loop' not in context_stack:
             print("Error semántico: 'break' usado fuera de un bucle")
-            p.parser.semantic_errors.append(
+            semantic_errors.append(
                 f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p)}"
             )
         p[0] = ('break',)
@@ -122,7 +122,7 @@ def p_stat(p):
 
 def p_elseif_list(p):
     '''elseif_list : empty
-                   | elseif_list ELSEIF exp THEN block'''
+                | elseif_list ELSEIF exp THEN block'''
     if len(p) == 2:
         p[0] = []
     else:
@@ -138,7 +138,7 @@ def p_opt_else(p):
 
 def p_opt_third_exp(p):
     '''opt_third_exp : empty
-                     | COMMA exp'''
+                    | COMMA exp'''
     if len(p) == 2:
         p[0] = None
     else:
@@ -146,7 +146,7 @@ def p_opt_third_exp(p):
 
 def p_opt_assign(p):
     '''opt_assign : empty
-                  | ASSIGN explist'''
+                | ASSIGN explist'''
     if len(p) == 2:
         p[0] = None
     else:
@@ -154,7 +154,7 @@ def p_opt_assign(p):
 
 def p_attnamelist(p):
     '''attnamelist : NAME attrib
-                   | attnamelist COMMA NAME attrib'''
+                | attnamelist COMMA NAME attrib'''
     if len(p) == 3:
         p[0] = [('name', p[1], p[2])]
     else:
@@ -162,7 +162,7 @@ def p_attnamelist(p):
 
 def p_attrib(p):
     '''attrib : empty
-              | LOWER NAME GREATER'''
+            | LOWER NAME GREATER'''
     if len(p) == 2:
         p[0] = None
     else:
@@ -172,7 +172,7 @@ def p_attrib(p):
 
 def p_opt_explist(p):
     '''opt_explist : empty
-                   | explist'''
+                | explist'''
     p[0] = p[1]
 
 def p_opt_semi(p):
@@ -212,27 +212,26 @@ def p_binary_exp(p):
             p[0] = result
         except Exception as e:
             print(f"Error en la operación: {e}")
-            p.parser.semantic_errors.append(str(e))
+            semantic_errors.append(str(e))
             p[0] = (operator, left, right)
     else:
         print(f"Error semántico: Operación aritmética '{operator}' aplicada a tipos no numéricos")
-        p.parser.semantic_errors.append(
+        semantic_errors.append(
             f"Operación aritmética '{operator}' requiere operandos numéricos"
         )
 
-
 def p_exp(p):
     '''exp : NIL
-           | FALSE
-           | TRUE
-           | NUMBER
-           | STRING
-           | DOTDOTDOT
-           | functiondef
-           | prefixexp
-           | tableconstructor
-           | binary_exp
-           | unop exp'''
+        | FALSE
+        | TRUE
+        | NUMBER
+        | STRING
+        | DOTDOTDOT
+        | functiondef
+        | prefixexp
+        | tableconstructor
+        | binary_exp
+        | unop exp'''
     if len(p) == 2:
         if isinstance(p[1], int):
             p[0]=int(p[1])
@@ -250,12 +249,12 @@ def p_exp(p):
         
 def p_opt_parlist(p):
     '''opt_parlist : empty
-                   | parlist'''
+                | parlist'''
     p[0] = p[1]
 
 def p_opt_fieldlist(p):
     '''opt_fieldlist : empty
-                     | fieldlist'''
+                    | fieldlist'''
     p[0] = p[1]
 
 def p_unop(p):
@@ -280,7 +279,7 @@ def p_retstat(p):
     '''retstat : RETURN opt_explist opt_semi'''
     if 'function' not in context_stack:
         print("Error semántico: 'return' fuera de una función o chunk")
-        p.parser.semantic_errors.append(
+        semantic_errors.append(
             f"Error semántico: 'return' fuera de una función o chunk en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
         )
     p[0] = ('return', p[2])
@@ -300,7 +299,7 @@ def p_funcname_tail(p):
 
 def p_varlist(p):
     '''varlist : var
-               | varlist COMMA var'''
+            | varlist COMMA var'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
@@ -308,8 +307,8 @@ def p_varlist(p):
 
 def p_var(p):
     '''var : NAME
-           | prefixexp LBRACKET exp RBRACKET
-           | prefixexp DOT NAME'''
+        | prefixexp LBRACKET exp RBRACKET
+        | prefixexp DOT NAME'''
     if len(p) == 2:
         p[0] = ('var', p[1])
     elif len(p) == 5:
@@ -328,7 +327,7 @@ def p_namelist(p):
 
 def p_explist(p):
     '''explist : exp
-               | explist COMMA exp'''
+            | explist COMMA exp'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
@@ -336,8 +335,8 @@ def p_explist(p):
 
 def p_prefixexp(p):
     '''prefixexp : var
-                 | functioncall
-                 | LPAREN exp RPAREN'''
+                | functioncall
+                | LPAREN exp RPAREN'''
     if len(p) == 2:
         p[0] = p[1]
     else:
@@ -373,8 +372,8 @@ def p_funcbody(p):
 
 def p_parlist(p):
     '''parlist : namelist COMMA DOTDOTDOT
-               | namelist
-               | DOTDOTDOT'''
+            | namelist
+            | DOTDOTDOT'''
     if len(p) == 4:
         p[0] = ('parlist', p[1], True)
     elif len(p) == 2:
@@ -389,8 +388,8 @@ def p_tableconstructor(p):
 
 def p_fieldlist(p):
     '''fieldlist : field
-                 | fieldlist fieldsep field
-                 | fieldlist fieldsep'''
+                | fieldlist fieldsep field
+                | fieldlist fieldsep'''
     if len(p) == 2:
         p[0] = [p[1]]
     elif len(p) == 3:
@@ -400,8 +399,8 @@ def p_fieldlist(p):
 
 def p_field(p):
     '''field : LBRACKET exp RBRACKET ASSIGN exp
-             | NAME ASSIGN exp
-             | exp'''
+            | NAME ASSIGN exp
+            | exp'''
     if len(p) == 6:
         p[0] = ('key', p[2], p[5])
     elif len(p) == 4:
@@ -428,26 +427,26 @@ def p_fieldsep(p):
 
 def p_binop(p):
     '''binop : PLUS
-             | MINUS
-             | TIMES
-             | DIVIDE
-             | IDIV
-             | POWER
-             | MOD
-             | BITAND
-             | BITOR
-             | BITXOR
-             | SHIFTL
-             | SHIFTR
-             | CONCAT
-             | LOWER
-             | LOWEREQUALS
-             | GREATER
-             | GREATEREQUALS
-             | EQUALS
-             | NEQUALS
-             | AND
-             | OR'''
+            | MINUS
+            | TIMES
+            | DIVIDE
+            | IDIV
+            | POWER
+            | MOD
+            | BITAND
+            | BITOR
+            | BITXOR
+            | SHIFTL
+            | SHIFTR
+            | CONCAT
+            | LOWER
+            | LOWEREQUALS
+            | GREATER
+            | GREATEREQUALS
+            | EQUALS
+            | NEQUALS
+            | AND
+            | OR'''
     p[0] = p[1]
 
 def p_error(p):
@@ -461,3 +460,20 @@ def p_error(p):
         print(
             "Error sintáctico: Fin de archivo inesperado"
         )
+
+class syntactic_analyzer:
+
+    def __init__(self):
+        self.parser = yacc.yacc()
+        self.semantic_errors = semantic_errors
+        self.context_stack = context_stack
+        #1. Agregar mi tabla de símbolos
+        self.tabla_simbolos = tabla_simbolos
+
+    def analizar_sintactico(self, codigo):
+        result = self.parser.parse(codigo)
+        return result
+    
+    def analizar_semantico(self, codigo):
+        result = "\n".join(semantic_errors)
+        return result
