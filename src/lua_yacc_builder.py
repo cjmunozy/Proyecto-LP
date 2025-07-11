@@ -8,6 +8,7 @@ tabla_simbolos = {
             "str-funciones":["len","to_uppercase", "to_lowercase", "to_str"]
         }
     }
+
 semantic_errors = []
 context_stack = []
 
@@ -16,18 +17,19 @@ def p_start(p):
     'start : chunk'
     p[0] = p[1]
 
-
 # Diego Araujo
 # GOTO NAME
 # DO block END
 
 def p_chunk(p):
     '''chunk : block'''
-    p[0] = ('chunk', p[1])
+    # p[0] = ('chunk', p[1])
+    p[0] = p[1]
 
 def p_block(p):
     '''block : stat_list opt_retstat'''
-    p[0] = ('block', p[1], p[2])
+    # p[0] = ('block', p[1], p[2])
+    p[0] = (p[1], p[2])
     
 def p_stat_list(p):
     '''stat_list : stat
@@ -384,7 +386,7 @@ def p_parlist(p):
 
 def p_tableconstructor(p):
     '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
-    p[0] = ('table', p[2])
+    p[0] = ('table', p[3])
 
 def p_fieldlist(p):
     '''fieldlist : field
@@ -471,9 +473,7 @@ class syntactic_analyzer:
         self.tabla_simbolos = tabla_simbolos
 
     def analizar_sintactico(self, codigo):
-        result = self.parser.parse(codigo)
-        return result
+        return self.parser.parse(codigo)
     
     def analizar_semantico(self, codigo):
-        result = "\n".join(semantic_errors)
-        return result
+        return "\n".join(semantic_errors)

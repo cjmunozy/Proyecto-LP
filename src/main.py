@@ -9,16 +9,14 @@ valid, errors =  [], []
 
 def analizar():
     entrada = texto_entrada.get("1.0", tk.END)
-    
+       
     try:
         # Análisis léxico
         tokens = lex_analyzer.obtener_tokens(entrada)
         salida_lexico = "\n".join([str(tok) for tok in tokens])
 
         # Análisis sintáctico
-        resultado_sintactico = syntactic_analyzer.analizar_sintactico(data)
-
-        print(resultado_sintactico)
+        resultado_sintactico = syntactic_analyzer.analizar_sintactico(entrada)
 
         # Análisis semántico
         resultado_semantico = syntactic_analyzer.analizar_semantico(entrada)
@@ -43,9 +41,6 @@ def cargar_archivo():
 if __name__ == '__main__':
     
     username = "randyRivera0"
-    file = "tests/semantic_errors_copy.lua"
-    data = read_file(file)
-    print(f"El tipo de data es: {type(data)}")
 
     lex_analyzer = lex_analyzer()
     syntactic_analyzer = syntactic_analyzer()
