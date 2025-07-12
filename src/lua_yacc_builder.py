@@ -285,7 +285,8 @@ def p_empty(p):
 # Diego Araujo
 def p_retstat(p):
     '''retstat : RETURN opt_explist opt_semi'''
-    if 'function' not in context_stack:
+    # Permitir return si estamos en función o en el chunk principal (stack vacío)
+    if 'function' not in context_stack and context_stack != []:
         print("Error semántico: 'return' fuera de una función o chunk")
         semantic_errors.append(
             f"Error semántico: 'return' fuera de una función o chunk en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
