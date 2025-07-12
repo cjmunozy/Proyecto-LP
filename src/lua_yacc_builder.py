@@ -234,6 +234,8 @@ def p_exp(p):
         | functiondef
         | prefixexp
         | tableconstructor
+        | arrayconstructor
+        | tupleconstructor
         | binary_exp
         | unop exp'''
     if len(p) == 2:
@@ -404,6 +406,14 @@ def p_parlist(p):
 def p_tableconstructor(p):
     '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
     p[0] = ('table', p[3])
+
+def p_tupleconstructor(p):
+    '''tupleconstructor : LPAREN opt_fieldlist RPAREN''' # bug porque no p[2]
+    p[0] = ('tuple')
+
+def p_arrayconstructor(p):
+    '''arrayconstructor : LBRACKET opt_fieldlist RBRACKET''' # bug porque no p[2]
+    p[0] = ('array')
 
 def p_fieldlist(p):
     '''fieldlist : field
