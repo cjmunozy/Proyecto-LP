@@ -115,7 +115,7 @@ def p_stat(p):
         if 'loop' not in context_stack:
             print("Error semántico: 'break' usado fuera de un bucle")
             semantic_errors.append(
-                f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p)}"
+                f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
             )
         p[0] = ('break',)
 
@@ -222,6 +222,8 @@ def p_binary_exp(p):
             f"Operación aritmética '{operator}' requiere operandos numéricos"
         )
 
+# Cristhian Muñoz
+# Implementación de la Regla : Detección de tipos en expresiones unarias
 def p_exp(p):
     '''exp : NIL
         | FALSE
@@ -232,23 +234,23 @@ def p_exp(p):
         | functiondef
         | prefixexp
         | tableconstructor
-        | arrayconstructor
-        | tupleconstructor
         | binary_exp
         | unop exp'''
     if len(p) == 2:
-        if isinstance(p[1], int):
-            p[0]=int(p[1])
-        elif isinstance(p[1], float):
-            p[0]=float(p[1])
-        elif isinstance(p[1], str) and p.slice[1].type=="STRING":
-            p[0]="str"
+        token_type = p.slice[1].type
+        if token_type == "NIL":
+            p[0] = None
+        elif token_type == "FALSE":
+            p[0] = False
+        elif token_type == "TRUE":
+            p[0] = True
+        elif token_type == "DOTDOTDOT":
+            p[0] = '...'
+        if token_type == "NUMBER":
+            p[0] = p[1]  # Retorna el número como está
+        elif token_type == "STRING":
+            p[0] = "str"
         else:
-            nombre = p[1]
-            if nombre not in tabla_simbolos["variables"]:
-                print(f"Error semántico: la variable {nombre} no ha sido definida.")
-            else:
-                p[0] = tabla_simbolos["variables"][nombre]
             p[0] = p[1]
         
 def p_opt_parlist(p):
@@ -309,12 +311,25 @@ def p_varlist(p):
     else:
         p[0] = p[1] + [p[2]]
 
+# Cristhian Muñoz
+# Implementación de la Regla: Detección de variables no definidas
 def p_var(p):
     '''var : NAME
         | prefixexp LBRACKET exp RBRACKET
         | prefixexp DOT NAME'''
     if len(p) == 2:
-        p[0] = ('var', p[1])
+        nombre = p[1]
+        if nombre not in tabla_simbolos["variables"]:
+            error = (
+                    f"Error semántico en la línea {find_line(p.lexer.lexdata, p.slice[1])}, "
+                    f"columna {find_column(p.lexer.lexdata, p.slice[1])}: "
+                    f"la variable '{nombre}' no ha sido definida."
+                )
+            print(error)
+            semantic_errors.append(error)
+            p[0] = ("var", nombre, "undef")
+        else:
+            p[0] = ("var", nombre, tabla_simbolos["variables"][nombre])
     elif len(p) == 5:
         if p[2] == '[':
             p[0] = ('index', p[1], p[3])
@@ -388,15 +403,7 @@ def p_parlist(p):
 
 def p_tableconstructor(p):
     '''tableconstructor : LBRACE opt_fieldlist RBRACE'''
-    p[0] = ('table') # bug porque no p[2]
-
-def p_tupleconstructor(p):
-    '''tupleconstructor : LPAREN opt_fieldlist RPAREN''' # bug porque no p[2]
-    p[0] = ('tuple')
-
-def p_arrayconstructor(p):
-    '''arrayconstructor : LBRACKET opt_fieldlist RBRACKET''' # bug porque no p[2]
-    p[0] = ('array')
+    p[0] = ('table', p[3])
 
 def p_fieldlist(p):
     '''fieldlist : field
@@ -479,7 +486,7 @@ class syntactic_analyzer:
         self.parser = yacc.yacc()
         self.semantic_errors = semantic_errors
         self.context_stack = context_stack
-        #1. Agregar mi tabla de símbolos
+        # 1. Agregar mi tabla de símbolos
         self.tabla_simbolos = tabla_simbolos
 
     def analizar_sintactico(self, codigo):

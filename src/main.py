@@ -33,7 +33,7 @@ def analizar():
 def cargar_archivo():
     ruta = filedialog.askopenfilename(filetypes=[("Archivos Lua", "*.lua"), ("Todos los archivos", "*.*")])
     if ruta:
-        with open(ruta, "r") as archivo:
+        with open(ruta, "r", encoding="utf-8") as archivo:
             contenido = archivo.read()
             texto_entrada.delete("1.0", tk.END)
             texto_entrada.insert(tk.END, contenido)

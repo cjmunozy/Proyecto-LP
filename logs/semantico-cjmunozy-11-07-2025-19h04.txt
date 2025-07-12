@@ -1,0 +1,8 @@
+SEMANTIC ERRORS:
+Error semántico en la línea 2, columna 1: la variable 'print' no ha sido definida.
+Error semántico en la línea 2, columna 7: la variable 'x' no ha sido definida.
+Error semántico en la línea 18, columna 11: la variable 'x' no ha sido definida.
+Error semántico en la línea 18, columna 15: la variable 'y' no ha sido definida.
+Operación aritmética '+' requiere operandos numéricos
+Error semántico en la línea 21, columna 19: la variable 'z' no ha sido definida.
+Operación aritmética '+' requiere operandos numéricos
