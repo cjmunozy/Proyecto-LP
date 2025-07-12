@@ -254,7 +254,7 @@ def p_exp(p):
             p[0] = "str"
         else:
             p[0] = p[1]
-        
+
 def p_opt_parlist(p):
     '''opt_parlist : empty
                 | parlist'''
@@ -321,6 +321,8 @@ def p_var(p):
         | prefixexp DOT NAME'''
     if len(p) == 2:
         nombre = p[1]
+        if not check_reserved_word_usage(nombre, p):
+            return  # Si es una palabra reservada, no continuar
         if nombre not in tabla_simbolos["variables"]:
             error = (
                     f"Error semántico en la línea {find_line(p.lexer.lexdata, p.slice[1])}, "
@@ -337,6 +339,19 @@ def p_var(p):
             p[0] = ('index', p[1], p[3])
         else:
             p[0] = ('dot', p[1], p[3])
+
+# Implementación de la Regla: Verificación de uso de palabras reservadas
+def check_reserved_word_usage(nombre, token):
+    """Verifica que no se usen palabras reservadas como nombres de variables"""
+    if nombre.lower() in reserved:
+        error = (
+            f"Error semántico en la línea {find_line(token.lexer.lexdata, token.slice[1])}, "
+            f"columna {find_column(token.lexer.lexdata, token.slice[1])}: "
+            f"{nombre} es una palabra reservada y no puede usarse como identificador"
+        )
+        semantic_errors.append(error)
+        return False
+    return True
 
 def p_namelist(p):
     '''namelist : NAME
