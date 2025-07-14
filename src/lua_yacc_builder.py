@@ -11,6 +11,7 @@ tabla_simbolos = {
 
 semantic_errors = []
 context_stack = []
+loop_depth = 0
 
 # Cristhian Muñoz
 def p_start(p):
@@ -28,8 +29,19 @@ def p_chunk(p):
 
 def p_block(p):
     '''block : stat_list opt_retstat'''
-    # p[0] = ('block', p[1], p[2])
-    p[0] = (p[1], p[2])
+    # p[0] = (p[1], p[2])
+    stats = p[1]
+    retstat = p[2]
+    if stats:
+        for i, stat in enumerate(stats):
+            if isinstance(stat, tuple) and stat[0] == 'return':
+                # En el chunk principal (context_stack vacío) el return debe ser la última instrucción
+                if not context_stack and i < len(stats) - 1:
+                    print(f"Error semántico: 'return' no puede aparecer antes del final del bloque")
+                    semantic_errors.append(
+                        f"Error semántico: 'return' no puede aparecer antes del final del bloque en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
+                    )
+    p[0] = (stats, retstat)
     
 def p_stat_list(p):
     '''stat_list : stat
@@ -68,17 +80,17 @@ def p_stat(p):
             | multiple_assign
             | functioncall
             | LABEL
-            | BREAK
             | GOTO NAME
             | DO block END
-            | WHILE exp DO block END
-            | REPEAT block UNTIL exp
             | IF exp THEN block elseif_list opt_else END
-            | FOR NAME ASSIGN exp COMMA exp opt_third_exp DO block END
-            | FOR namelist IN explist DO block END
             | FUNCTION funcname funcbody
             | LOCAL FUNCTION NAME funcbody
-            | LOCAL attnamelist opt_assign'''
+            | LOCAL attnamelist opt_assign
+            | WHILE exp DO push_loop block pop_loop END
+            | REPEAT push_loop block pop_loop UNTIL exp
+            | FOR NAME ASSIGN exp COMMA exp opt_third_exp DO push_loop block pop_loop END
+            | FOR namelist IN explist DO push_loop block pop_loop END'''
+            # | BREAK
     if len(p) == 2:
         p[0] = ('stat', p[1])
     elif len(p) == 3:
@@ -99,25 +111,28 @@ def p_stat(p):
             vals = vals[:len(vars)]  # descartar valores sobrantes
 
         p[0] = ('assign', vars, vals)
-    elif p[1] == 'WHILE':
-        context_stack.append('loop')
-        ...
-        context_stack.pop()
-    elif p[1] == 'REPEAT':
-        context_stack.append('loop')
-        ...
-        context_stack.pop()
-    elif p[1] == 'FOR':
-        context_stack.append('loop')
-        ...
-        context_stack.pop()
-    elif len(p) == 2 and p[1] == 'BREAK':
-        if 'loop' not in context_stack:
-            print("Error semántico: 'break' usado fuera de un bucle")
-            semantic_errors.append(
-                f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
-            )
-        p[0] = ('break',)
+
+
+def p_push_loop(p):
+    '''push_loop : '''
+    global loop_depth
+    loop_depth += 1
+
+def p_pop_loop(p):
+    '''pop_loop : '''
+    global loop_depth
+    loop_depth -= 1
+
+# Regla para BREAK
+def p_break_stat(p):
+    '''stat : BREAK'''
+    global loop_depth
+    if loop_depth == 0:
+        print("Error semántico: 'break' usado fuera de un bucle")
+        semantic_errors.append(
+            f"Error semántico: 'break' usado fuera de un bucle en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
+        )
+    p[0] = ('break',)
 
 # Randy Rivera
 # WHILE exp DO block END
@@ -285,8 +300,8 @@ def p_empty(p):
 # Diego Araujo
 def p_retstat(p):
     '''retstat : RETURN opt_explist opt_semi'''
-    # Permitir return si estamos en función o en el chunk principal (stack vacío)
-    if 'function' not in context_stack and context_stack != []:
+    if context_stack and ('function' not in context_stack):
+    # if 'function' not in context_stack and context_stack != []:
         print("Error semántico: 'return' fuera de una función o chunk")
         semantic_errors.append(
             f"Error semántico: 'return' fuera de una función o chunk en la línea {find_line(p.lexer.lexdata, p.slice[1])}"
@@ -401,11 +416,19 @@ def p_functiondef(p):
     p[0] = ('function', p[2])
 
 # Diego Araujo
-def p_funcbody(p):
-    '''funcbody : LPAREN opt_parlist RPAREN block END'''
+def p_push_function(p):
+    '''push_function : '''
     context_stack.append('function')
-    p[0] = ('funcbody', p[2], p[4])
+
+def p_pop_function(p):
+    '''pop_function : '''
     context_stack.pop()
+
+def p_funcbody(p):
+    '''funcbody : LPAREN opt_parlist RPAREN push_function block pop_function END'''
+    # context_stack.append('function')
+    p[0] = ('funcbody', p[2], p[5])
+    # context_stack.pop()
 
 def p_parlist(p):
     '''parlist : namelist COMMA DOTDOTDOT
