@@ -14,11 +14,6 @@ local g = false
 -- Cadenas de texto con comillas simples y dobles
 local saludo1 = "Hola"
 local saludo2 = 'Mundo'
-local multilinea = [[
-Esto es
-una cadena
-multilinea
-]]
 
 -- Tablas: listas, diccionarios, mixtas y anidadas
 local lista = {1, 2, 3, 4}
@@ -40,15 +35,6 @@ g = f or g and true
 -- Concatenación de cadenas
 local frase = saludo1 .. ", " .. saludo2 .. "!"
 
--- Comentarios de línea
--- Esto es un comentario de línea
-
--- Comentarios multilínea
---[[
-    Esto es un comentario
-    de varias líneas
-]]--
-
 -- Condicionales con diferentes formatos y operadores
 if a > 50 then print("a es mayor que 50") end
 
@@ -63,9 +49,6 @@ end
 if not g then
     print("g es falso")
 end
-
--- Condicional en una línea
-if f then print("f es verdadero") end
 
 -- Bucles while, for y repeat-until
 local i = 1
@@ -134,6 +117,3 @@ print("x fuera del bloque:", x)
 -- Simulación de input
 local color = input("¿Cuál es tu color favorito? ")
 print("Tu color favorito es:", color)
-
--- Fin del algoritmo de prueba variado
-
